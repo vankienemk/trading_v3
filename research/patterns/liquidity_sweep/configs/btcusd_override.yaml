@@ -1,0 +1,19 @@
+# BTCUSD V2 pipeline override
+# Changes symbol and data paths for BTCUSD training, and requests a causal
+# M1 -> M15 resample of the raw feed (data.resample_rule).
+# Deep-merged on top of baseline.yaml for v2 pipeline.
+project:
+  symbol: BTCUSD
+
+data:
+  input_path: data/raw/BTCUSDm_M1_202107030000_202609060000.csv
+  output_path: data/processed/btcusd_m15.parquet
+  # Raw BTCUSD export is a 24/7 crypto feed already in UTC (verified:
+  # 2021-07-03 00:00 UTC Binance open 33786.54 vs file open 33775.87;
+  # daily high/low also align on UTC calendar days). Treat as UTC verbatim.
+  utc_offset_hours: 0
+  # Causal M1 -> M15 resample using src/data/resampler.py::resample_ohlcv:
+  # each 15-min bin aggregates only closed M1 bars inside the bin
+  # (open=first, high=max, low=min, close=last, volume=sum), bins labeled
+  # by start time per pipeline convention (same as XAUUSD/EURUSD M15 feeds).
+  resample_rule: 15min

@@ -1,0 +1,95 @@
+# =============================================================================
+# Symbol Configuration — EURUSD (Euro vs US Dollar)
+# =============================================================================
+# Secondary trading symbol for the Paper Trading V2 system.
+# Uses a reduced position size (0.5x) per the frozen v2_frozen.yaml spec.
+#
+# References:
+#   - paper_trading_v2/configs/v2_frozen.yaml
+#   - xauusd-liquidity-sweep/pipeline_v2/configs/v2_frozen.yaml
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Symbol Identity
+# ---------------------------------------------------------------------------
+symbol:
+  name: "EURUSD"
+  display_name: "Euro / US Dollar"
+  status: validated                 # CRITICAL SAFETY LOCK: only 'validated' symbols get live signal engines
+  is_active: true
+  added_at: "2026-09-05T00:00:00Z"
+
+# ---------------------------------------------------------------------------
+# Broker / MCP Symbol Mapping
+# ---------------------------------------------------------------------------
+broker:
+  mt5_symbol: "EURUSD"
+  mcp_alias: ""
+  digits: 5
+  lot_size: 0.01
+  volume_step: 0.01
+
+# ---------------------------------------------------------------------------
+# Timeframe & Data Configuration
+# ---------------------------------------------------------------------------
+timeframe:
+  primary: "M15"
+  secondary: "H1"
+  timezone: "UTC"
+  max_candles: 500
+
+# ---------------------------------------------------------------------------
+# Pipeline Configuration Overrides
+# ---------------------------------------------------------------------------
+# EURUSD uses the frozen v2 spec — no overrides at pipeline level.
+pipeline_overrides: {}
+
+# ---------------------------------------------------------------------------
+# Position Sizing
+# ---------------------------------------------------------------------------
+# SEMANTICS (single-source, resolve double-scaling): effective per-trade risk %
+# = risk_per_trade_pct (nominal base risk budget) x base_multiplier (per-symbol
+# scalar applied BEFORE the lot calc).  Per the frozen spec EURUSD is 50% of the
+# XAUUSD risk unit, so with base_multiplier=0.50 the nominal risk budget is 1.0
+# (same as XAUUSD) and the effective per-trade risk% = 1.0 x 0.50 = 0.50%.
+# This avoids the previous accidental 0.25% (0.5 x 0.5) double-scaling.
+position_sizing:
+  base_multiplier: 0.50
+  risk_per_trade_pct: 1.0
+  max_position_size_lots: 0.5
+  min_position_size_lots: 0.01
+
+# ---------------------------------------------------------------------------
+# Risk Guard Configuration
+# ---------------------------------------------------------------------------
+risk_guard:
+  max_open_positions: 1
+  min_interval_since_last_s: 300
+  kill_switch_enabled: true
+  kill_switch_min_trades: 20
+  kill_switch_threshold_pf_ci_lower: 1.0
+
+# ---------------------------------------------------------------------------
+# Signal Engine Configuration
+# ---------------------------------------------------------------------------
+signal_engine:
+  enabled: true
+  model_path: ""
+  calibrator_path: ""
+  feature_config_path: ""
+
+# ---------------------------------------------------------------------------
+# Execution / Order Configuration
+# ---------------------------------------------------------------------------
+execution:
+  slippage_tolerance_pips: 2.0
+  order_comment_prefix: "PT-V2-EUR"
+  automation_level_override: 0
+
+# ---------------------------------------------------------------------------
+# Metadata / Notes
+# ---------------------------------------------------------------------------
+metadata:
+  description: "EURUSD — secondary symbol, 0.5x position sizing per frozen spec"
+  tags: ["forex", "major", "secondary"]
+  notes: "Per v2_frozen.yaml position_sizing section: EURUSD = 0.50 (50% of XAUUSD)"

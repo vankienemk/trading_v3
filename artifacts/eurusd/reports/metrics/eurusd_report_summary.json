@@ -1,0 +1,15 @@
+{
+  "symbol": "EURUSD",
+  "n_events": 267,
+  "score_bucket": {
+    "json_path": "/Users/a/Documents/deepseek harness/kien-workspace/xauusd-liquidity-sweep/pipeline_v2/reports/metrics/score_bucket_report.json",
+    "md_path": "/Users/a/Documents/deepseek harness/kien-workspace/xauusd-liquidity-sweep/pipeline_v2/reports/metrics/score_bucket_report.md",
+    "n_events": 267,
+    "n_buckets": 3
+  },
+  "walk_forward": {
+    "json_path": "/Users/a/Documents/deepseek harness/kien-workspace/xauusd-liquidity-sweep/pipeline_v2/reports/metrics/walk_forward_report.json",
+    "md_path": "/Users/a/Documents/deepseek harness/kien-workspace/xauusd-liquidity-sweep/pipeline_v2/reports/metrics/walk_forward_report.md",
+    "n_folds": 2
+  }
+}

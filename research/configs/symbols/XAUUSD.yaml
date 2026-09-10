@@ -1,0 +1,92 @@
+# =============================================================================
+# Symbol Configuration — XAUUSD (Gold vs US Dollar)
+# =============================================================================
+# Primary trading symbol for the Paper Trading V2 system.
+# All pipeline parameters match the frozen v2_frozen.yaml specification.
+#
+# References:
+#   - paper_trading_v2/configs/v2_frozen.yaml
+#   - xauusd-liquidity-sweep/pipeline_v2/configs/v2_frozen.yaml
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Symbol Identity
+# ---------------------------------------------------------------------------
+symbol:
+  name: "XAUUSD"
+  display_name: "Gold / US Dollar"
+  status: validated                 # CRITICAL SAFETY LOCK: only 'validated' symbols get live signal engines
+  is_active: true
+  added_at: "2026-09-05T00:00:00Z"
+
+# ---------------------------------------------------------------------------
+# Broker / MCP Symbol Mapping
+# ---------------------------------------------------------------------------
+broker:
+  mt5_symbol: "XAUUSD"
+  mcp_alias: ""
+  digits: 5
+  lot_size: 0.01
+  volume_step: 0.01
+
+# ---------------------------------------------------------------------------
+# Timeframe & Data Configuration
+# ---------------------------------------------------------------------------
+timeframe:
+  primary: "M15"
+  secondary: "H1"
+  timezone: "UTC"
+  max_candles: 500
+
+# ---------------------------------------------------------------------------
+# Pipeline Configuration Overrides
+# ---------------------------------------------------------------------------
+# XAUUSD uses the frozen v2 spec verbatim — no overrides.
+pipeline_overrides: {}
+
+# ---------------------------------------------------------------------------
+# Position Sizing
+# ---------------------------------------------------------------------------
+# SEMANTICS: effective per-trade risk % = risk_per_trade_pct (nominal 1.0) x
+# base_multiplier (1.0) = 1.0%.  base_multiplier is applied BEFORE the lot calc
+# as a risk scalar (never appended after, which would silently lower risk%).
+position_sizing:
+  base_multiplier: 1.0
+  risk_per_trade_pct: 1.0
+  max_position_size_lots: 1.0
+  min_position_size_lots: 0.01
+
+# ---------------------------------------------------------------------------
+# Risk Guard Configuration
+# ---------------------------------------------------------------------------
+risk_guard:
+  max_open_positions: 1
+  min_interval_since_last_s: 300
+  kill_switch_enabled: true
+  kill_switch_min_trades: 20
+  kill_switch_threshold_pf_ci_lower: 1.0
+
+# ---------------------------------------------------------------------------
+# Signal Engine Configuration
+# ---------------------------------------------------------------------------
+signal_engine:
+  enabled: true
+  model_path: ""
+  calibrator_path: ""
+  feature_config_path: ""
+
+# ---------------------------------------------------------------------------
+# Execution / Order Configuration
+# ---------------------------------------------------------------------------
+execution:
+  slippage_tolerance_pips: 2.0
+  order_comment_prefix: "PT-V2-XAU"
+  automation_level_override: 0
+
+# ---------------------------------------------------------------------------
+# Metadata / Notes
+# ---------------------------------------------------------------------------
+metadata:
+  description: "XAUUSD — primary symbol, Liquidity Sweep V2 frozen pipeline"
+  tags: ["forex", "commodity", "gold", "primary"]
+  notes: "Uses frozen V2 config from pipeline_v2/configs/v2_frozen.yaml verbatim"

@@ -1,0 +1,9 @@
+# EURUSD V2 pipeline override
+# Changes symbol and data paths for EURUSD training.
+# Deep-merged on top of baseline.yaml for v2 pipeline.
+project:
+  symbol: EURUSD
+
+data:
+  input_path: data/raw/EURUSD_M15_201801020000_202609040000.csv
+  output_path: data/processed/eurusd_m15.parquet

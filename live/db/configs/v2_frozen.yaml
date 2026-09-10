@@ -1,0 +1,177 @@
+# =============================================================================
+# Paper Trading V2 — FROZEN CONFIGURATION (Single Source of Truth)
+# =============================================================================
+# This file merges:
+#   1. The pipeline V2 frozen spec (xauusd-liquidity-sweep/pipeline_v2/configs/v2_frozen.yaml)
+#   2. Paper-trading-specific settings for the V2 GUI system
+#
+# Pipeline parameters are COPIED VERBATIM from the frozen spec and must NEVER
+# be altered while OOS data remain active.
+#
+# Per-symbol overrides live in configs/symbols/<SYMBOL>.yaml and are loaded
+# at startup by the symbol registry.
+#
+# Frozen on: 2026-09-05
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Project Identity
+# ---------------------------------------------------------------------------
+project:
+  name: "Paper Trading V2"
+  version: "2.0.0"
+  primary_symbol: XAUUSD
+  secondary_symbol: EURUSD
+  timeframe: M15
+  timezone: UTC
+  random_seed: 42
+
+pipeline:
+  version: v2
+  freeze_date: "2026-09-05"
+  freeze_commit: ""
+
+# ---------------------------------------------------------------------------
+# Pipeline Parameters (VERBATIM from v2_frozen.yaml — DO NOT EDIT)
+# ---------------------------------------------------------------------------
+
+sweep:
+  v2_nguoc_trend: true
+  v2_target_r: 3.0
+  min_penetration_atr: 0.05
+  max_penetration_atr: 0.20
+  min_wick_ratio: 0.35
+  min_reclaim_atr: 0.00
+  cooldown_bars: 4
+  group_rule: first
+
+confirmation:
+  enabled: true
+  max_wait_bars: 3
+  require_break_sweep_extreme: true
+  min_body_ratio: 0.60
+  min_range_atr: 0.80
+
+entry:
+  mode: next_open_after_confirmation
+  slippage_price: 0.0
+  spread_price: 0.0
+
+stop:
+  mode: sweep_extreme
+  buffer_atr: 0.10
+
+labeling:
+  horizons: [16]
+  reward_r_values: [2.0]
+  primary_horizon: 16
+  primary_reward_r: 2.0
+  same_bar_policy: ambiguous
+  time_barrier_result: mark_to_market
+
+costs:
+  half_spread_price: 0.0
+  slippage_price: 0.0
+  commission_r: 0.0
+
+indicators:
+  atr_period: 14
+
+position_sizing:
+  XAUUSD: 1.0
+  EURUSD: 0.50
+
+kill_switch:
+  method: block_bootstrap
+  block_size: 25
+  min_trades: 50
+  threshold_pf_ci_lower: 1.0
+  per_asset: true
+
+# ---------------------------------------------------------------------------
+# Paper Trading System Settings
+# ---------------------------------------------------------------------------
+
+trading:
+  # MCP (MetaTrader 5 Client Protocol) — MT5 connection
+  mcp:
+    endpoint: "http://127.0.0.1:22346/mcp"
+    token_env_var: "MCP_TOKEN"
+    protocol_version: "2025-06-18"
+    client_name: "dsh-python-client"
+    client_version: "1.0"
+    timeout_seconds: 30.0
+    auto_reconnect: true
+
+  # Symbols to trade (loaded from configs/symbols/*.yaml at startup)
+  # CRITICAL SAFETY: Only symbols with status: validated get live signal engines.
+  # Candidate/rejected symbols appear only in Tab1 (Symbol Onboarding).
+  symbol_config_dir: "research/configs/symbols"
+
+  # Default trade parameters
+  default_lot_size: 0.01
+  max_open_positions_total: 2
+  min_interval_minutes: 15
+
+  # Order comment prefix for MT5 identification
+  magic_comment_prefix: "PT-V2"
+
+  # Database
+  db:
+    path: "live/db/paper_trading.db"
+    journal_mode: "WAL"
+
+  # GUI framework (PySide6 or dearpygui)
+  gui_framework: "PySide6"
+
+  # Signal engine model paths (global defaults; per-symbol overrides in symbol YAML)
+  signal_engine:
+    model_path: ""
+    calibrator_path: ""
+    v2_frozen_config_path: ""
+
+  # Default automation level (1=manual, 2=semi-auto, 3=full-auto)
+  default_automation_level: 1
+
+  # Polling interval for signal engine (seconds)
+  polling_interval_s: 30
+
+# ---------------------------------------------------------------------------
+# Logging Configuration
+# ---------------------------------------------------------------------------
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+  datefmt: "%Y-%m-%d %H:%M:%S"
+
+# ---------------------------------------------------------------------------
+# GUI Configuration
+# ---------------------------------------------------------------------------
+gui:
+  # Window settings
+  window_title: "Paper Trading V2 — Liquidity Sweep"
+  window_width: 1400
+  window_height: 900
+  refresh_interval_ms: 5000  # 5 seconds auto-refresh
+
+  # Tab labels (4-tab layout per spec Section 7)
+  tabs:
+    - "Symbol Onboarding"
+    - "Live Control"
+    - "Performance Monitor"
+    - "Account & Connection"
+
+  # Emergency stop
+  emergency_stop_label: "EMERGENCY STOP"
+  emergency_stop_color: "#ff4444"
+
+  # Color scheme
+  colors:
+    positive: "#00cc66"
+    negative: "#ff4444"
+    warning: "#ffaa00"
+    neutral: "#888888"
+    background: "#1e1e1e"
+    surface: "#2d2d2d"
+    text_primary: "#ffffff"
+    text_secondary: "#aaaaaa"

@@ -1,0 +1,18 @@
+# Labeling / trade simulation configuration.
+labeling:
+  horizons: [4, 8, 16, 32]
+  reward_r_values: [1.0, 1.5, 2.0]
+  same_bar_policy: ambiguous           # ambiguous | conservative | optimistic
+  time_barrier_result: mark_to_market  # mark_to_market | zero
+
+costs:
+  # Spread and slippage are expressed as a fraction of the raw entry/exit price
+  # (e.g. 0.0001 == 1 pip-equivalent fraction). The pipeline stores the result
+  # both gross and net so costs are always auditable.
+  half_spread_price: 0.0
+  slippage_price: 0.0
+  commission_r: 0.0
+
+stop:
+  mode: sweep_extreme
+  buffer_atr: 0.10

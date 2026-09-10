@@ -1,0 +1,3 @@
+pattern,n_events_d1,n_labelable_d1,ess_d1,vs_m15_sample
+HeadShouldersDetector,3,3,3,(M15: 151)
+InverseHeadShouldersDetector,3,3,2,(M15: 151)

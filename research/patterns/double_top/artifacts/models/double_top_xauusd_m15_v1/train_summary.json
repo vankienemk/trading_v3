@@ -1,0 +1,37 @@
+{
+  "model_id": "double_top_xauusd_m15_v1",
+  "pattern_name": "double_top",
+  "symbol": "XAUUSD",
+  "timeframe": "M15",
+  "feature_schema_version": "double-v1.0",
+  "lifecycle_state": "validated",
+  "gate_passed": true,
+  "calibrated": true,
+  "config_hash": "bb7129921f24",
+  "trained_at": "2026-09-07T22:27:52.853860+00:00",
+  "horizon_bars": 72,
+  "target_r": 1.25,
+  "n_events": 334,
+  "n_train": 200,
+  "n_oos": 134,
+  "metrics": {
+    "n": 134.0,
+    "positive_rate": 0.43283582089552236,
+    "pr_auc": 0.5923786146270069,
+    "roc_auc": 0.6470054446460979,
+    "brier": 0.2549627623950705,
+    "accuracy": 0.6194029850746269,
+    "oos_pf_rule": 1.5932677248564124,
+    "oos_pf_model_gated": 1.7094781408671536,
+    "model_gate_cutoff": 0.27125356912590953,
+    "model_gated_n": 60.0
+  },
+  "artifact_paths": {
+    "model": "research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/model.pkl",
+    "calibrator": "research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/calibrator.pkl",
+    "features": "research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/features.json",
+    "train_summary": "research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/train_summary.json",
+    "feature_dataset": "research/patterns/double_top/artifacts/datasets/double_top_xauusd_m15_features.parquet"
+  },
+  "notes": "Tier-2 meta-model (double_top): RandomForest + isotonic calibration, fit on train split only; 25 causal features at detect/confirm bars (\u2264 known_at); label = forward MFE 72-bar, 1.25R target."
+}

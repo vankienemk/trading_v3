@@ -1,0 +1,118 @@
+# =============================================================================
+# Symbol Configuration Template — Paper Trading V2
+# =============================================================================
+# This file serves as a template for registering a new trading symbol in the
+# Paper Trading V2 system. Copy this file, rename to <SYMBOL>.yaml, and fill
+# in the per-symbol parameters below.
+#
+# Required fields are marked [REQUIRED]. Optional fields show defaults.
+#
+# References:
+#   - paper_trading_v2/configs/v2_frozen.yaml  (global frozen pipeline config)
+#   - configs/symbols/XAUUSD.yaml              (primary symbol example)
+#   - configs/symbols/EURUSD.yaml              (secondary symbol example)
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Symbol Identity [REQUIRED]
+# ---------------------------------------------------------------------------
+symbol:
+  name: "<SYMBOL_NAME>"                     # e.g. "GBPUSD", "BTCUSD"
+  display_name: "<Human-Readable Name>"     # e.g. "GBP/USD", "Bitcoin/USD"
+  status: candidate                         # CRITICAL SAFETY LOCK: NEVER set to 'validated' automatically.
+  is_active: true                           # Human review & pipeline gate required to promote.
+  added_at: "2026-09-05T00:00:00Z"          # ISO-8601 registration timestamp
+
+# ---------------------------------------------------------------------------
+# Broker / MCP Symbol Mapping
+# ---------------------------------------------------------------------------
+broker:
+  mt5_symbol: "<MT5_SYMBOL>"               # MetaTrader 5 symbol name (e.g. "GBPUSD")
+  mcp_alias: "<MCP_ALIAS>"                 # MCP symbol name if different (defaults to mt5_symbol)
+  digits: 5                                 # price decimal places (5 for forex, 2 for indices)
+  lot_size: 0.01                            # default trade volume in lots
+
+# ---------------------------------------------------------------------------
+# Timeframe & Data Configuration
+# ---------------------------------------------------------------------------
+timeframe:
+  primary: "M15"                            # primary signal timeframe (M15 per frozen spec)
+  secondary: "H1"                           # secondary timeframe for context/HTF features
+  timezone: "UTC"                           # data timezone
+  max_candles: 500                          # max candles to fetch per request
+
+# ---------------------------------------------------------------------------
+# Pipeline Configuration Overrides
+# ---------------------------------------------------------------------------
+# These override the global v2_frozen.yaml settings for THIS symbol only.
+# Leave empty to inherit the frozen defaults.
+# Only override when you have symbol-specific evidence for a different value.
+pipeline_overrides:
+  # sweep:
+  #   v2_target_r: 3.0                     # R:R target (default 3.0 from frozen spec)
+  #   min_penetration_atr: 0.05
+  #   max_penetration_atr: 0.20
+  #   min_wick_ratio: 0.35
+  #   cooldown_bars: 4
+
+  # confirmation:
+  #   max_wait_bars: 3
+  #   require_break_sweep_extreme: true
+  #   min_body_ratio: 0.60
+  #   min_range_atr: 0.80
+
+  # labeling:
+  #   horizons: [16]
+  #   reward_r_values: [2.0]
+  #   primary_horizon: 16
+  #   primary_reward_r: 2.0
+
+  # indicators:
+  #   atr_period: 14
+
+# ---------------------------------------------------------------------------
+# Position Sizing [REQUIRED]
+# ---------------------------------------------------------------------------
+position_sizing:
+  # Base multiplier relative to XAUUSD (1.0 = same risk unit, 0.5 = half risk)
+  base_multiplier: 1.0
+
+  # Risk parameters
+  risk_per_trade_pct: 1.0                  # % of account balance risked per trade
+  max_position_size_lots: 1.0              # absolute max lot size
+  min_position_size_lots: 0.01             # absolute min lot size
+
+# ---------------------------------------------------------------------------
+# Risk Guard Configuration (per-symbol overrides)
+# ---------------------------------------------------------------------------
+risk_guard:
+  max_open_positions: 1                     # max concurrent positions for this symbol
+  min_interval_since_last_s: 300            # min seconds between consecutive signals
+  kill_switch_enabled: true                 # enable block-bootstrap kill-switch
+  kill_switch_min_trades: 20                # min trades before auto-evaluation
+  kill_switch_threshold_pf_ci_lower: 1.0    # CI lower bound threshold
+
+# ---------------------------------------------------------------------------
+# Signal Engine Configuration
+# ---------------------------------------------------------------------------
+signal_engine:
+  enabled: true                             # set false to skip this symbol in signal scanning
+  model_path: ""                            # path to model.pkl (empty = use global default)
+  calibrator_path: ""                       # path to calibrator.pkl (empty = use global default)
+  feature_config_path: ""                   # path to per-symbol feature config (empty = use global)
+
+# ---------------------------------------------------------------------------
+# Execution / Order Configuration
+# ---------------------------------------------------------------------------
+execution:
+  slippage_tolerance_pips: 2.0              # max slippage in pips
+  order_comment_prefix: "PT-V2"            # prefix for MT5 order comments
+  automation_level_override: 0             # 0 = inherit global, 1=manual, 2=semi, 3=full
+
+# ---------------------------------------------------------------------------
+# Metadata / Notes
+# ---------------------------------------------------------------------------
+metadata:
+  description: ""
+  tags: []                                 # e.g. ["forex", "major", "commodity"]
+  notes: ""

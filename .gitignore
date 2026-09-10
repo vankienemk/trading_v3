@@ -1,0 +1,9 @@
+# Legacy liquidity_sweep research tree (pre-v1.1; archived legacy analysis
+# scripts + old pipeline copy — never linted by CI ruff; see pyproject.toml
+# exclude + docs/qa_checklist.md for the decision and rationale).
+# IMPORTANT: these dirs are excluded from `git add` — commit them explicitly
+# with `git add -f` if archival is ever wanted.  The runtime-imported
+# research/patterns/liquidity_sweep/src/ package and the v1.1 detector.py are
+# NOT ignored and remain lint-clean + committable.
+research/patterns/liquidity_sweep/scripts/
+research/patterns/liquidity_sweep/pipeline_v2/

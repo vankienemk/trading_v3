@@ -1,0 +1,292 @@
+# =============================================================================
+# Model Registry Index — Trading V3 (multi-pattern, spec v1.1 §5.5)
+# =============================================================================
+# This file is the single source of truth for all trained models in the
+# Trading V3 system. Each model is registered as an entry of the top-level
+# ``models`` map keyed by its unique ``model_id``.
+#
+# Schema — spec §5.5 (every entry carries):
+#   pattern_name            # "liquidity_sweep" | "double_bottom" | ...
+#   symbol                  # trading symbol the model was trained on
+#   timeframe               # "M15" | "H1" | ...
+#   feature_schema_version  # schema version the tier-2 scorer consumes
+#   lifecycle_state         # trained | validated | shadow | live | degraded | retired
+#   live_metrics_ref        # event_lake/metrics/<model_id>.parquet (planned shadow/live metrics)
+#   gate_passed             # §6.3 research gate decision
+#   calibrated              # calibrator.pkl exists & is applied
+#   config_hash             # §6.2 sha1(...)[:12]; legacy artifacts predating the
+#                           # convention carry "" (documented per entry)
+#   trained_at              # ISO-8601 training timestamp
+# plus the legacy ModelInfo fields (symbol_origin, model_path, calibrator_path,
+# feature_schema, horizon, target, metrics, created_at, notes).
+#
+# §4.3 registry fields (HMM regime plugin, requirements v1.0 §4.4) — OPTIONAL
+# for existing entries (auto-resolved from the artifact's features.json at
+# load), REQUIRED for any new model trained with HMM features:
+#   feature_list            # EXACT train-time feature list (mirror of the
+#                           # artifact's features.json "features").  When a
+#                           # model's list contains hmm_* the model was trained
+#                           # WITH the regime plugin and needs it at inference.
+#   optional_plugins        # list of plugin metadata:
+#                           #   - name: "hmm_regime"    # ≡ plugin name (guide §4.3)
+#                           #     version: "1.0.0"
+#                           #     required: true        # true → fail-closed (§6.3):
+#                           #                           #   no signal w/o active plugin
+# Example HMM-model entry (schema illustration; an actual entry would point at
+# real artifacts):
+#   double_bottom_xauusd_m15_v1_hmm:
+#     model_id: "double_bottom_xauusd_m15_v1_hmm"
+#     pattern_name: "double_bottom"
+#     symbol: "XAUUSD"
+#     timeframe: "M15"
+#     feature_schema_version: "double-v1.1"
+#     feature_list: [depth_atr, ..., hmm_state, hmm_prob_trending, hmm_prob_sideways, hmm_prob_high_vol, hmm_confidence]
+#     optional_plugins:
+#       - {name: hmm_regime, version: "1.0.0", required: true}
+#
+# ALL paths are relative to the trading_v3 workspace root (the directory that
+# contains ``model_registry/``) — Trading V3 is self-contained, no
+# ``trading_live/`` references.
+#
+# Lifecycle decisions:
+#   * DB/DT (t1)      -> validated (research gate §6.3 PASS) — assignable
+#   * FW/HS/IHS (t1)  -> trained   (explore only, gate_passed=false — NOT
+#                        assignable until gates pass; see train_summary.json)
+#   * xauusd/eurusd_v2 legacy -> migrated INTO trading_v3/artifacts with
+#                        in-workspace artifacts; lifecycle_state=live (legacy
+#                        production models still referenced by the persisted
+#                        symbol registry — handoff spec §13 row 4).
+#   * xauusd_v2 (bare alias) -> retired alias referenced by the persisted
+#                        symbol_registry.json XAUUSD entry; kept registered so
+#                        the legacy load path never breaks, excluded from GUI.
+# =============================================================================
+
+models:
+  # ---------------------------------------------------------------------------
+  # t1 — DB/DT walk-forward models on XAUUSD M15 (§6.2/§6.3, research gate PASS)
+  # ---------------------------------------------------------------------------
+  double_bottom_xauusd_m15_v1:
+    model_id: "double_bottom_xauusd_m15_v1"
+    pattern_name: "double_bottom"
+    symbol_origin: "XAUUSD"
+    symbol: "XAUUSD"
+    timeframe: "M15"
+    feature_schema_version: "double-v1.0"
+    lifecycle_state: "validated"
+    live_metrics_ref: "event_lake/metrics/double_bottom_xauusd_m15_v1.parquet"
+    gate_passed: true
+    calibrated: true
+    config_hash: "bb7129921f24"
+    trained_at: "2026-09-07T22:27:48.140986+00:00"
+    model_path: "research/patterns/double_bottom/artifacts/models/double_bottom_xauusd_m15_v1/model.pkl"
+    calibrator_path: "research/patterns/double_bottom/artifacts/models/double_bottom_xauusd_m15_v1/calibrator.pkl"
+    feature_schema: "research/patterns/double_bottom/artifacts/models/double_bottom_xauusd_m15_v1/features.json"
+    horizon: 72
+    target: "forward_mfe_72bar_1.25r"
+    metrics:
+      n: 153
+      positive_rate: 0.4314
+      pr_auc: 0.5514
+      roc_auc: 0.5829
+      oos_pf_rule: 2.1064
+      oos_pf_model_gated: 2.5061
+      model_gate_cutoff: 0.2670
+      model_gated_n: 56
+    created_at: "2026-09-07"
+    notes: "Tier-2 meta-model (double_bottom): RandomForest + isotonic, fit on train split only; 25 causal features at detect/confirm bars (<= known_at). See research/patterns/double_bottom/artifacts/models/double_bottom_xauusd_m15_v1/train_summary.json."
+
+  double_top_xauusd_m15_v1:
+    model_id: "double_top_xauusd_m15_v1"
+    pattern_name: "double_top"
+    symbol_origin: "XAUUSD"
+    symbol: "XAUUSD"
+    timeframe: "M15"
+    feature_schema_version: "double-v1.0"
+    lifecycle_state: "validated"
+    live_metrics_ref: "event_lake/metrics/double_top_xauusd_m15_v1.parquet"
+    gate_passed: true
+    calibrated: true
+    config_hash: "bb7129921f24"
+    trained_at: "2026-09-07T22:27:52.853860+00:00"
+    model_path: "research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/model.pkl"
+    calibrator_path: "research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/calibrator.pkl"
+    feature_schema: "research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/features.json"
+    horizon: 72
+    target: "forward_mfe_72bar_1.25r"
+    metrics:
+      n: 134
+      positive_rate: 0.4328
+      pr_auc: 0.5924
+      roc_auc: 0.6470
+      oos_pf_rule: 1.5933
+      oos_pf_model_gated: 1.7095
+      model_gate_cutoff: 0.2713
+      model_gated_n: 60
+    created_at: "2026-09-07"
+    notes: "Tier-2 meta-model (double_top): RandomForest + isotonic, fit on train split only; 25 causal features. See research/patterns/double_top/artifacts/models/double_top_xauusd_m15_v1/train_summary.json."
+
+  # ---------------------------------------------------------------------------
+  # t1 — FW/HS/IHS explore-only models (NOT assignable until gates pass)
+  # ---------------------------------------------------------------------------
+  falling_wedge_xauusd_m15_v1:
+    model_id: "falling_wedge_xauusd_m15_v1"
+    pattern_name: "falling_wedge"
+    symbol_origin: "XAUUSD"
+    symbol: "XAUUSD"
+    timeframe: "M15"
+    feature_schema_version: "wedge-v1.0"
+    lifecycle_state: "trained"
+    live_metrics_ref: "event_lake/metrics/falling_wedge_xauusd_m15_v1.parquet"
+    gate_passed: false
+    calibrated: true
+    config_hash: "ff0e26349b0b"
+    trained_at: "2026-09-07T22:28:03.433806+00:00"
+    model_path: "research/patterns/falling_wedge/artifacts/models/falling_wedge_xauusd_m15_v1/model.pkl"
+    calibrator_path: "research/patterns/falling_wedge/artifacts/models/falling_wedge_xauusd_m15_v1/calibrator.pkl"
+    feature_schema: "research/patterns/falling_wedge/artifacts/models/falling_wedge_xauusd_m15_v1/features.json"
+    horizon: 72
+    target: "forward_mfe_72bar_1.25r"
+    metrics:
+      n: 131
+      pr_auc: 0.778
+      roc_auc: 0.6385
+    created_at: "2026-09-07"
+    notes: "Explore only (t1): OOS PR-AUC 0.778 closes the documented FW near-miss via the tier-2 meta-model; n<300 sample-size gate keeps gate_passed=false (never force-passed). See train_summary.json + docs/findings_resolution.md."
+
+  head_shoulders_xauusd_m15_v1:
+    model_id: "head_shoulders_xauusd_m15_v1"
+    pattern_name: "head_shoulders"
+    symbol_origin: "XAUUSD"
+    symbol: "XAUUSD"
+    timeframe: "M15"
+    feature_schema_version: "hs-v1.0"
+    lifecycle_state: "trained"
+    live_metrics_ref: "event_lake/metrics/head_shoulders_xauusd_m15_v1.parquet"
+    gate_passed: false
+    calibrated: true
+    config_hash: "811747a66c49"
+    trained_at: "2026-09-07T22:28:07.993207+00:00"
+    model_path: "research/patterns/head_shoulders/artifacts/models/head_shoulders_xauusd_m15_v1/model.pkl"
+    calibrator_path: "research/patterns/head_shoulders/artifacts/models/head_shoulders_xauusd_m15_v1/calibrator.pkl"
+    feature_schema: "research/patterns/head_shoulders/artifacts/models/head_shoulders_xauusd_m15_v1/features.json"
+    horizon: 72
+    target: "forward_mfe_72bar_1.25r"
+    metrics:
+      n: 151
+      pr_auc: 0.402
+    created_at: "2026-09-07"
+    notes: "Explore only (t1): n=151 < 300 sample-size gate (documented in docs/findings_resolution.md — H&S rare on M15, accepted at true sample size). gate_passed=false."
+
+  inverse_head_shoulders_xauusd_m15_v1:
+    model_id: "inverse_head_shoulders_xauusd_m15_v1"
+    pattern_name: "inverse_head_shoulders"
+    symbol_origin: "XAUUSD"
+    symbol: "XAUUSD"
+    timeframe: "M15"
+    feature_schema_version: "hs-v1.0"
+    lifecycle_state: "trained"
+    live_metrics_ref: "event_lake/metrics/inverse_head_shoulders_xauusd_m15_v1.parquet"
+    gate_passed: false
+    calibrated: true
+    config_hash: "811747a66c49"
+    trained_at: "2026-09-07T22:28:12.591170+00:00"
+    model_path: "research/patterns/head_shoulders/artifacts/models/inverse_head_shoulders_xauusd_m15_v1/model.pkl"
+    calibrator_path: "research/patterns/head_shoulders/artifacts/models/inverse_head_shoulders_xauusd_m15_v1/calibrator.pkl"
+    feature_schema: "research/patterns/head_shoulders/artifacts/models/inverse_head_shoulders_xauusd_m15_v1/features.json"
+    horizon: 72
+    target: "forward_mfe_72bar_1.25r"
+    metrics:
+      n: 208
+      pr_auc: 0.585
+    created_at: "2026-09-07"
+    notes: "Explore only (t1): n=208 < 300 sample-size gate; gate_passed=false (documented in docs/findings_resolution.md)."
+
+  # ---------------------------------------------------------------------------
+  # Legacy LSW models — migrated INTO trading_v3/artifacts (no trading_live refs)
+  # ---------------------------------------------------------------------------
+  xauusd_v2_h16_20260905:
+    model_id: "xauusd_v2_h16_20260905"
+    pattern_name: "liquidity_sweep"
+    symbol_origin: "XAUUSD"
+    symbol: "XAUUSD"
+    timeframe: "H1"
+    feature_schema_version: "lsw_v1.0"
+    lifecycle_state: "live"
+    live_metrics_ref: "event_lake/metrics/liquidity_sweep_xauusd_h16_v2.parquet"
+    gate_passed: true
+    calibrated: true
+    config_hash: ""
+    trained_at: "2026-09-05T00:00:00Z"
+    model_path: "artifacts/xauusd/models/model.pkl"
+    calibrator_path: "artifacts/xauusd/models/calibrator.pkl"
+    feature_schema: "artifacts/xauusd/models/features.json"
+    horizon: 16
+    target: "outcome_2r_h16"
+    metrics:
+      pf_oos: 1.305
+      ci_lower: 1.092
+      ci_upper: 1.561
+      n_trades: 312
+    created_at: "2026-09-05"
+    notes: "Legacy Liquidity Sweep XAUUSD V2 (pooled OOS meta-analysis) — artifacts MIGRATED from trading_live/research/xauusd-liquidity-sweep into trading_v3/artifacts/xauusd/models (copied verbatim). lifecycle_state=live: legacy production model still referenced by the persisted symbol registry (spec §13 row 4). config_hash not recorded pre-§6.2 convention ('' documented)."
+
+  eurusd_v2_h16_20260906:
+    model_id: "eurusd_v2_h16_20260906"
+    pattern_name: "liquidity_sweep"
+    symbol_origin: "EURUSD"
+    symbol: "EURUSD"
+    timeframe: "H1"
+    feature_schema_version: "lsw_v1.0"
+    lifecycle_state: "live"
+    live_metrics_ref: "event_lake/metrics/liquidity_sweep_eurusd_h16_v2.parquet"
+    gate_passed: false
+    calibrated: true
+    config_hash: ""
+    trained_at: "2026-09-06T00:00:00Z"
+    model_path: "artifacts/eurusd/models/model.pkl"
+    calibrator_path: "artifacts/eurusd/models/calibrator.pkl"
+    feature_schema: "artifacts/eurusd/models/features.json"
+    horizon: 16
+    target: "outcome_2r_h16"
+    metrics:
+      pr_auc: 0.18
+      roc_auc: 0.5924
+      brier: 0.1416
+      accuracy: 0.8333
+      wf_pr_auc_mean: 0.3328
+      wf_roc_auc_mean: 0.6665
+      n_trades: 267
+    created_at: "2026-09-06"
+    notes: "Legacy Liquidity Sweep EURUSD V2 — in-trading_v3 artifacts already present (trading_v3/artifacts/eurusd/models, byte-identical to the workspace copy); registered with in-workspace paths. lifecycle_state=live: referenced by persisted symbol registry (back-compat). gate_passed=false: weak OOS metrics (PR-AUC 0.18) documented; awaiting retrain — registered for legacy load + shadow observation only."
+
+  # ---------------------------------------------------------------------------
+  # Legacy alias — persisted symbol_registry.json 'XAUUSD' entry references
+  # this bare model_id.  Keep registered (same artifacts) so the legacy
+  # create_symbol_engine load path never raises ModelArtifactNotFoundError;
+  # lifecycle retired => excluded from every GUI assignment dropdown.
+  # ---------------------------------------------------------------------------
+  xauusd_v2:
+    model_id: "xauusd_v2"
+    pattern_name: "liquidity_sweep"
+    symbol_origin: "XAUUSD"
+    symbol: "XAUUSD"
+    timeframe: "H1"
+    feature_schema_version: "lsw_v1.0"
+    lifecycle_state: "retired"
+    live_metrics_ref: "event_lake/metrics/liquidity_sweep_xauusd_h16_v2.parquet"
+    gate_passed: true
+    calibrated: true
+    config_hash: ""
+    trained_at: "2026-09-05T00:00:00Z"
+    model_path: "artifacts/xauusd/models/model.pkl"
+    calibrator_path: "artifacts/xauusd/models/calibrator.pkl"
+    feature_schema: "artifacts/xauusd/models/features.json"
+    horizon: 16
+    target: "outcome_2r_h16"
+    metrics:
+      pf_oos: 1.305
+      ci_lower: 1.092
+      ci_upper: 1.561
+      n_trades: 312
+    created_at: "2026-09-05"
+    notes: "RETIRED alias of xauusd_v2_h16_20260905 — kept in the registry ONLY because the persisted live/db/symbol_registry.json 'XAUUSD' entry still sets model_id=xauusd_v2. Read-only for audit/back-compat; never assignable via GUI (lifecycle retired)."

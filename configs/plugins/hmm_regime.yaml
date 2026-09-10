@@ -1,0 +1,57 @@
+# hmm_regime.yaml — HMM Regime Plugin config mẫu (guide v1.0 §6 / requirements v1.0 §9)
+#
+# Vai trò: Environment / Regime Engine độc lập — KHÔNG phải pattern detector.
+# Mọi tham số dưới `hmm:` được merge lên `get_default_config()` của plugin;
+# semantic change → bump `plugin.version` (không âm thầm đổi nghĩa, §6.2).
+#
+# No-lookahead (§2): features dưới `input_features` là causal —
+#   log_return_1     = ln(close_t / close_{t-1})
+#   atr_14_norm      = Wilder ATR(14)_t / close_t
+#   volume_zscore_20 = (volume_t - rolling_mean_20_t) / rolling_std_20_t
+#
+# Wiring (requirements v1.0 §5, guide §8): `regime_filter.enabled` bật hard
+# gate; `rules` là per-pattern map (allowed_states + min_confidence) KHÔNG tự
+# suy từ train.  `plugin.enabled: false` (mặc định) → toàn bộ tính năng TẮT,
+# model cũ chạy y nguyên (byte-identical).
+
+plugin:
+  name: hmm_regime
+  version: "1.0.0"
+  enabled: false                       # cờ tổng; bật cùng feature emitter (t3)
+
+hmm:
+  enabled: true                        # feature emitter của hmm_* (mặc định TẮT qua plugin.enabled)
+  n_states: 3
+  state_names: ["trending", "sideways", "high_vol"]
+  input_features: ["log_return_1", "atr_14_norm", "volume_zscore_20"]
+  lag_bars: 0
+  min_confidence: 0.50
+  covariance_type: "full"
+  n_iter: 100
+  random_state: 42
+  min_fit_bars: 2000                   # guard fit: EM cần đủ dữ liệu
+  min_predict_bars: 200                # guard predict: < này → default state
+
+regime_filter:
+  enabled: false                       # bật hard gate (requirements §5)
+  # rules per pattern (guide §8) — giá trị mẫu cho OOS test LSW/DB/DT (t5);
+  # threshold phải được chọn trên train prefix, KHÔNG tuning trên OOS (§8.2).
+  rules:
+    double_bottom:
+      allowed_states: ["trending", "sideways"]
+      min_confidence: 0.60
+    double_top:
+      allowed_states: ["sideways", "high_vol"]
+      min_confidence: 0.55
+    liquidity_sweep:
+      allowed_states: ["trending", "high_vol"]
+      min_confidence: 0.55
+    head_shoulders:
+      allowed_states: ["trending"]
+      min_confidence: 0.70
+    inverse_head_shoulders:
+      allowed_states: ["trending"]
+      min_confidence: 0.70
+    falling_wedge:
+      allowed_states: ["trending", "sideways"]
+      min_confidence: 0.60

@@ -1,0 +1,37 @@
+{
+  "model_id": "falling_wedge_xauusd_m15_v1",
+  "pattern_name": "falling_wedge",
+  "symbol": "XAUUSD",
+  "timeframe": "M15",
+  "feature_schema_version": "wedge-v1.0",
+  "lifecycle_state": "trained",
+  "gate_passed": false,
+  "calibrated": true,
+  "config_hash": "ff0e26349b0b",
+  "trained_at": "2026-09-07T22:28:03.433806+00:00",
+  "horizon_bars": 72,
+  "target_r": 1.25,
+  "n_events": 327,
+  "n_train": 196,
+  "n_oos": 131,
+  "metrics": {
+    "n": 131.0,
+    "positive_rate": 0.7022900763358778,
+    "pr_auc": 0.7778625926060349,
+    "roc_auc": 0.6385172798216276,
+    "brier": 0.20907262400398108,
+    "accuracy": 0.6946564885496184,
+    "oos_pf_rule": 2.948717948717949,
+    "oos_pf_model_gated": 4.0,
+    "model_gate_cutoff": 0.6292517006802721,
+    "model_gated_n": 63.0
+  },
+  "artifact_paths": {
+    "model": "research/patterns/falling_wedge/artifacts/models/falling_wedge_xauusd_m15_v1/model.pkl",
+    "calibrator": "research/patterns/falling_wedge/artifacts/models/falling_wedge_xauusd_m15_v1/calibrator.pkl",
+    "features": "research/patterns/falling_wedge/artifacts/models/falling_wedge_xauusd_m15_v1/features.json",
+    "train_summary": "research/patterns/falling_wedge/artifacts/models/falling_wedge_xauusd_m15_v1/train_summary.json",
+    "feature_dataset": "research/patterns/falling_wedge/artifacts/datasets/falling_wedge_xauusd_m15_features.parquet"
+  },
+  "notes": "Tier-2 meta-model (falling_wedge): RandomForest + isotonic calibration, fit on train split only; 28 causal features at detect/confirm bars (\u2264 known_at); label = forward MFE 72-bar, 1.25R target. EXPLORE status: sample n=327 (gate \u2265 300); gate_passed=False \u2014 kept strict anti-noise detector per Agent 4 DoD; model registered as 'trained', promotion deferred until t2 verdict."
+}

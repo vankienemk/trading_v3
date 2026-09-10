@@ -1,0 +1,126 @@
+project:
+  symbol: XAUUSD
+  timeframe: M15
+  timezone: UTC
+  random_seed: 42
+
+data:
+  input_path: data/raw/XAUUSD_M15_202206020915_202608272245.csv  # exported from MT5, already placed in the workspace
+  output_path: data/processed/xauusd_m15.parquet
+  timestamp_column: timestamp
+  volume_column: volume
+  # MT5 export format: <DATE> <TIME> <OPEN> <HIGH> <LOW> <CLOSE> <TICKVOL> <VOL> <SPREAD>
+  source_format: mt5
+  volume_kind: tick            # MT5 exports tick volume by default (TICKVOL); real VOL is 0 here
+  date_column: DATE
+  time_column: TIME
+  # Broker server time -> UTC: "auto" infers a per-day offset from the daily
+  # maintenance-break pattern (UTC+3 for days opening 01:00, UTC+2 for days
+  # opening 00:00 — validated: all 75-min breaks land at 20:45-22:00 UTC).
+  # Set 0 to treat file time as UTC verbatim, or an int for a fixed offset.
+  utc_offset_hours: auto
+
+indicators:
+  atr_period: 14
+  volume_zscore_window: 50
+
+# Trading-session hours (UTC, half-open [start, end) intervals) used by the
+# time/session features (guide 13.6). end <= start wraps midnight. These live
+# in config so timezone / DST policy can be changed without code.
+sessions:
+  timezone: UTC
+  asia: [0, 8]        # 00:00-08:00 UTC
+  london: [7, 16]     # 07:00-16:00 UTC
+  new_york: [12, 21]  # 12:00-21:00 UTC
+
+liquidity:
+  rolling_lookback: 20
+  enable_rolling: true
+
+  swing:
+    enabled: true
+    left_bars: 3
+    right_bars: 3
+    max_age_bars: 200
+
+  equal_levels:
+    enabled: true
+    tolerance_atr: 0.10
+    min_touches: 2
+    max_age_bars: 200
+
+sweep:
+  min_penetration_atr: 0.05
+  max_penetration_atr: 0.50
+  min_wick_ratio: 0.35
+  min_reclaim_atr: 0.00
+  cooldown_bars: 4
+  # Causal-absolute dedup within a cooldown run (QA finding F1): the run's
+  # FIRST bar is the representative event.  deepest_penetration /
+  # strongest_reclaim (guide section 12) peek ahead within the run and are
+  # therefore look-ahead; they exist only for controlled A/B experiments and
+  # must NEVER be used in the labelling/feature/scoring path.
+  group_rule: first
+
+confirmation:
+  enabled: true
+  max_wait_bars: 3
+  require_break_sweep_extreme: true
+  min_body_ratio: 0.60
+  min_range_atr: 0.80
+
+entry:
+  mode: next_open_after_confirmation   # alternative: next_open_after_sweep
+  slippage_price: 0.0
+  spread_price: 0.0
+
+stop:
+  mode: sweep_extreme
+  buffer_atr: 0.10
+
+costs:
+  # Spread and slippage are expressed as a fraction of the raw entry/exit price.
+  # Overridden by labeling.yaml when the trade simulation stage runs.
+  half_spread_price: 0.0
+  slippage_price: 0.0
+  commission_r: 0.0
+
+labeling:
+  horizons: [4, 8, 16, 32]
+  reward_r_values: [1.0, 1.5, 2.0]
+  same_bar_policy: ambiguous           # ambiguous | conservative | optimistic
+  time_barrier_result: mark_to_market
+
+splitting:
+  train_fraction: 0.60
+  validation_fraction: 0.20
+  test_fraction: 0.20
+  embargo_bars: 32
+  purge: true
+
+model:
+  target: outcome_2r_h16
+  probability_calibration: isotonic
+  models:
+    - logistic_regression
+
+scoring:
+  # Rule-based scoring weights (guide section 19).
+  # Total should sum to 100 for direct interpretation; the scorer normalizes
+  # internally so relative proportions matter more than absolute values.
+  weights:
+    level: 20           # Liquidity level quality
+    sweep: 25           # Sweep quality
+    reclaim: 15         # Reclaim strength
+    confirmation: 20    # Confirmation quality
+    context: 10         # Higher-timeframe context
+    volume: 10          # Volume & volatility
+  # Score buckets for evaluation (guide section 19.4)
+  score_buckets:
+    - [0, 39]
+    - [40, 49]
+    - [50, 59]
+    - [60, 69]
+    - [70, 79]
+    - [80, 100]
+

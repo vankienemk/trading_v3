@@ -1,0 +1,35 @@
+[
+  {
+    "bucket":"0-39",
+    "event_count":194,
+    "win_rate":0.1804,
+    "loss_rate":0.5,
+    "ambiguous_rate":0.0,
+    "avg_mfe_r":1.5372,
+    "avg_mae_r":1.6522,
+    "avg_net_result_r":-0.0359,
+    "profit_factor":0.9343
+  },
+  {
+    "bucket":"40-49",
+    "event_count":70,
+    "win_rate":0.1571,
+    "loss_rate":0.3857,
+    "ambiguous_rate":0.0,
+    "avg_mfe_r":1.3363,
+    "avg_mae_r":1.0228,
+    "avg_net_result_r":0.152,
+    "profit_factor":1.3618
+  },
+  {
+    "bucket":"50-59",
+    "event_count":3,
+    "win_rate":0.0,
+    "loss_rate":0.3333,
+    "ambiguous_rate":0.0,
+    "avg_mfe_r":0.3079,
+    "avg_mae_r":0.7388,
+    "avg_net_result_r":-0.1684,
+    "profit_factor":0.6098
+  }
+]

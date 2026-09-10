@@ -1,0 +1,246 @@
+# Feature registry: every feature used by the model must be listed here with metadata.
+# uses_future_data must be false for every feature used in training (rule 30.4).
+# available_at ∈ {event_time, confirmation_time}; confirmation features are NaN
+# for events without confirmation (schema §7).
+# Owned by Agent 4 (feature engineering). Registry changes are a schema change (rule 30.1).
+
+features:
+  # --- Candle features ---
+  - name: range_atr
+    group: candle
+    description: "Sweep candle range divided by ATR"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 10.0]
+  - name: body_ratio
+    group: candle
+    description: "abs(close-open)/(high-low) of the sweep candle"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 1.0]
+  - name: lower_wick_ratio
+    group: candle
+    description: "lower wick / range of the sweep candle"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 1.0]
+  - name: upper_wick_ratio
+    group: candle
+    description: "upper wick / range of the sweep candle"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 1.0]
+  - name: close_location
+    group: candle
+    description: "(close-low)/(high-low) of the sweep candle"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 1.0]
+
+  # --- Sweep features ---
+  - name: penetration_atr
+    group: sweep
+    description: "ATR-normalized penetration beyond the liquidity level"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 0.5]
+  - name: reclaim_atr
+    group: sweep
+    description: "ATR-normalized close reclaim of the liquidity level"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [-0.5, 1.0]
+  - name: wick_ratio
+    group: sweep
+    description: "directional wick ratio of the sweep candle"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 1.0]
+  - name: sweep_volume_zscore
+    group: sweep
+    description: "volume z-score of the sweep candle (causal, excludes current bar)"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [-5.0, 5.0]
+
+  # --- Liquidity level features (causal registry state at the event bar) ---
+  - name: level_type
+    group: liquidity
+    description: "rolling | swing | equal | prev_day"
+    dtype: category
+    available_at: event_time
+    uses_future_data: false
+    expected_range: ["rolling", "swing", "equal", "prev_day"]
+  - name: level_age_bars
+    group: liquidity
+    description: "age of the swept level in bars as of the event bar"
+    dtype: int64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0, 200]
+  - name: level_touch_count
+    group: liquidity
+    description: "number of touches on the swept level as of the event bar"
+    dtype: int64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0, 50]
+  - name: bars_since_last_touch
+    group: liquidity
+    description: "bars since the swept level was last touched (NaN if never)"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 200.0]
+  - name: equal_level_dispersion_atr
+    group: liquidity
+    description: "(price_max - price_min)/ATR for equal levels, else NaN"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 5.0]
+  - name: level_is_previous_day_high_low
+    group: liquidity
+    description: "whether the swept level is a previous-day high/low"
+    dtype: bool
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [false, true]
+  - name: level_is_h1_swing
+    group: liquidity
+    description: "whether the swept level is an H1 swing level"
+    dtype: bool
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [false, true]
+  - name: level_already_partially_swept
+    group: liquidity
+    description: "whether the level was already swept/invalidated before this event"
+    dtype: bool
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [false, true]
+
+  # --- Volatility features ---
+  - name: atr_percentile
+    group: volatility
+    description: "causal rolling percentile of ATR (window 200)"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0.0, 1.0]
+  - name: volatility_regime
+    group: volatility
+    description: "low | normal | high based on causal ATR percentile"
+    dtype: category
+    available_at: event_time
+    uses_future_data: false
+    expected_range: ["low", "normal", "high"]
+
+  # --- Volume features ---
+  - name: volume_zscore
+    group: volume
+    description: "volume z-score of the sweep candle (excludes the current bar)"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [-5.0, 5.0]
+
+  # --- Time/session features ---
+  - name: hour_utc
+    group: time
+    description: "hour of the event in UTC"
+    dtype: int64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0, 23]
+  - name: day_of_week
+    group: time
+    description: "0=Monday .. 4=Friday"
+    dtype: int64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [0, 4]
+  - name: session_asia
+    group: time
+    description: "whether the event falls in the Asia session (config hours)"
+    dtype: bool
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [false, true]
+  - name: session_london
+    group: time
+    description: "whether the event falls in the London session (config hours)"
+    dtype: bool
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [false, true]
+  - name: session_new_york
+    group: time
+    description: "whether the event falls in the New York session (config hours)"
+    dtype: bool
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [false, true]
+
+  # --- Higher-timeframe context ---
+  - name: h1_trend
+    group: htf
+    description: "sign of H1 EMA(50) slope using only closed H1 candles"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [-1.0, 1.0]
+  - name: distance_to_previous_day_high_atr
+    group: htf
+    description: "distance from event close to previous day high in ATR"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [-20.0, 20.0]
+  - name: distance_to_previous_day_low_atr
+    group: htf
+    description: "distance from event close to previous day low in ATR"
+    dtype: float64
+    available_at: event_time
+    uses_future_data: false
+    expected_range: [-20.0, 20.0]
+
+  # --- Confirmation features (only when entry is after confirmation) ---
+  - name: confirmation_delay_bars
+    group: confirmation
+    description: "bars between sweep and confirmation"
+    dtype: int64
+    available_at: confirmation_time
+    uses_future_data: false
+    expected_range: [1, 3]
+  - name: confirmation_range_atr
+    group: confirmation
+    description: "confirmation candle range in ATR"
+    dtype: float64
+    available_at: confirmation_time
+    uses_future_data: false
+    expected_range: [0.0, 10.0]
+  - name: confirmation_body_ratio
+    group: confirmation
+    description: "confirmation candle body ratio"
+    dtype: float64
+    available_at: confirmation_time
+    uses_future_data: false
+    expected_range: [0.0, 1.0]
+  - name: confirmation_volume_zscore
+    group: confirmation
+    description: "confirmation candle volume z-score"
+    dtype: float64
+    available_at: confirmation_time
+    uses_future_data: false
+    expected_range: [-5.0, 5.0]

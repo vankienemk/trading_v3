@@ -1,0 +1,39 @@
+{
+  "symbols": {
+    "BTCUSDm": {
+      "name": "BTCUSDm",
+      "status": "validated",
+      "active": true,
+      "model_id": "eurusd_v2_h16_20260906",
+      "position_size_multiplier": 1.0
+    },
+    "XAUUSDm": {
+      "name": "XAUUSDm",
+      "status": "validated",
+      "active": true,
+      "model_id": "xauusd_v2_h16_20260905",
+      "position_size_multiplier": 0.9
+    },
+    "EURUSDm": {
+      "name": "EURUSDm",
+      "status": "validated",
+      "active": true,
+      "model_id": "eurusd_v2_h16_20260906",
+      "position_size_multiplier": 1.0
+    },
+    "XAUUSD": {
+      "name": "XAUUSD",
+      "status": "validated",
+      "active": true,
+      "model_id": "xauusd_v2",
+      "position_size_multiplier": 1.0
+    }
+  },
+  "automation_levels": {
+    "BTCUSDm": 1,
+    "XAUUSDm": 1,
+    "EURUSDm": 1,
+    "XAUUSD": 0
+  },
+  "version": 1
+}

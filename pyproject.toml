@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trading-v3"
+version = "0.3.0"
+description = "Multi-pattern reversal engine — REVERSAL_PATTERN_ENGINE_SPEC_v1.1"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyyaml>=6.0",
+    "pyarrow>=12.0",
+    "scikit-learn>=1.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "pandas-stubs>=2.2",
+    "types-PyYAML>=6.0",
+]
+plot = [
+    "matplotlib>=3.7",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["research*", "live*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+# Legacy research tree from the pre-v1.1 project (Agent-2/Agent-4 era; untouched,
+# mtime predates this phase): research analysis scripts and the old pipeline
+# carry ~500+ pre-existing style violations (incl. F821 in train.py) and are
+# NOT linted by CI ruff so the v1.1 gate reflects v1.1 code only.  The v1.1
+# plugin (research/patterns/liquidity_sweep/detector.py) and the runtime
+# research/patterns/liquidity_sweep/src/ package (imported by the live signal
+# engine) are NOT excluded — src/ is deliberately lint-clean.
+# NOTE: ruff 0.16.6 auto-discovery does NOT honour config excludes for
+# ``check .`` in this workspace (verified empirically); the exclusion is
+# enforced via .gitignore, which ruff's traversal honours.  This block remains
+# as defense-in-depth for clean-tree CI layouts.  Decision + rationale recorded
+# in docs/qa_checklist.md.
+exclude = [
+    "research/patterns/liquidity_sweep/scripts/**",
+    "research/patterns/liquidity_sweep/pipeline_v2/**",
+]
+# ``check .`` passes the project root explicitly; without force-exclude explicit
+# paths are always linted, so the legacy dirs would leak back into CI.
+force-exclude = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "RUF", "PERF"]
+ignore = ["E501"]
+# same legacy tree for the linter-specific resolver
+exclude = [
+    "research/patterns/liquidity_sweep/scripts/**",
+    "research/patterns/liquidity_sweep/pipeline_v2/**",
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+check_untyped_defs = true
+no_implicit_optional = true
+ignore_missing_imports = false
+
+[[tool.mypy.overrides]]
+module = ["yaml"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["matplotlib.*", "sklearn", "sklearn.*", "catboost", "lightgbm"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+# NOTE: research/patterns/*/tests are NOT pytest suites — legacy pipeline tests
+# lived under the old research package root.  All v1.1 plugin suites live in
+# the top-level trading_v3/tests/ (see NoLookaheadTestBase inheritance).
+testpaths = ["tests"]
+markers = [
+    "no_lookahead: tests that verify causality / absence of look-ahead bias (spec §3)",
+    "golden: bit-identical regression tests against the legacy engine (Agent 2 DoD)",
+    "synth: PatternSynthesizer ground-truth generator + acceptance benchmark (spec §8)",
+]

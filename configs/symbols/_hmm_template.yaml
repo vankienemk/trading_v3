@@ -1,0 +1,66 @@
+# =============================================================================
+# _hmm_template.yaml — Symbol config mẫu: HMM regime plugin wiring (guide §4.2A/§6)
+# =============================================================================
+# FILE MẪU — prefix `_` → KHÔNG được runtime load (research/configs/symbols/
+# chứa config thật).  Copy các block dưới đây vào config symbol thật khi muốn
+# bật HMM regime cho symbol đó, cùng lúc bật `plugin.enabled: true` trong
+# configs/plugins/hmm_regime.yaml.
+#
+# Quy tắc plug/unplug (guide §10):
+#   * Không liệt kê hmm_regime trong optional_plugins → KHÔNG inject hmm_*,
+#     KHÔNG gate → model cũ chạy y nguyên (byte-identical).
+#   * Liệt kê + hmm_regime.yaml plugin.enabled: false → tính năng TẮT.
+#   * Liệt kê + plugin.enabled: true → feature emitter + hard gate (nếu
+#     regime_filter.enabled) chạy.
+# =============================================================================
+
+# Top-level symbol identity (giữ nguyên cấu trúc config hiện có)
+symbol:
+  name: "XAUUSD"
+  display_name: "Gold / US Dollar"
+  status: validated
+
+# ---------------------------------------------------------------------------
+# HMM regime plugin wiring (guide v1.0 §4.2A / §6, requirements v1.0 §4/§5)
+# ---------------------------------------------------------------------------
+features:
+  # Danh sách plugin optional mà pattern config này xin dùng — tên khớp
+  # `optional_plugins[].name` trong model registry §4.3 và `plugin.name` trong
+  # configs/plugins/hmm_regime.yaml.
+  optional_plugins:
+    - hmm_regime
+  optional:
+    # HMM feature emitter: bật feature hmm_* cho model TRAIN MỚI (guide §4.2A).
+    hmm:
+      enabled: true
+      features:
+        - hmm_state
+        - hmm_prob_trending
+        - hmm_prob_sideways
+        - hmm_prob_high_vol
+        - hmm_confidence
+
+# Hard gate rules (nếu cần override per-symbol): nếu block này xuất hiện, nó
+# merge lên rules của configs/plugins/hmm_regime.yaml cho pattern tương ứng.
+regime_filter:
+  enabled: false                        # mặc định TẮT — bật cùng plugin.enabled
+  rules: {}                             # per pattern: allowed_states + min_confidence
+
+# Ví dụ entry model registry (model_registry/index.yaml) cho model HMM mới:
+#   model_id: "double_bottom_xauusd_m15_v1_hmm"
+#   pattern_name: "double_bottom"
+#   symbol: "XAUUSD"
+#   timeframe: "M15"
+#   feature_schema_version: "double-v1.1"
+#   feature_list:                        # EXACT train-time list (mirror features.json)
+#     - depth_atr
+#     - ...
+#     - hmm_state
+#     - hmm_prob_trending
+#     - hmm_prob_sideways
+#     - hmm_prob_high_vol
+#     - hmm_confidence
+#   optional_plugins:
+#     - name: "hmm_regime"
+#       version: "1.0.0"
+#       required: true                    # true = model PHỤ THUỘC HMM (fail-closed §6.3)

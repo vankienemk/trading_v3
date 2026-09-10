@@ -1,0 +1,49 @@
+# Model configuration for the tabular ML stage.
+model:
+  target: outcome_2r_h16
+  probability_calibration: isotonic     # isotonic | sigmoid | none
+
+  # Models are trained in this order; the first available wins as the baseline.
+  models:
+    - logistic_regression
+    - random_forest
+    - catboost          # optional
+    - lightgbm          # optional
+    - xgboost           # optional
+
+  logistic_regression:
+    C: 1.0
+    max_iter: 2000
+    class_weight: balanced
+
+  random_forest:
+    n_estimators: 300
+    max_depth: 6
+    min_samples_leaf: 5
+    class_weight: balanced_subsample
+    n_jobs: -1
+    random_state: 42
+
+  catboost:
+    iterations: 500
+    learning_rate: 0.05
+    depth: 6
+    verbose: 0
+    random_seed: 42
+
+  lightgbm:
+    n_estimators: 500
+    learning_rate: 0.05
+    num_leaves: 31
+    verbose: -1
+    random_state: 42
+
+splitting:
+  train_fraction: 0.60
+  validation_fraction: 0.20
+  test_fraction: 0.20
+  embargo_bars: 32
+  purge: true
+
+scoring:
+  score_buckets: [[0, 39], [40, 49], [50, 59], [60, 69], [70, 79], [80, 100]]
