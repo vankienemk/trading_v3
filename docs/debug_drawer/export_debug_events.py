@@ -30,11 +30,11 @@ ROOT = Path(__file__).resolve().parents[2]  # trading_v3/
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-import pandas as pd
+import pandas as pd  # noqa: E402  (import after sys.path bootstrap)
 
-from research.multi_backtest.runner import (
-    CostConfig,
+from research.multi_backtest.runner import (  # noqa: E402  (bootstrap import)
     CorrelationConfig,
+    CostConfig,
     build_assignments,
     load_symbol_frame,
     run_symbol_backtest,
@@ -97,9 +97,17 @@ def _structure_box(
         if end_bar is None:
             delay = a.get("confirmation_delay_bars")
             if start_bar is not None and delay is not None:
-                end_bar = int(start_bar) + int(round(float(delay)))
+                end_bar = int(start_bar) + round(float(delay))
             else:
                 end_bar = a.get("confirm_bar")
+        # A3 (bug summary): the pattern is not complete at the second extreme --
+        # the breakout candle (confirm_bar) belongs to the structure. Extend the
+        # yellow box to confirm_bar so it covers the neckline break, i.e. the
+        # candle that actually triggers the trade.
+        confirm_bar = a.get("confirm_bar")
+        if confirm_bar is not None:
+            end_bar = max(int(end_bar if end_bar is not None else start_bar),
+                          int(confirm_bar)) if start_bar is not None else confirm_bar
         if start_bar is None:
             return (None, None, None, None)
         i1, i2 = int(start_bar), int(end_bar if end_bar is not None else start_bar)

@@ -2,7 +2,10 @@
 //|                                                  DebugDrawer.mq5 |
 //|  Debug visualization for trading_v3 pattern events on MT5 chart  |
 //|  Reads Files\debug_events.txt (pipe-delimited, one event/line)   |
-//|  v1.9 drawing style:                                             |
+//|  v2.0 bug-fix release (A1/A2/A4 of trading_v3_bug_summary):     |
+//|   A1 label colour by model_prob, A2 trade zone = 2 CHART BARS,  |
+//|   A4 label right-anchored (no longer covers the trade zone)    |
+//|  drawing style:                                             |
 //|   - pattern zone = yellow wash over the REAL pattern structure   |
 //|     (fields 14..17: structure start/end/low/high; fallback:       |
 //|      detect->confirm with the trade-zone span)                    |
@@ -13,7 +16,7 @@
 //|   - entry arrow + text annotation; rejected events in gray       |
 //+------------------------------------------------------------------+
 #property copyright "trading_v3 debug"
-#property version   "1.90"
+#property version   "2.00"
 #property script_show_inputs
 
 input string InpFileName  = "debug_events.txt";   // event file in MQL5\Files
@@ -180,10 +183,14 @@ void DrawEvent(string line)
    FillRect(InpPrefix + "pat_" + uid, t1p, t2p, patLo, patHi,
             isRej ? clrDarkGray : clrYellow);
 
-   // --- 2) trade zone: confirm -> confirm+2h, GREEN toward target / RED toward stop
+   // --- 2) trade zone: confirm -> confirm + 2 CHART BARS (A2: period-aware)
+   //      GREEN toward target / RED toward stop
    datetime ta = t_confirm;
-   datetime tb = t_confirm + 2 * 3600;
-   if(tb <= ta) tb = ta + 3600;
+   int periodSec = PeriodSeconds();
+   if(periodSec <= 0)
+      periodSec = 15 * 60;                        // fallback: M15
+   datetime tb = t_confirm + 2 * periodSec;
+   if(tb <= ta) tb = ta + periodSec;
 
    // green band = between entry and target (profit side)
    double g1 = MathMin(eprice, tp);
@@ -217,7 +224,16 @@ void DrawEvent(string line)
       ObjectSetInteger(0, aname, OBJPROP_ANCHOR, ANCHOR_TOP);
      }
 
-   // --- 4) annotation text at entry ---
+   // --- 4) annotation text at entry ---------------------------------
+   //      A1: text colour encodes model_prob quality (low prob = warning)
+   //      A4: right-anchored so the label never covers the trade zone
+   double pNum = (prob != "" ? StringToDouble(prob) : -1.0);
+   color txtCol = isRej ? clrGray
+                : (pNum < 0.0 ? clrWhite
+                : (pNum < 0.40 ? clrOrangeRed
+                : (pNum < 0.60 ? clrYellow
+                               : (isBuy ? clrLimeGreen : clrRed))));
+
    string label = pattern + " " + direction;
    if(prob != "")     label += " | p=" + prob;
    if(score != "")    label += " | s=" + score;
@@ -226,9 +242,9 @@ void DrawEvent(string line)
    if(ObjectCreate(0, tname, OBJ_TEXT, 0, t_entry, eprice))
      {
       ObjectSetString(0, tname, OBJPROP_TEXT, label);
-      ObjectSetInteger(0, tname, OBJPROP_COLOR, isRej ? clrGray : clrWhite);
+      ObjectSetInteger(0, tname, OBJPROP_COLOR, txtCol);
       ObjectSetInteger(0, tname, OBJPROP_FONTSIZE, 8);
-      ObjectSetInteger(0, tname, OBJPROP_ANCHOR, ANCHOR_LEFT_UPPER);
+      ObjectSetInteger(0, tname, OBJPROP_ANCHOR, ANCHOR_RIGHT_UPPER);
      }
 
    g_drawn++;
@@ -281,7 +297,7 @@ void OnStart()
    int h = FileOpen(InpFileName, FILE_READ | FILE_TXT | FILE_ANSI, 0, "");
    if(h == INVALID_HANDLE)
      {
-      string msg = "DebugDrawer v1.9: KHONG mo duoc file Files\\" + InpFileName;
+      string msg = "DebugDrawer v2.0: KHONG mo duoc file Files\\" + InpFileName;
       Print(msg);
       Comment(msg);
       Alert(msg);
@@ -290,7 +306,7 @@ void OnStart()
 
    DeleteOldObjects(InpPrefix);
 
-   string echo = "DebugDrawer v1.9 diagnostic t=" + TimeToString(TimeCurrent(), TIME_DATE | TIME_MINUTES) + "\n";
+   string echo = "DebugDrawer v2.0 diagnostic t=" + TimeToString(TimeCurrent(), TIME_DATE | TIME_MINUTES) + "\n";
    echo += "BUILTIN literal '2026.09.10 00:45' -> " + TimeToString(StringToTime("2026.09.10 00:45"), TIME_DATE | TIME_MINUTES) + "\n";
    echo += "BUILTIN literal '4475.60' -> " + DoubleToString(StringToDouble("4475.60"), 2) + "\n";
 
@@ -315,7 +331,7 @@ void OnStart()
    ChartRedraw(0);
 
    string diag = StringFormat(
-      "DebugDrawer v1.9: drawn=%d skipped=%d (chart %s bid=%.2f)\n"
+      "DebugDrawer v2.0: drawn=%d skipped=%d (chart %s bid=%.2f)\n"
       "first: %s | t=%s @ %.2f\nvisible price: %.2f .. %.2f\n"
       "diag -> Files\\%s",
       g_drawn, g_skipped, _Symbol, bid,

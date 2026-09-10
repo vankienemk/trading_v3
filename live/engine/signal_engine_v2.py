@@ -63,6 +63,17 @@ from src.scoring.rule_score import compute_rule_scores  # noqa: E402  (bootstrap
 
 logger = logging.getLogger("signal_engine_v2")
 
+# --- rule_score scales per pattern (B2, bug summary) ------------------------
+# Plugins do not share one scale: liquidity_sweep emits 0..100, every other
+# plugin clamps to [0, 1].  Only LSW is declared here; anything else is
+# auto-detected by magnitude in _normalize_rule_score.
+_RULE_SCORE_SCALE: dict[str, float] = {"liquidity_sweep": 100.0}
+
+# Optional per-pattern minimum model probability (B1).  Empty by default =
+# no probability gate (historical behaviour).  Opt in either here or via a
+# per-assignment ``min_model_prob`` key in the pattern/symbol config.
+_DEFAULT_MIN_MODEL_PROB: dict[str, float] = {}
+
 # Centralized system logger (GUI_REWORK §5)
 from live.logging.logger_v2 import log as syslog  # noqa: E402  (bootstrap import)
 
@@ -486,7 +497,10 @@ def _check_new_bar(
 
         rule_score = rule_scores.get(eid, 0.0)
         model_prob = model_prob_dict.get(eid, 0.5)
-        combined_score = (rule_score / 100.0 + model_prob) / 2.0
+        # B2: this legacy path is sweep-only (0..100 scale) — normalize
+        # explicitly instead of hard-coding the divisor.
+        combined_score = _combine_score(
+            _normalize_rule_score("liquidity_sweep", rule_score), model_prob)
 
         results.append(SignalCandidate(
             symbol=symbol, direction=direction,
@@ -1094,6 +1108,19 @@ class MultiPatternEngine:
         target = rep.target_price if rep.target_price is not None else 0.0
         rule_score = float(rep.rule_score or 0.0)
         model_prob = float(rep.model_prob) if _finite(rep.model_prob) else 0.5  # type: ignore[arg-type]
+        # B1 (bug summary): optional minimum-probability gate. Off unless a
+        # threshold is configured (per-assignment YAML ``min_model_prob`` or
+        # the module default map) so the historical behaviour is preserved
+        # while a low-probability event can no longer pass silently when the
+        # operator HAS opted in.
+        prob_min = _resolve_min_model_prob(a)
+        if prob_min is not None and model_prob < prob_min:
+            rep.attributes["discard_reason"] = "low_probability"   # §7.1
+            logger.info(
+                "signal_engine: %s %s discarded — model_prob %.4f < min_model_prob %.4f",
+                self.symbol, rep.event_id, model_prob, prob_min,
+            )
+            return None
         short = get_registry().short_name(rep.pattern_name)
         return SignalCandidate(
             symbol=self.symbol,
@@ -1106,7 +1133,9 @@ class MultiPatternEngine:
             event_id=rep.event_id,
             rule_score=round(rule_score, 2),
             model_prob=round(model_prob, 4),
-            combined_score=round((rule_score / 100.0 + model_prob) / 2.0, 4),
+            # B2: per-pattern normalization (LSW 0..100, DB/DT 0..1)
+            combined_score=_combine_score(
+                _normalize_rule_score(rep.pattern_name, rule_score), model_prob),
             penetration_atr=float(_attr(rep, "penetration_atr", 0.0)),
             wick_ratio=float(_attr(rep, "wick_ratio", 0.0)),
             reclaim_atr=float(_attr(rep, "reclaim_atr", 0.0)),
@@ -1239,6 +1268,58 @@ def _event_atr(ev: PatternEvent) -> float | None:
             except (TypeError, ValueError):
                 continue
     return None
+
+
+def _resolve_min_model_prob(a: Any) -> float | None:
+    """Resolve the optional ``min_model_prob`` threshold for an assignment.
+
+    Priority: the assignment's own config (per-symbol/pattern YAML) then the
+    module default map (opt-in, empty by default).  ``None`` means "no
+    probability gate" — the engine keeps its historical behaviour.
+    """
+    cfg = getattr(a, "config", None) or {}
+    raw: Any = cfg.get("min_model_prob")
+    if raw is None:
+        raw = _DEFAULT_MIN_MODEL_PROB.get(str(getattr(a, "pattern_name", "")).lower())
+    if raw is None:
+        return None
+    try:
+        v = float(raw)
+    except (TypeError, ValueError):
+        return None
+    if v != v or not (0.0 <= v <= 1.0):
+        return None
+    return v
+
+
+def _normalize_rule_score(pattern_name: str, rule_score: Any) -> float:
+    """Normalize a pattern's ``rule_score`` to [0, 1] (B2, bug summary).
+
+    Plugins do NOT share one scale: ``liquidity_sweep`` declares
+    "weighted rule score 0..100" (observed 32..51) while the double/wedge/H&S
+    plugins clamp theirs to [0, 1] (observed 0.51..0.99).  The multi-pattern
+    path used to hard-code ``rule_score / 100.0``, which shrank every DB/DT
+    score to ~1 % of its value and made ``combined_score`` meaningless for
+    every pattern except LSW.
+
+    Detection: use the declared scale when known, otherwise infer it from the
+    magnitude (> 1 ⇒ 0..100 scale).  Result is always clamped to [0, 1].
+    """
+    try:
+        v = float(rule_score)
+    except (TypeError, ValueError):
+        return 0.0
+    if v != v:                                  # NaN
+        return 0.0
+    scale = _RULE_SCORE_SCALE.get(str(pattern_name).lower())
+    if scale is None:
+        scale = 100.0 if abs(v) > 1.0 else 1.0
+    return max(0.0, min(1.0, v / scale))
+
+
+def _combine_score(rule_score: float, model_prob: float) -> float:
+    """Mean of a normalized rule score and the model probability."""
+    return round((rule_score + model_prob) / 2.0, 4)
 
 
 def _price_at(df: pd.DataFrame | None, ts: pd.Timestamp) -> float:
