@@ -47,6 +47,7 @@ from research.core.contracts import (
     LIFECYCLE_LIVE,
     PatternEvent,
 )
+from research.core.dedupe import drop_opposite_overlap
 
 # ---------------------------------------------------------------------------
 # §12 mandate: reuse the SAME correlation code path as live — import only.
@@ -928,6 +929,12 @@ def run_symbol_backtest(
     # --- HMM regime plugin (requirements v1.0; default OFF) ---
     shared_plugin: Any = None,
     config_source: dict[str, Any] | None = None,
+    # --- rework §1.3.3: opposite-direction overlap guard (default OFF) ---
+    # Mirror of MultiPatternEngine(opposite_overlap_guard=...).  Leave both
+    # OFF or turn both ON together; turning on only one side breaks the §12
+    # "backtest ≡ live" parity contract (pinned by
+    # tests/test_multi_backtest.py::test_parity_group_decisions_same_as_live_engine).
+    opposite_overlap_guard: bool = False,
 ) -> PortfolioResult:
     """Full §12 replay for one symbol on an already-warmed OHLCV frame.
 
@@ -945,6 +952,8 @@ def run_symbol_backtest(
     events = detect_all(df, assignments, shared_plugin=shared_plugin,
                         config_source=config_source)
     events = [e for e in events if e is not None]
+    if opposite_overlap_guard:
+        events = drop_opposite_overlap(events)
     events.sort(key=lambda e: (pd.Timestamp(e.known_at_ts), e.event_id))
 
     symbol = symbol_override or (

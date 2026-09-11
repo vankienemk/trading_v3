@@ -110,6 +110,7 @@ from research.core.contracts import (  # noqa: E402
     LIFECYCLE_SHADOW,
     PatternEvent,
 )
+from research.core.dedupe import drop_opposite_overlap  # noqa: E402
 
 
 class SymbolNotValidatedError(ValueError):
@@ -804,6 +805,12 @@ class MultiPatternEngine:
         # and behaviour is identical to a legacy engine (golden unchanged).
         regime_plugin: Any = None,
         regime_config_source: dict[str, Any] | None = None,
+        # --- rework §1.3.3: opposite-direction overlap guard (default OFF) --
+        # When ON, events whose structure is claimed by a contrary-direction
+        # event are dropped before grouping.  The backtest runner exposes the
+        # same switch (`run_symbol_backtest(opposite_overlap_guard=...)`) so
+        # live and backtest stay identical (§12 parity).
+        opposite_overlap_guard: bool = False,
     ) -> None:
         if not assignments:
             raise ValueError("MultiPatternEngine requires >= 1 assignment")
@@ -814,6 +821,7 @@ class MultiPatternEngine:
         self.corr_config = correlation_cfg or CorrelationConfig()
         self.keep_last_events = keep_last_events
         self.regime_plugin = regime_plugin
+        self.opposite_overlap_guard = bool(opposite_overlap_guard)
         # introspection metadata (mirrors the single-pattern engine closure)
         self.config: dict[str, Any] = {"assignments": [a.assignment_id for a in assignments]}
         self._last_events: list[PatternEvent] = []
@@ -959,6 +967,27 @@ class MultiPatternEngine:
 
         if not self._last_events:
             return []
+
+        # 2b. Opposite-direction overlap guard (rework spec §1.3.3).
+        #     §4 grouping can never merge contrary events (they are different
+        #     ideas by construction), so a double top and a double bottom read
+        #     off ONE shared middle swing would both survive and the engine
+        #     could open opposing trades on the same structure.  Drop the
+        #     weaker reading before grouping so downstream sees one idea.
+        #
+        #     OFF by default so the runner/live parity contract (§12) holds:
+        #     the backtest harness must apply the SAME filter to keep
+        #     "backtest ≡ live".  Enable both sides together via
+        #     `opposite_overlap_guard` — see docs/pattern_rework_resolution.md.
+        if self.opposite_overlap_guard:
+            before = len(self._last_events)
+            self._last_events = drop_opposite_overlap(self._last_events)
+            if len(self._last_events) != before:
+                logger.info(
+                    "MultiPatternEngine %s: opposite-direction overlap guard "
+                    "dropped %d of %d events (shared structure, rework §1.3.3)",
+                    self.symbol, before - len(self._last_events), before,
+                )
 
         # 3. CorrelationManager.group over ALL assignments (dedup/confluence)
         groups = self.corr_manager.group(self._last_events, config=self.corr_config)

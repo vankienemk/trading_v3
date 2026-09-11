@@ -138,6 +138,35 @@ class DoublePatternDetectorBase(BasePatternDetector):
             "min_depth_atr": 3.0,
             "stop_buffer_atr": 0.5,
             "target_r": 1.5,
+            # §2.3.2 rework -- reward sizing.
+            #
+            # Spec §2.1 complained the TP is drawn 3-4x the pattern depth and
+            # "quá xa".  Measured on XAUUSD M15 that complaint is real: the
+            # legacy target sits 6.7 ATR from entry.  What the spec's §2.3.2
+            # fix (cap at 4 ATR) misses is that the STOP is 4.56 ATR wide, so
+            # a 4 ATR cap forces realized R:R < 1.0 for ~62% of events --
+            # cap+min_rr=1.0 together drop 96% of candidates (DB 354->15).
+            #
+            # Options are provided for A/B, with the MEASURED best as default.
+            #   "legacy"  -> target = target_r * risk        (best expectancy)
+            #   "atr"     -> target = structure_target_atr * ATR, capped
+            # See docs/pattern_rework_resolution.md for the sweep numbers.
+            "structure_target_atr": 0.0,
+            "target_cap_atr": 0.0,
+            # §2.3.1 rework: stop anchor.
+            #   "legacy"   -> beyond both extremes (full pattern depth)
+            #   "neckline" -> a close back through the breakout level
+            # MEASURED: "neckline" is 5.2x tighter (0.87 vs 4.56 ATR) and is
+            # strictly WORSE -- winrate 0.48 -> 0.23, expectancy -0.01R ->
+            # -0.47R.  The wide stop is not the bug; it is what makes the
+            # modest post-breakout excursion survivable.  Kept for A/B only.
+            "stop_mode": "legacy",
+            # §2.3.1 rework: pre-cap floor on R:R.  A candidate whose reward is
+            # closer than this multiple of risk is DROPPED rather than emitted
+            # with a sub-1R payoff.  0.0 disables the gate.
+            "min_rr": 1.0,
+            # §1.3.1 rework: non-max suppression over the structure window.
+            "nms_overlap": True,
             # §3.3 staleness: confirm must fire within this many bars after
             # the setup is complete (last pivot known), else discard.
             "max_bars_between_detect_and_confirm": 60,
@@ -169,6 +198,11 @@ class DoublePatternDetectorBase(BasePatternDetector):
         min_depth_atr = float(cfg["min_depth_atr"])
         stop_buffer_atr = float(cfg["stop_buffer_atr"])
         target_r = float(cfg["target_r"])
+        structure_target_atr = float(cfg.get("structure_target_atr", 0.0) or 0.0)
+        target_cap_atr = float(cfg.get("target_cap_atr", 0.0) or 0.0)
+        stop_mode = str(cfg.get("stop_mode", "legacy"))
+        min_rr = float(cfg.get("min_rr", 0.0) or 0.0)
+        nms_overlap = bool(cfg.get("nms_overlap", True))
         max_wait = int(cfg["max_bars_between_detect_and_confirm"])
         cooldown = int(cfg["cooldown_bars"])
         symbol = str(cfg.get("symbol", "XAUUSD"))
@@ -244,17 +278,84 @@ class DoublePatternDetectorBase(BasePatternDetector):
             entry_price = (
                 float(opens[entry_bar]) if entry_bar != confirm_bar else float(closes[confirm_bar])
             )
-            if bullish:
+            # §2.3.1 rework -- STRUCTURE-based stop.
+            #
+            # Legacy stop = beyond BOTH extremes, i.e. the full pattern depth
+            # (median 4.56 ATR because the depth gate alone is 3 ATR).  But
+            # the entry fires on the neckline breakout, only ~0.39 ATR from
+            # the neckline: the "other" extreme is already far behind and
+            # contributes almost nothing to invalidation while quadrupling the
+            # risk.  That oversized R is the real source of the "TP quá xa"
+            # symptom -- with risk this wide, ANY target with R:R >= 1 must be
+            # 4.5-11 ATR away.
+            #
+            # So anchor the stop on the invalidation that actually matters: a
+            # close back through the neckline (plus buffer).  `stop_mode`
+            # selects it; "legacy" keeps the old behaviour for A/B.
+            if stop_mode == "neckline":
+                legacy_stop = (
+                    min(v1, v3) - stop_buffer_atr * atr_k
+                    if bullish
+                    else max(v1, v3) + stop_buffer_atr * atr_k
+                )
+                if bullish:
+                    stop_price = neck - stop_buffer_atr * atr_k
+                    # Tightening only, and never at/above entry.  The entry
+                    # fires on a close THROUGH the neckline, so price can
+                    # close well past it and leave `neck` above `entry`;
+                    # an uncapped neckline stop would then sit above the
+                    # entry of a long and invert the trade.
+                    stop_price = max(stop_price, legacy_stop)
+                    if stop_price >= entry_price:
+                        stop_price = legacy_stop
+                else:
+                    stop_price = neck + stop_buffer_atr * atr_k
+                    stop_price = min(stop_price, legacy_stop)
+                    if stop_price <= entry_price:
+                        stop_price = legacy_stop
+            elif bullish:
                 stop_price = min(v1, v3) - stop_buffer_atr * atr_k
             else:
                 stop_price = max(v1, v3) + stop_buffer_atr * atr_k
             risk = abs(entry_price - stop_price)
             if risk <= 0.0:
                 continue
-            if bullish:
-                target_price = entry_price + target_r * risk
+            # §2.3.2 rework -- size the reward by STRUCTURE, not by R.
+            #
+            # `risk` for this family is the whole pattern depth plus buffer
+            # (median 4.45 ATR, since the depth gate alone is 3 ATR).  The
+            # legacy `target_r * risk` therefore lands 6-10 ATR from entry,
+            # past where M15 price action goes after the breakout.  An ATR cap
+            # alone cannot repair that: a cap reachable on M15 (4 ATR) forces
+            # realized R:R < 1.0 for ~62% of events -- measured 96% event loss
+            # (DB 354->15) when combined with min_rr=1.0.
+            #
+            # So: place the target a fixed, reachable distance from entry
+            # (`structure_target_atr`, mirroring how far the post-breakout leg
+            # actually travels), keep the legacy R-multiple only as the
+            # fallback when that option is disabled, and apply the ATR cap as
+            # a final ceiling in both cases.
+            if structure_target_atr > 0.0:
+                target_distance = structure_target_atr * atr_k
+                capped = False
             else:
-                target_price = entry_price - target_r * risk
+                target_distance = target_r * risk
+                capped = False
+            if target_cap_atr > 0.0:
+                cap_distance = target_cap_atr * atr_k
+                if target_distance > cap_distance:
+                    target_distance = cap_distance
+                    capped = True
+            realized_rr = target_distance / risk
+            # A target below min_rr is a structurally bad trade: the stop sits
+            # further than the reward can travel.  Drop it rather than emit a
+            # sub-1R candidate (fail-closed, §6.3 spirit).
+            if min_rr > 0.0 and realized_rr < min_rr:
+                continue
+            if bullish:
+                target_price = entry_price + target_distance
+            else:
+                target_price = entry_price - target_distance
 
             depth_atr = depth / atr_k
             low_offset_atr = abs(v1 - v3) / atr_k
@@ -300,6 +401,8 @@ class DoublePatternDetectorBase(BasePatternDetector):
                 "confirm_range_atr": float(confirm_range_atr),
                 "left_len": left_len,
                 "right_len": right_len,
+                "target_capped": bool(capped),
+                "realized_rr": float(realized_rr),
                 "discard_reason": None,
             }
             candidates.append(
@@ -325,7 +428,50 @@ class DoublePatternDetectorBase(BasePatternDetector):
                 )
             )
 
+        if nms_overlap:
+            candidates = self._nms_structure_overlap(candidates)
         return self._dedupe(candidates, cooldown)
+
+    @staticmethod
+    def _nms_structure_overlap(events: list[PatternEvent]) -> list[PatternEvent]:
+        """§1.3.1 rework -- non-max suppression over the structure window.
+
+        The scan emits an event for EVERY consecutive triple of swings
+        matching ``kind_seq``, so one long structure can be reported many
+        times with slightly shifted pivots.  ``_dedupe`` only removes events
+        whose CONFIRM bars are within ``cooldown_bars``, which cannot see two
+        readings of the same structure that confirm far apart.
+
+        Two candidates are considered the same idea when their
+        ``[extreme1_bar, extreme2_bar]`` windows intersect.  The
+        higher-``rule_score`` event wins; ties break on the earlier detect
+        bar so the outcome stays deterministic.
+        """
+        if len(events) < 2:
+            return list(events)
+
+        def score(ev: PatternEvent) -> tuple[float, int]:
+            return (-float(ev.rule_score or 0.0), int(ev.attributes["extreme1_bar"]))
+
+        def confirm(ev: PatternEvent) -> int:
+            # Not every caller populates confirm_bar; fall back to the last
+            # structure anchor so ordering stays total and never raises.
+            bar = ev.attributes.get("confirm_bar")
+            if bar is None:
+                bar = ev.attributes.get("extreme2_bar", 0)
+            return int(bar)
+
+        kept: list[PatternEvent] = []
+        occupied: list[tuple[int, int]] = []
+        for ev in sorted(events, key=score):
+            i1 = int(ev.attributes["extreme1_bar"])
+            i3 = int(ev.attributes["extreme2_bar"])
+            if any(not (i3 < a1 or i1 > a3) for (a1, a3) in occupied):
+                continue
+            kept.append(ev)
+            occupied.append((i1, i3))
+        kept.sort(key=confirm)
+        return kept
 
     @staticmethod
     def _dedupe(events: list[PatternEvent], cooldown: int) -> list[PatternEvent]:

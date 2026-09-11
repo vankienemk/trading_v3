@@ -1,0 +1,141 @@
+{
+  "symbol": "XAUUSD",
+  "timeframe": "M15",
+  "n_bars": 195893,
+  "years": 8.32,
+  "patterns": {
+    "double_bottom": {
+      "n_events": 360,
+      "events_per_year": 43.3,
+      "overlap_events": 6,
+      "overlap_pairs": 6,
+      "overlap_rate": 0.0167,
+      "target_atr_median": 6.849,
+      "target_atr_p90": 11.331,
+      "target_atr_max": 21.075,
+      "risk_atr_median": 4.566,
+      "rr_median": 1.5,
+      "rr_min": 1.5,
+      "n_trades": 360,
+      "winrate": 0.4833,
+      "expectancy_R": 0.0002,
+      "exit_reasons": {
+        "stop": 132,
+        "target": 85,
+        "horizon": 143
+      }
+    },
+    "double_top": {
+      "n_events": 316,
+      "events_per_year": 38.0,
+      "overlap_events": 6,
+      "overlap_pairs": 6,
+      "overlap_rate": 0.019,
+      "target_atr_median": 6.672,
+      "target_atr_p90": 10.088,
+      "target_atr_max": 24.819,
+      "risk_atr_median": 4.448,
+      "rr_median": 1.5,
+      "rr_min": 1.5,
+      "n_trades": 316,
+      "winrate": 0.4051,
+      "expectancy_R": -0.1712,
+      "exit_reasons": {
+        "stop": 149,
+        "horizon": 91,
+        "target": 76
+      }
+    },
+    "falling_wedge": {
+      "n_events": 310,
+      "events_per_year": 37.3,
+      "overlap_events": 11,
+      "overlap_pairs": 11,
+      "overlap_rate": 0.0355,
+      "target_atr_median": 3.021,
+      "target_atr_p90": 4.712,
+      "target_atr_max": 7.471,
+      "risk_atr_median": 2.014,
+      "rr_median": 1.5,
+      "rr_min": 1.5,
+      "n_trades": 310,
+      "winrate": 0.4161,
+      "expectancy_R": -0.2387,
+      "exit_reasons": {
+        "target": 122,
+        "horizon": 17,
+        "stop": 171
+      }
+    },
+    "head_shoulders": {
+      "n_events": 150,
+      "events_per_year": 18.0,
+      "overlap_events": 1,
+      "overlap_pairs": 1,
+      "overlap_rate": 0.0067,
+      "target_atr_median": 6.357,
+      "target_atr_p90": 11.88,
+      "target_atr_max": 24.622,
+      "risk_atr_median": 4.238,
+      "rr_median": 1.5,
+      "rr_min": 1.5,
+      "n_trades": 150,
+      "winrate": 0.3867,
+      "expectancy_R": -0.1308,
+      "exit_reasons": {
+        "horizon": 58,
+        "stop": 62,
+        "target": 30
+      }
+    },
+    "inverse_head_shoulders": {
+      "n_events": 203,
+      "events_per_year": 24.4,
+      "overlap_events": 3,
+      "overlap_pairs": 3,
+      "overlap_rate": 0.0148,
+      "target_atr_median": 6.575,
+      "target_atr_p90": 12.773,
+      "target_atr_max": 27.396,
+      "risk_atr_median": 4.383,
+      "rr_median": 1.5,
+      "rr_min": 1.5,
+      "n_trades": 203,
+      "winrate": 0.4532,
+      "expectancy_R": -0.0329,
+      "exit_reasons": {
+        "horizon": 92,
+        "target": 42,
+        "stop": 69
+      }
+    },
+    "rising_wedge": {
+      "n_events": 577,
+      "events_per_year": 69.3,
+      "overlap_events": 35,
+      "overlap_pairs": 36,
+      "overlap_rate": 0.0607,
+      "target_atr_median": 2.449,
+      "target_atr_p90": 4.384,
+      "target_atr_max": 10.381,
+      "risk_atr_median": 1.633,
+      "rr_median": 1.5,
+      "rr_min": 1.5,
+      "n_trades": 577,
+      "winrate": 0.3899,
+      "expectancy_R": -0.8818,
+      "exit_reasons": {
+        "target": 241,
+        "stop": 321,
+        "horizon": 15
+      }
+    }
+  },
+  "opposite": {
+    "pairs": 113760,
+    "hits": 46,
+    "rate": 0.0004
+  },
+  "total_events": 1916,
+  "label": "baseline"
+}
