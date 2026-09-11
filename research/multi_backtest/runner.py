@@ -935,6 +935,13 @@ def run_symbol_backtest(
     # "backtest ≡ live" parity contract (pinned by
     # tests/test_multi_backtest.py::test_parity_group_decisions_same_as_live_engine).
     opposite_overlap_guard: bool = False,
+    # --- rework §2.3: independent AND-gate on model_prob / rule_score ------
+    # Mirror of MultiPatternEngine(prob_gate=...).  Leave both OFF or pass the
+    # SAME mapping to both sides; enabling only one breaks the §12
+    # "backtest ≡ live" parity contract.  DEFAULT None = gate OFF, so the
+    # historical replay is byte-identical until the §4 measurement justifies
+    # enabling it.
+    prob_gate: dict[str, Any] | None = None,
 ) -> PortfolioResult:
     """Full §12 replay for one symbol on an already-warmed OHLCV frame.
 
@@ -1006,6 +1013,21 @@ def run_symbol_backtest(
             )
             rejected.append(rejected_blocked)
             continue
+
+        # Rework §2.3 — independent AND-gate on model_prob / rule_score.
+        # Mirror of the live engine step 5b (same point in the pipeline: before
+        # a candidate would become a PendingSignal / a trade).  Uses the SHARED
+        # ``live.engine.hard_gate`` implementation, so live ≡ backtest (§12).
+        # Default OFF (prob_gate None/empty) → replay unchanged.
+        if prob_gate:
+            from live.engine.hard_gate import apply_probability_gate
+
+            if not apply_probability_gate(rep, prob_gate):
+                rejected.append(_rejected_trade(
+                    rep, g, risk_fraction,
+                    str(rep.attributes.get("discard_reason") or "low_probability"),
+                ))
+                continue
 
         trade = simulate_trade(df, rep, costs, horizon_bars=horizon_bars)
         trade.n_patterns = g.n_patterns

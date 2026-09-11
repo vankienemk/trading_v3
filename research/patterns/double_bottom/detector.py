@@ -42,6 +42,14 @@ from research.core.contracts import (
     PatternFeature,
 )
 from research.core.swing_detector import SwingDetector
+from research.core.trend_context import (
+    DEFAULT_MIN_R2,
+    DEFAULT_MIN_SLOPE_ATR,
+    DEFAULT_TREND_LOOKBACK_BARS,
+    DISCARD_LOW_TREND_CONTEXT,
+    TrendContextProvider,
+    has_trend_context,
+)
 
 #: version of the double-pattern feature schema (bump on semantic change)
 FEATURE_SCHEMA_VERSION = "double-v1.0"
@@ -118,6 +126,80 @@ class DoublePatternDetectorBase(BasePatternDetector):
             merged.update(config)
             merged.setdefault("version", self.version)
             self.config = merged
+        #: §2.2/§2.3 rework: rejections recorded by the most recent detect()
+        #: call (each entry carries its ``discard_reason``).  Rejected
+        #: candidates are never emitted as PatternEvents, so this is the only
+        #: way to observe why a gate fired.
+        self.last_discards: list[dict[str, Any]] = []
+        #: §2.1 rework: trend-context provider seam.  Defaults to the §2.1
+        #: Phương án B regression heuristic (:func:`has_trend_context`, called
+        #: directly so the measured defaults stay in one place).  Assign a
+        #: state-based provider here to swap in §2.4's HMM trend direction
+        #: WITHOUT touching detector code -- it only needs a
+        #: ``has_trend_context(closes, atr_k, extreme1_bar, **kwargs)`` method.
+        self.trend_context_provider: TrendContextProvider | None = None
+
+    # ------------------------------------------------------------------
+    # §2.1 rework (t4) — trend-context gate
+    # ------------------------------------------------------------------
+    def _trend_ok(
+        self,
+        closes: np.ndarray[Any, Any],
+        atr_k: float,
+        extreme1_bar: int,
+        cfg: dict[str, Any] | None = None,
+    ) -> bool:
+        """True when the bars BEFORE ``extreme1_bar`` hold the trend this
+        direction's reversal needs.
+
+        Disabled -> always True, so the gate is opt-in and default-preserving.
+
+        ``cfg`` is threaded in rather than read from ``self.config``: ``detect``
+        merges its per-call ``config`` argument into a LOCAL cfg, so reading
+        ``self.config`` here would silently ignore every per-call override --
+        making the gate untestable and unusable by the backtest harness.
+
+        Causality (§3): the window ends strictly EXCLUSIVELY at
+        ``extreme1_bar``, and ``atr_k`` must be the ATR known AT
+        ``extreme1_bar`` -- NOT the ATR at the later confirm bar, which would
+        leak how violently price moved after the pattern completed.  The
+        caller indexes the ATR series at ``extreme1_bar`` explicitly.
+
+        Direction: a double bottom (bullish) needs a preceding DOWNtrend and a
+        double top (bearish) an UPtrend; a reversed sign would silently keep
+        exactly the wrong half of history.  ``expected_slope_sign`` encodes
+        that and fails closed on an unknown direction.
+        """
+        if not bool(cfg.get("trend_context_enabled", False)):
+            return True
+
+        lookback = int(cfg.get("trend_lookback_bars", DEFAULT_TREND_LOOKBACK_BARS))
+        min_slope_atr = float(cfg.get("min_slope_atr", DEFAULT_MIN_SLOPE_ATR))
+        min_r2 = float(cfg.get("min_r2", DEFAULT_MIN_R2))
+
+        provider = self.trend_context_provider
+        if provider is not None:
+            # §2.4 seam: a state-based provider replaces the heuristic.
+            return bool(
+                provider.has_trend_context(
+                    closes,
+                    atr_k,
+                    extreme1_bar,
+                    lookback=lookback,
+                    min_slope_atr=min_slope_atr,
+                    min_r2=min_r2,
+                    direction=self.direction,
+                )
+            )
+        return has_trend_context(
+            closes,
+            atr_k,
+            extreme1_bar,
+            lookback,
+            min_slope_atr,
+            min_r2,
+            direction=self.direction,
+        )
 
     # ------------------------------------------------------------------
     # BasePatternDetector contract
@@ -167,6 +249,101 @@ class DoublePatternDetectorBase(BasePatternDetector):
             "min_rr": 1.0,
             # §1.3.1 rework: non-max suppression over the structure window.
             "nms_overlap": True,
+            # §2.2 rework (trend-hmm-rework t2): drop a candidate whose two
+            # extremes are further apart than this.  0 disables the gate.
+            #
+            # MEASURED -- THIS GATE IS A NO-OP ON XAUUSD M15 AND IS *NOT* AN
+            # IMPROVEMENT.  It is retained only as defence-in-depth against a
+            # future/synthetic over-long structure:
+            #   window A (2018-06-01..2026-09-03, 195,893 bars)
+            #       double_bottom n=354: min 8, p50 14, p95 22, MAX 29
+            #       double_top    n=310: min 8, p50 14, p95 20, MAX 26
+            #   window B (no start filter, end=2026-09-03: 204,117 bars; the raw
+            #             parquet holds 204,133 rows -- the 16-bar delta is the
+            #             end-date day-tail cut, not dropped/malformed data)
+            #       double_bottom n=376: MAX 29    double_top n=328: MAX 26
+            # (window A is the windowed frame the study standardises on: the
+            #  brief's "204k history" is the same dataset, windowed start.)
+            # ZERO events exceed 30 bars in either window (and zero exceed 40),
+            # so 40-60 as the rework request proposed would remove 0 events and
+            # change 0 metrics.  The rework request's §1.2 premise -- that a
+            # "range 55+ bars" is accepted as a valid double top/bottom -- is
+            # FALSE for this detector: min_separation_bars plus the staleness
+            # window already cap the span below 30 bars.
+            #
+            # The default 30 is the TIGHTEST value provably removing 0 events
+            # (26 would drop 2 real double_bottom events; 30 drops none).  Do
+            # NOT advertise this gate as fixing the sideways-range symptom: it
+            # cannot, because it never fires on real data.
+            "max_pattern_length_bars": 30,
+            # §2.3 rework (trend-hmm-rework t2, detector side): independent
+            # floor on this detector's own rule_score.  0.0 disables the gate.
+            #
+            # DEFAULT OFF, because measurement did NOT prove it improves
+            # anything.  Measured rule_score distribution (window A; the score
+            # is min(1.0, 0.40*depth + 0.25*symmetry + 0.20*offset + 0.15*reclaim)
+            # so its theoretical max is 1.00 and it is a narrow, high band):
+            #   double_bottom n=354: min 0.5165, p5 0.6032, p50 0.7665, p90 0.8821
+            #   double_top    n=310: min 0.5078, p5 0.6161, p50 0.7746, p90 0.8906
+            # Keep-rate at candidate floors (DB / DT):
+            #   0.50 -> 100.0% / 100.0%   (removes nothing at all)
+            #   0.60 ->  95.5% /  96.8%   (the request's suggestion)
+            #   0.65 ->  88.4% /  89.7%
+            #   0.70 ->  75.7% /  75.5%
+            # At 0.60 the expectancy delta is INSIDE NOISE (DB -0.0099R ->
+            # -0.0045R), so 0.60 is not evidence of improvement and cannot be a
+            # default under the team rule "measured-better behaviour is the
+            # default; unproven gates preserve current behaviour".  The key is
+            # exposed so 0.60+ can be A/B tested deliberately.
+            "min_rule_score": 0.0,
+            # ------------------------------------------------------------------
+            # §2.1 rework (trend-hmm-rework t4): trend-context gate.
+            # ------------------------------------------------------------------
+            # A double bottom is a REVERSAL pattern: classically it only means
+            # something after a real downtrend (and a double top after a real
+            # uptrend).  The detector gated only on the pattern's INTERNAL
+            # geometry, so a long sideways accumulation range could be emitted
+            # as a "double bottom" with no trend to reverse (request §1.1).
+            #
+            # DEFAULT OFF.  This is NOT because the mechanism is wrong -- its
+            # causality is verified -- but because it was MEASURED to have no
+            # selection power, and the §4.2 OOS requirement FAILS with it on.
+            #
+            # Measured on the full XAUUSD M15 history (195,893 bars,
+            # 2018-05-09..2026-09-03) by three independent team members; kept vs
+            # dropped expectancy is statistically identical:
+            #   double_bottom  kept 118 -0.0101R | dropped 236 -0.0084R
+            #   double_top     kept 105 -0.1599R | dropped 205 -0.1596R
+            # Baseline (every gate off): DB 354 win 0.4802 exp -0.0099R;
+            # DT 310 win 0.4065 exp -0.1662R.  So it removes ~2/3 of the
+            # opportunities and changes nothing about their quality.
+            #
+            # It also discards outright winners: 66 DB and 52 DT dropped events
+            # had rule_score >= 0.75 AND won, e.g. DB 2025-11-12 rule 0.9456
+            # +1.453R and DT 2026-01-29 rule 0.8639 +1.486R.
+            #
+            # §4.2 FAILS per-pattern (the captain's binding reading): under the
+            # fixed post-2023-10-12 split, DB 151 -> 43 and DT 98 -> 38.  DT is
+            # ALREADY below 100 at baseline (98) before any gate runs.  No
+            # parameter was loosened to reach 100.
+            #
+            # Root cause: min_r2 decides, not the slope.  Median |slope|/ATR is
+            # ~0.09 and median R² ~0.44, so min_r2=0.3 sits at ~the 35th
+            # percentile and necessarily cuts ~65% of events regardless of
+            # quality.
+            #
+            # Exposed so §2.4's HMM trend-regime state can be measured against
+            # it as a possible replacement; do NOT enable on this evidence.
+            "trend_context_enabled": False,
+            # Window length in bars ending strictly BEFORE ``extreme1_bar``.
+            # 20 is the loosest of the measured grid; 40 and 60 fail §4.2 at
+            # every min_r2.  Not tuned to the two sample charts (§2.1).
+            "trend_lookback_bars": DEFAULT_TREND_LOOKBACK_BARS,
+            # Minimum |slope| in ATR-per-bar -- scale-free across the
+            # 2018-2026 price range.
+            "min_slope_atr": DEFAULT_MIN_SLOPE_ATR,
+            # Minimum regression R².  This is the dominant rejection driver.
+            "min_r2": DEFAULT_MIN_R2,
             # §3.3 staleness: confirm must fire within this many bars after
             # the setup is complete (last pivot known), else discard.
             "max_bars_between_detect_and_confirm": 60,
@@ -203,6 +380,11 @@ class DoublePatternDetectorBase(BasePatternDetector):
         stop_mode = str(cfg.get("stop_mode", "legacy"))
         min_rr = float(cfg.get("min_rr", 0.0) or 0.0)
         nms_overlap = bool(cfg.get("nms_overlap", True))
+        # §2.2 / §2.3 rework gates -- 0.0 disables each (see get_default_config).
+        max_pattern_length_bars = int(cfg.get("max_pattern_length_bars", 0) or 0)
+        min_rule_score = float(cfg.get("min_rule_score", 0.0) or 0.0)
+        # §2.1 rework gate -- opt-in, default OFF (see get_default_config).
+        trend_context_enabled = bool(cfg.get("trend_context_enabled", False))
         max_wait = int(cfg["max_bars_between_detect_and_confirm"])
         cooldown = int(cfg["cooldown_bars"])
         symbol = str(cfg.get("symbol", "XAUUSD"))
@@ -221,6 +403,12 @@ class DoublePatternDetectorBase(BasePatternDetector):
         want = self.kind_seq
         config_hash = compute_config_hash(cfg)
         candidates: list[PatternEvent] = []
+        # §2.2/§2.3 rework: rejected candidates are NOT emitted (matching the
+        # convention of every other gate in this detector -- a `continue`), but
+        # each rejection is recorded here with its discard_reason so the gate
+        # behaviour is auditable and testable instead of invisible.
+        discards: list[dict[str, Any]] = []
+        self.last_discards = discards
 
         for k in range(len(sw) - 2):
             s1, s2, s3 = sw[k], sw[k + 1], sw[k + 2]
@@ -361,6 +549,14 @@ class DoublePatternDetectorBase(BasePatternDetector):
             low_offset_atr = abs(v1 - v3) / atr_k
             left_len = i2 - i1
             right_len = i3 - i2
+            # F-01 (t1 verification_findings.md §F-01): ``pattern_length`` was
+            # DECLARED in this class's feature_schema as AVAILABLE_AT_DETECT but
+            # never computed and never written to ``attributes``, so the
+            # advertised feature was a lie and any consumer that read
+            # attributes["pattern_length"] got a missing key.  The span between
+            # the two extremes is exactly the quantity the §2.2 gate below needs,
+            # so compute it once here and emit it (see the attributes dict).
+            pattern_length = i3 - i1
             symmetry = 1.0 - min(abs(left_len - right_len) / max(left_len, right_len), 1.0)
             confirm_reclaim = (
                 closes[confirm_bar] - neck if bullish else neck - closes[confirm_bar]
@@ -380,6 +576,109 @@ class DoublePatternDetectorBase(BasePatternDetector):
                 + 0.20 * (1.0 - min(low_offset_atr / max_equal_atr, 1.0))
                 + 0.15 * min(confirm_reclaim / 1.0, 1.0),
             )
+
+            # ------------------------------------------------------------------
+            # §2.2 / §2.3 rework detector gates (trend-hmm-rework t2)
+            # ------------------------------------------------------------------
+            # Both gates run here: AFTER ``rule_score`` exists (the §2.3 floor
+            # needs the score) and BEFORE ``_nms_structure_overlap`` /
+            # ``_dedupe`` below, so they reduce the candidate set that NMS
+            # sees.  Neither reorders the existing NMS/dedupe pass.
+            #
+            # Both are OPT-IN SAFE: the measured-better behaviour is the
+            # default, and a gate that measurement did NOT prove is a no-op by
+            # default.  See the config comments in ``get_default_config`` for
+            # the measurement tables behind each default.
+            if max_pattern_length_bars > 0 and pattern_length > max_pattern_length_bars:
+                # MEASURED NO-OP on XAUUSD M15.  Retained as defence-in-depth.
+                discards.append(
+                    {
+                        "discard_reason": "pattern_too_long",
+                        "pattern_length": int(pattern_length),
+                        "max_pattern_length_bars": int(max_pattern_length_bars),
+                        "extreme1_bar": i1,
+                        "extreme2_bar": i3,
+                        "confirm_bar": int(confirm_bar),
+                        "rule_score": float(rule_score),
+                    }
+                )
+                continue
+            if min_rule_score > 0.0 and rule_score < min_rule_score:
+                discards.append(
+                    {
+                        "discard_reason": "low_rule_score",
+                        "rule_score": float(rule_score),
+                        "min_rule_score": float(min_rule_score),
+                        "extreme1_bar": i1,
+                        "extreme2_bar": i3,
+                        "confirm_bar": int(confirm_bar),
+                        "pattern_length": int(pattern_length),
+                    }
+                )
+                continue
+
+            # ------------------------------------------------------------------
+            # §2.1 rework detector gate (trend-hmm-rework t4)
+            # ------------------------------------------------------------------
+            # Placed adjacent to the §2.2/§2.3 block above (same position: after
+            # the geometry gates, before NMS/dedupe) so all semantic gates form
+            # one contiguous region.  It is independent of them -- different
+            # config keys, different discard reason, no shared state.
+            #
+            # CAUSALITY: ``atr`` is indexed at ``i1`` (extreme1_bar), NOT at
+            # ``atr_k`` -- ``atr_k`` above is ``atr[detect_bar]`` (the bar where
+            # the SECOND pivot became known), and using it here would leak
+            # post-pattern volatility into a pre-pattern judgement.
+            #
+            # The flip count is PARAMETER-DEPENDENT (measured by gate_engineer,
+            # independently reproduced here), so the arm matters:
+            #   lb=20 ms=0.05 r2=0.2 ->  7/354   <- the shipped defaults
+            #   lb=30 ms=0.05 r2=0.3 ->  4/354
+            #   lb=20 ms=0.05 r2=0.3 ->  1/354
+            #   lb=30 ms=0.00 r2=0.3 ->  0/354
+            #   lb=30 ms=0.05 r2=0.0 -> 13/354
+            #   lb=30 ms=0.10 r2=0.3 -> 23/354
+            # At the defaults 7 of 354 real double_bottom decisions differ, so
+            # the anchor is a real behaviour difference, not a cosmetic one --
+            # and a gate whose verdict depends on a choice of anchor is exactly
+            # the latent non-determinism not to ship.  Hence the explicit index.
+            #
+            # ``closes`` is passed whole; ``has_trend_context`` slices
+            # ``closes[i1 - lookback : i1]`` (exclusive upper bound) so no bar
+            # at or after ``i1`` can be read.
+            #
+            # Default OFF -- measured to have no selection power (see the
+            # config comment).  Do not enable on the current evidence.
+            if trend_context_enabled:
+                atr_extreme1 = float(atr[i1]) if 0 <= i1 < len(atr) else float("nan")
+                if not self._trend_ok(closes, atr_extreme1, i1, cfg):
+                    discards.append(
+                        {
+                            "discard_reason": DISCARD_LOW_TREND_CONTEXT,
+                            "extreme1_bar": i1,
+                            "extreme2_bar": i3,
+                            "confirm_bar": int(confirm_bar),
+                            "rule_score": float(rule_score),
+                            # Computed locally rather than reading the
+                            # §2.2-owned ``pattern_length`` local, so this
+                            # block has no dependency on another engineer's
+                            # variable (agreed ownership boundary).
+                            "pattern_length": int(i3 - i1),
+                            "direction": self.direction,
+                            "trend_lookback_bars": int(
+                                cfg.get(
+                                    "trend_lookback_bars",
+                                    DEFAULT_TREND_LOOKBACK_BARS,
+                                )
+                            ),
+                            "min_slope_atr": float(
+                                cfg.get("min_slope_atr", DEFAULT_MIN_SLOPE_ATR)
+                            ),
+                            "min_r2": float(cfg.get("min_r2", DEFAULT_MIN_R2)),
+                            "trend_context_atr_bar": i1,
+                        }
+                    )
+                    continue
 
             level_key = "double_bottom_level" if bullish else "double_top_level"
             structure_levels: dict[str, float] = {
@@ -401,8 +700,18 @@ class DoublePatternDetectorBase(BasePatternDetector):
                 "confirm_range_atr": float(confirm_range_atr),
                 "left_len": left_len,
                 "right_len": right_len,
+                # F-01 fix: the declared AVAILABLE_AT_DETECT feature is now
+                # actually populated (span between the two extremes).
+                "pattern_length": int(pattern_length),
                 "target_capped": bool(capped),
                 "realized_rr": float(realized_rr),
+                # §2.1 rework (t4): provenance for the trend gate.  Records the
+                # bar whose ATR the gate used, so the no-lookahead test can
+                # assert it is ``extreme1_bar`` and strictly before
+                # ``confirm_bar``.  Recorded even when the gate is disabled, so
+                # the causal anchor stays auditable in both modes.
+                "trend_context_enabled": bool(trend_context_enabled),
+                "trend_context_atr_bar": i1,
                 "discard_reason": None,
             }
             candidates.append(

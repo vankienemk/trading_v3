@@ -1,0 +1,5201 @@
+{
+  "symbol": "XAUUSD",
+  "timeframe": "M15",
+  "n_bars": 195893,
+  "window": [
+    "2018-05-09 13:00:00+00:00",
+    "2026-09-03 18:45:00+00:00"
+  ],
+  "years": 8.32,
+  "bar_count_note": "n_bars is the WINDOWED frame (start=2018-06-01); the raw parquet has 204,133 rows over 2018-01-02..2026-09-03.  Same dataset, different window; the 8,240-row delta is the dropped prefix.",
+  "raw_frame_bars": 204133,
+  "oos_min_events": 100,
+  "oos_split_fixed_start": "2023-10-12",
+  "oos_split_train_frac": 0.4,
+  "patterns": {
+    "double_bottom": {
+      "n_pool": 354,
+      "model_prob_status": "ok; 25/25 schema features used",
+      "model_prob_available": true,
+      "pool": {
+        "n_events": 354,
+        "events_per_year": 42.5,
+        "n_trades": 354,
+        "winrate": 0.4802,
+        "expectancy_R": -0.0099,
+        "total_R": -3.5,
+        "target_atr_mean": 7.426,
+        "target_atr_median": 6.8393,
+        "target_atr_p90": 11.3183,
+        "risk_atr_median": 4.5596,
+        "rr_median": 1.5,
+        "exit_reasons": {
+          "stop": 131,
+          "target": 82,
+          "horizon": 141
+        },
+        "model_prob": {
+          "n": 354,
+          "min": 0.0694,
+          "p10": 0.0694,
+          "p25": 0.1604,
+          "median": 0.2163,
+          "p75": 0.388,
+          "p90": 0.6651,
+          "max": 1.0,
+          "mean": 0.3049
+        },
+        "model_prob_keep_rate": {
+          "0.4": 0.2373,
+          "0.45": 0.1977,
+          "0.5": 0.1582,
+          "0.55": 0.1412,
+          "0.6": 0.1271
+        }
+      },
+      "distributions": {
+        "rule_score": {
+          "n": 354,
+          "min": 0.5165,
+          "p05": 0.6032,
+          "p10": 0.6288,
+          "p25": 0.7064,
+          "median": 0.7665,
+          "p75": 0.8229,
+          "p90": 0.8821,
+          "max": 0.989,
+          "mean": 0.7639
+        },
+        "pattern_length_bars": {
+          "n": 354,
+          "min": 8.0,
+          "p05": 9.65,
+          "p10": 10.0,
+          "p25": 12.0,
+          "median": 14.0,
+          "p75": 16.0,
+          "p90": 20.0,
+          "max": 29.0,
+          "mean": 14.4661
+        },
+        "model_prob": {
+          "n": 354,
+          "min": 0.0694,
+          "p05": 0.0694,
+          "p10": 0.0694,
+          "p25": 0.1604,
+          "median": 0.2163,
+          "p75": 0.388,
+          "p90": 0.6651,
+          "max": 1.0,
+          "mean": 0.3049
+        },
+        "model_prob_vs_outcome": {
+          "n_scored": 354,
+          "bottom_half": {
+            "n": 177,
+            "mean_prob": 0.1391,
+            "winrate": 0.435,
+            "expectancy_R": -0.1273
+          },
+          "top_half": {
+            "n": 177,
+            "mean_prob": 0.4707,
+            "winrate": 0.5254,
+            "expectancy_R": 0.1076
+          }
+        }
+      },
+      "arms": {
+        "baseline": {
+          "n_events": 354,
+          "events_per_year": 42.5,
+          "n_trades": 354,
+          "winrate": 0.4802,
+          "expectancy_R": -0.0099,
+          "total_R": -3.5,
+          "target_atr_mean": 7.426,
+          "target_atr_median": 6.8393,
+          "target_atr_p90": 11.3183,
+          "risk_atr_median": 4.5596,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 141
+          },
+          "model_prob": {
+            "n": 354,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2163,
+            "p75": 0.388,
+            "p90": 0.6651,
+            "max": 1.0,
+            "mean": 0.3049
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2373,
+            "0.45": 0.1977,
+            "0.5": 0.1582,
+            "0.55": 0.1412,
+            "0.6": 0.1271
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_26": {
+          "n_events": 352,
+          "events_per_year": 42.3,
+          "n_trades": 352,
+          "winrate": 0.483,
+          "expectancy_R": -0.0067,
+          "total_R": -2.35,
+          "target_atr_mean": 7.419,
+          "target_atr_median": 6.8365,
+          "target_atr_p90": 11.3228,
+          "risk_atr_median": 4.5577,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 130,
+            "target": 82,
+            "horizon": 140
+          },
+          "model_prob": {
+            "n": 352,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2201,
+            "p75": 0.3884,
+            "p90": 0.6668,
+            "max": 1.0,
+            "mean": 0.3058
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2386,
+            "0.45": 0.1989,
+            "0.5": 0.1591,
+            "0.55": 0.142,
+            "0.6": 0.1278
+          },
+          "kept_pct": 99.4
+        },
+        "2.2_max_len_27": {
+          "n_events": 353,
+          "events_per_year": 42.4,
+          "n_trades": 353,
+          "winrate": 0.4816,
+          "expectancy_R": -0.0096,
+          "total_R": -3.38,
+          "target_atr_mean": 7.419,
+          "target_atr_median": 6.8366,
+          "target_atr_p90": 11.3205,
+          "risk_atr_median": 4.5578,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 140
+          },
+          "model_prob": {
+            "n": 353,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2201,
+            "p75": 0.3884,
+            "p90": 0.6659,
+            "max": 1.0,
+            "mean": 0.3056
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.238,
+            "0.45": 0.1983,
+            "0.5": 0.1586,
+            "0.55": 0.1416,
+            "0.6": 0.1275
+          },
+          "kept_pct": 99.7
+        },
+        "2.2_max_len_28": {
+          "n_events": 353,
+          "events_per_year": 42.4,
+          "n_trades": 353,
+          "winrate": 0.4816,
+          "expectancy_R": -0.0096,
+          "total_R": -3.38,
+          "target_atr_mean": 7.419,
+          "target_atr_median": 6.8366,
+          "target_atr_p90": 11.3205,
+          "risk_atr_median": 4.5578,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 140
+          },
+          "model_prob": {
+            "n": 353,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2201,
+            "p75": 0.3884,
+            "p90": 0.6659,
+            "max": 1.0,
+            "mean": 0.3056
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.238,
+            "0.45": 0.1983,
+            "0.5": 0.1586,
+            "0.55": 0.1416,
+            "0.6": 0.1275
+          },
+          "kept_pct": 99.7
+        },
+        "2.2_max_len_29": {
+          "n_events": 354,
+          "events_per_year": 42.5,
+          "n_trades": 354,
+          "winrate": 0.4802,
+          "expectancy_R": -0.0099,
+          "total_R": -3.5,
+          "target_atr_mean": 7.426,
+          "target_atr_median": 6.8393,
+          "target_atr_p90": 11.3183,
+          "risk_atr_median": 4.5596,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 141
+          },
+          "model_prob": {
+            "n": 354,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2163,
+            "p75": 0.388,
+            "p90": 0.6651,
+            "max": 1.0,
+            "mean": 0.3049
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2373,
+            "0.45": 0.1977,
+            "0.5": 0.1582,
+            "0.55": 0.1412,
+            "0.6": 0.1271
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_30": {
+          "n_events": 354,
+          "events_per_year": 42.5,
+          "n_trades": 354,
+          "winrate": 0.4802,
+          "expectancy_R": -0.0099,
+          "total_R": -3.5,
+          "target_atr_mean": 7.426,
+          "target_atr_median": 6.8393,
+          "target_atr_p90": 11.3183,
+          "risk_atr_median": 4.5596,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 141
+          },
+          "model_prob": {
+            "n": 354,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2163,
+            "p75": 0.388,
+            "p90": 0.6651,
+            "max": 1.0,
+            "mean": 0.3049
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2373,
+            "0.45": 0.1977,
+            "0.5": 0.1582,
+            "0.55": 0.1412,
+            "0.6": 0.1271
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_40": {
+          "n_events": 354,
+          "events_per_year": 42.5,
+          "n_trades": 354,
+          "winrate": 0.4802,
+          "expectancy_R": -0.0099,
+          "total_R": -3.5,
+          "target_atr_mean": 7.426,
+          "target_atr_median": 6.8393,
+          "target_atr_p90": 11.3183,
+          "risk_atr_median": 4.5596,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 141
+          },
+          "model_prob": {
+            "n": 354,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2163,
+            "p75": 0.388,
+            "p90": 0.6651,
+            "max": 1.0,
+            "mean": 0.3049
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2373,
+            "0.45": 0.1977,
+            "0.5": 0.1582,
+            "0.55": 0.1412,
+            "0.6": 0.1271
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_50": {
+          "n_events": 354,
+          "events_per_year": 42.5,
+          "n_trades": 354,
+          "winrate": 0.4802,
+          "expectancy_R": -0.0099,
+          "total_R": -3.5,
+          "target_atr_mean": 7.426,
+          "target_atr_median": 6.8393,
+          "target_atr_p90": 11.3183,
+          "risk_atr_median": 4.5596,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 141
+          },
+          "model_prob": {
+            "n": 354,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2163,
+            "p75": 0.388,
+            "p90": 0.6651,
+            "max": 1.0,
+            "mean": 0.3049
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2373,
+            "0.45": 0.1977,
+            "0.5": 0.1582,
+            "0.55": 0.1412,
+            "0.6": 0.1271
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_60": {
+          "n_events": 354,
+          "events_per_year": 42.5,
+          "n_trades": 354,
+          "winrate": 0.4802,
+          "expectancy_R": -0.0099,
+          "total_R": -3.5,
+          "target_atr_mean": 7.426,
+          "target_atr_median": 6.8393,
+          "target_atr_p90": 11.3183,
+          "risk_atr_median": 4.5596,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 141
+          },
+          "model_prob": {
+            "n": 354,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2163,
+            "p75": 0.388,
+            "p90": 0.6651,
+            "max": 1.0,
+            "mean": 0.3049
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2373,
+            "0.45": 0.1977,
+            "0.5": 0.1582,
+            "0.55": 0.1412,
+            "0.6": 0.1271
+          },
+          "kept_pct": 100.0
+        },
+        "2.3_rule_floor_0.5": {
+          "n_events": 354,
+          "events_per_year": 42.5,
+          "n_trades": 354,
+          "winrate": 0.4802,
+          "expectancy_R": -0.0099,
+          "total_R": -3.5,
+          "target_atr_mean": 7.426,
+          "target_atr_median": 6.8393,
+          "target_atr_p90": 11.3183,
+          "risk_atr_median": 4.5596,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "target": 82,
+            "horizon": 141
+          },
+          "model_prob": {
+            "n": 354,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2163,
+            "p75": 0.388,
+            "p90": 0.6651,
+            "max": 1.0,
+            "mean": 0.3049
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2373,
+            "0.45": 0.1977,
+            "0.5": 0.1582,
+            "0.55": 0.1412,
+            "0.6": 0.1271
+          },
+          "kept_pct": 100.0
+        },
+        "2.3_rule_floor_0.55": {
+          "n_events": 351,
+          "events_per_year": 42.2,
+          "n_trades": 351,
+          "winrate": 0.4843,
+          "expectancy_R": -0.0056,
+          "total_R": -1.95,
+          "target_atr_mean": 7.431,
+          "target_atr_median": 6.8421,
+          "target_atr_p90": 11.325,
+          "risk_atr_median": 4.5614,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 130,
+            "target": 82,
+            "horizon": 139
+          },
+          "model_prob": {
+            "n": 351,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2201,
+            "p75": 0.3884,
+            "p90": 0.6676,
+            "max": 1.0,
+            "mean": 0.3062
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2393,
+            "0.45": 0.1994,
+            "0.5": 0.1595,
+            "0.55": 0.1425,
+            "0.6": 0.1282
+          },
+          "kept_pct": 99.2
+        },
+        "2.3_rule_floor_0.6": {
+          "n_events": 338,
+          "events_per_year": 40.6,
+          "n_trades": 338,
+          "winrate": 0.4882,
+          "expectancy_R": -0.0045,
+          "total_R": -1.51,
+          "target_atr_mean": 7.39,
+          "target_atr_median": 6.8118,
+          "target_atr_p90": 11.3437,
+          "risk_atr_median": 4.5412,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 125,
+            "target": 80,
+            "horizon": 133
+          },
+          "model_prob": {
+            "n": 338,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2201,
+            "p75": 0.3884,
+            "p90": 0.6706,
+            "max": 1.0,
+            "mean": 0.3069
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2426,
+            "0.45": 0.2012,
+            "0.5": 0.1598,
+            "0.55": 0.145,
+            "0.6": 0.1302
+          },
+          "kept_pct": 95.5
+        },
+        "2.3_rule_floor_0.65": {
+          "n_events": 313,
+          "events_per_year": 37.6,
+          "n_trades": 313,
+          "winrate": 0.492,
+          "expectancy_R": 0.0037,
+          "total_R": 1.15,
+          "target_atr_mean": 7.234,
+          "target_atr_median": 6.7536,
+          "target_atr_p90": 10.8593,
+          "risk_atr_median": 4.5024,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 116,
+            "target": 76,
+            "horizon": 121
+          },
+          "model_prob": {
+            "n": 313,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2344,
+            "p75": 0.4068,
+            "p90": 0.6757,
+            "max": 1.0,
+            "mean": 0.3133
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2524,
+            "0.45": 0.2109,
+            "0.5": 0.1661,
+            "0.55": 0.1502,
+            "0.6": 0.1342
+          },
+          "kept_pct": 88.4
+        },
+        "2.3_rule_floor_0.7": {
+          "n_events": 268,
+          "events_per_year": 32.2,
+          "n_trades": 268,
+          "winrate": 0.4888,
+          "expectancy_R": -0.0078,
+          "total_R": -2.1,
+          "target_atr_mean": 7.187,
+          "target_atr_median": 6.7054,
+          "target_atr_p90": 10.8049,
+          "risk_atr_median": 4.4703,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 105,
+            "target": 65,
+            "horizon": 98
+          },
+          "model_prob": {
+            "n": 268,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1611,
+            "median": 0.2376,
+            "p75": 0.4149,
+            "p90": 0.6779,
+            "max": 1.0,
+            "mean": 0.3174
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2649,
+            "0.45": 0.2164,
+            "0.5": 0.1642,
+            "0.55": 0.1455,
+            "0.6": 0.1306
+          },
+          "kept_pct": 75.7
+        },
+        "2.1_trend_lb20_r20.2": {
+          "n_events": 143,
+          "events_per_year": 17.2,
+          "n_trades": 143,
+          "winrate": 0.4965,
+          "expectancy_R": 0.0069,
+          "total_R": 0.99,
+          "target_atr_mean": 7.552,
+          "target_atr_median": 6.892,
+          "target_atr_p90": 11.4677,
+          "risk_atr_median": 4.5947,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 47,
+            "target": 31,
+            "horizon": 65
+          },
+          "model_prob": {
+            "n": 143,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1327,
+            "median": 0.2344,
+            "p75": 0.3608,
+            "p90": 0.646,
+            "max": 1.0,
+            "mean": 0.294
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2098,
+            "0.45": 0.1748,
+            "0.5": 0.1399,
+            "0.55": 0.1329,
+            "0.6": 0.1259
+          },
+          "kept_pct": 40.4
+        },
+        "2.1_trend_lb20_r20.3": {
+          "n_events": 132,
+          "events_per_year": 15.9,
+          "n_trades": 132,
+          "winrate": 0.4924,
+          "expectancy_R": 0.0012,
+          "total_R": 0.16,
+          "target_atr_mean": 7.507,
+          "target_atr_median": 6.8828,
+          "target_atr_p90": 11.4727,
+          "risk_atr_median": 4.5885,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 43,
+            "target": 28,
+            "horizon": 61
+          },
+          "model_prob": {
+            "n": 132,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1565,
+            "median": 0.2344,
+            "p75": 0.3598,
+            "p90": 0.6477,
+            "max": 1.0,
+            "mean": 0.2944
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2121,
+            "0.45": 0.1818,
+            "0.5": 0.1439,
+            "0.55": 0.1364,
+            "0.6": 0.1288
+          },
+          "kept_pct": 37.3
+        },
+        "2.1_trend_lb30_r20.3": {
+          "n_events": 118,
+          "events_per_year": 14.2,
+          "n_trades": 118,
+          "winrate": 0.4746,
+          "expectancy_R": -0.0101,
+          "total_R": -1.2,
+          "target_atr_mean": 7.811,
+          "target_atr_median": 7.0984,
+          "target_atr_p90": 12.323,
+          "risk_atr_median": 4.7323,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "target": 25,
+            "horizon": 55,
+            "stop": 38
+          },
+          "model_prob": {
+            "n": 118,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2344,
+            "p75": 0.3705,
+            "p90": 0.6524,
+            "max": 1.0,
+            "mean": 0.293
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2119,
+            "0.45": 0.178,
+            "0.5": 0.1441,
+            "0.55": 0.1441,
+            "0.6": 0.1271
+          },
+          "kept_pct": 33.3
+        },
+        "2.1_trend_lb30_r20.5": {
+          "n_events": 88,
+          "events_per_year": 10.6,
+          "n_trades": 88,
+          "winrate": 0.4205,
+          "expectancy_R": -0.1203,
+          "total_R": -10.59,
+          "target_atr_mean": 8.002,
+          "target_atr_median": 7.1576,
+          "target_atr_p90": 13.1336,
+          "risk_atr_median": 4.7718,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "target": 14,
+            "horizon": 43,
+            "stop": 31
+          },
+          "model_prob": {
+            "n": 88,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1388,
+            "median": 0.2126,
+            "p75": 0.3586,
+            "p90": 0.6376,
+            "max": 1.0,
+            "mean": 0.2826
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.1932,
+            "0.45": 0.1591,
+            "0.5": 0.125,
+            "0.55": 0.125,
+            "0.6": 0.125
+          },
+          "kept_pct": 24.9
+        },
+        "2.1_trend_lb40_r20.3": {
+          "n_events": 103,
+          "events_per_year": 12.4,
+          "n_trades": 103,
+          "winrate": 0.4466,
+          "expectancy_R": -0.0111,
+          "total_R": -1.14,
+          "target_atr_mean": 7.725,
+          "target_atr_median": 7.0701,
+          "target_atr_p90": 12.1781,
+          "risk_atr_median": 4.7134,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 33,
+            "horizon": 47,
+            "target": 23
+          },
+          "model_prob": {
+            "n": 103,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2355,
+            "p75": 0.3876,
+            "p90": 0.6782,
+            "max": 1.0,
+            "mean": 0.3051
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.233,
+            "0.45": 0.1748,
+            "0.5": 0.1359,
+            "0.55": 0.1359,
+            "0.6": 0.1262
+          },
+          "kept_pct": 29.1
+        },
+        "2.1_trend_lb60_r20.3": {
+          "n_events": 96,
+          "events_per_year": 11.5,
+          "n_trades": 96,
+          "winrate": 0.5208,
+          "expectancy_R": 0.1187,
+          "total_R": 11.4,
+          "target_atr_mean": 7.433,
+          "target_atr_median": 7.0232,
+          "target_atr_p90": 10.7261,
+          "risk_atr_median": 4.6821,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 26,
+            "horizon": 46,
+            "target": 24
+          },
+          "model_prob": {
+            "n": 96,
+            "min": 0.0694,
+            "p10": 0.0792,
+            "p25": 0.1604,
+            "median": 0.2534,
+            "p75": 0.3871,
+            "p90": 0.641,
+            "max": 1.0,
+            "mean": 0.3025
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2083,
+            "0.45": 0.1667,
+            "0.5": 0.125,
+            "0.55": 0.1146,
+            "0.6": 0.1146
+          },
+          "kept_pct": 27.1
+        },
+        "cum_2.2+2.3": {
+          "n_events": 338,
+          "events_per_year": 40.6,
+          "n_trades": 338,
+          "winrate": 0.4882,
+          "expectancy_R": -0.0045,
+          "total_R": -1.51,
+          "target_atr_mean": 7.39,
+          "target_atr_median": 6.8118,
+          "target_atr_p90": 11.3437,
+          "risk_atr_median": 4.5412,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 125,
+            "target": 80,
+            "horizon": 133
+          },
+          "model_prob": {
+            "n": 338,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2201,
+            "p75": 0.3884,
+            "p90": 0.6706,
+            "max": 1.0,
+            "mean": 0.3069
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2426,
+            "0.45": 0.2012,
+            "0.5": 0.1598,
+            "0.55": 0.145,
+            "0.6": 0.1302
+          },
+          "kept_pct": 95.5
+        },
+        "cum_2.1+2.2": {
+          "n_events": 118,
+          "events_per_year": 14.2,
+          "n_trades": 118,
+          "winrate": 0.4746,
+          "expectancy_R": -0.0101,
+          "total_R": -1.2,
+          "target_atr_mean": 7.811,
+          "target_atr_median": 7.0984,
+          "target_atr_p90": 12.323,
+          "risk_atr_median": 4.7323,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "target": 25,
+            "horizon": 55,
+            "stop": 38
+          },
+          "model_prob": {
+            "n": 118,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2344,
+            "p75": 0.3705,
+            "p90": 0.6524,
+            "max": 1.0,
+            "mean": 0.293
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2119,
+            "0.45": 0.178,
+            "0.5": 0.1441,
+            "0.55": 0.1441,
+            "0.6": 0.1271
+          },
+          "kept_pct": 33.3
+        },
+        "cum_all_2.1+2.2+2.3": {
+          "n_events": 113,
+          "events_per_year": 13.6,
+          "n_trades": 113,
+          "winrate": 0.4779,
+          "expectancy_R": -0.0131,
+          "total_R": -1.48,
+          "target_atr_mean": 7.781,
+          "target_atr_median": 7.0701,
+          "target_atr_p90": 12.2335,
+          "risk_atr_median": 4.7134,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "target": 24,
+            "horizon": 52,
+            "stop": 37
+          },
+          "model_prob": {
+            "n": 113,
+            "min": 0.0694,
+            "p10": 0.0694,
+            "p25": 0.1604,
+            "median": 0.2344,
+            "p75": 0.3867,
+            "p90": 0.6574,
+            "max": 1.0,
+            "mean": 0.2964
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2212,
+            "0.45": 0.1858,
+            "0.5": 0.1504,
+            "0.55": 0.1504,
+            "0.6": 0.1327
+          },
+          "kept_pct": 31.9
+        }
+      },
+      "oos": {
+        "baseline": {
+          "n_total": 354,
+          "fixed_split_start": "2023-10-12",
+          "fixed_split_n": 151,
+          "fixed_split_pass": true,
+          "train_split_frac": 0.4,
+          "train_split_boundary": "2023-12-21 23:15:00+00:00",
+          "train_split_n": 142,
+          "train_split_pass": true
+        },
+        "cum_2.1+2.2": {
+          "n_total": 118,
+          "fixed_split_start": "2023-10-12",
+          "fixed_split_n": 43,
+          "fixed_split_pass": false,
+          "train_split_frac": 0.4,
+          "train_split_boundary": "2023-08-22 09:15:00+00:00",
+          "train_split_n": 47,
+          "train_split_pass": false
+        },
+        "cum_all_2.1+2.2+2.3": {
+          "n_total": 113,
+          "fixed_split_start": "2023-10-12",
+          "fixed_split_n": 40,
+          "fixed_split_pass": false,
+          "train_split_frac": 0.4,
+          "train_split_boundary": "2023-07-03 15:45:00+00:00",
+          "train_split_n": 45,
+          "train_split_pass": false
+        }
+      },
+      "premise": {
+        "cited_events": {
+          "double_bottom_prob_0.069_aug27": {
+            "window": [
+              "2026-08-25",
+              "2026-08-30"
+            ],
+            "cited_prob": 0.069,
+            "matches": [
+              {
+                "event_id": "XAUUSD-DB-000362",
+                "known_at": "2026-08-27 18:45:00+00:00",
+                "entry_time": "2026-08-27 19:00:00+00:00",
+                "direction": "bullish",
+                "rule_score": 0.9007,
+                "model_prob": 0.0694,
+                "pattern_length_bars": 15,
+                "depth_atr": 3.005,
+                "target_atr": 6.562,
+                "extreme1_time": "2026-08-27 13:00:00+00:00",
+                "gate_2.2_max_len_40_pass": true,
+                "gate_2.1_trend_pass": true,
+                "gate_2.3_rule_floor_0.6_pass": true,
+                "gate_2.3_prob_0.55_pass": false,
+                "caught_by_at_least_one": true
+              }
+            ]
+          },
+          "double_bottom_prob_0.069_jul08": {
+            "matched_by_prob": null,
+            "window": [
+              "2026-07-01",
+              "2026-07-12"
+            ],
+            "cited_prob": 0.069,
+            "events_in_window": [
+              {
+                "event_id": "XAUUSD-DB-000352",
+                "known_at": "2026-07-06 20:45:00+00:00",
+                "entry_time": "2026-07-06 21:00:00+00:00",
+                "direction": "bullish",
+                "rule_score": 0.7217,
+                "model_prob": 0.0891,
+                "pattern_length_bars": 12,
+                "depth_atr": 3.111,
+                "target_atr": 7.195,
+                "extreme1_time": "2026-07-06 12:30:00+00:00"
+              }
+            ]
+          }
+        },
+        "shared_swing_2026_07_06": [
+          {
+            "event_id": "XAUUSD-DB-000352",
+            "known_at": "2026-07-06 20:45:00+00:00",
+            "entry_time": "2026-07-06 21:00:00+00:00",
+            "direction": "bullish",
+            "rule_score": 0.7217,
+            "model_prob": 0.0891,
+            "pattern_length_bars": 12,
+            "depth_atr": 3.111,
+            "target_atr": 7.195,
+            "extreme1_time": "2026-07-06 12:30:00+00:00"
+          }
+        ]
+      },
+      "false_drops": {
+        "cum_all": {
+          "n_kept": 113,
+          "n_dropped": 241,
+          "dropped_outcomes": {
+            "n": 241,
+            "winrate": 0.4813,
+            "expectancy_R": -0.0084,
+            "total_R": -2.01
+          },
+          "kept_outcomes": {
+            "n": 113,
+            "winrate": 0.4779,
+            "expectancy_R": -0.0131,
+            "total_R": -1.48
+          },
+          "false_drops_by_gate": {
+            "2.1_trend": 66
+          },
+          "false_drops_total_R": 66.74,
+          "false_drops_mean_R": 1.011,
+          "false_drop_rate_of_dropped": 0.2739,
+          "false_drop_candidates": [
+            {
+              "event_id": "XAUUSD-DB-000344",
+              "known_at": "2026-04-07 22:45:00+00:00",
+              "entry_time": "2026-04-08 01:00:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.8448,
+              "model_prob": 0.1614,
+              "pattern_length_bars": 14,
+              "depth_atr": 3.656,
+              "target_atr": 6.836,
+              "extreme1_time": "2026-04-07 10:30:00+00:00",
+              "net_r": 1.476,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000356",
+              "known_at": "2026-08-05 05:30:00+00:00",
+              "entry_time": "2026-08-05 05:45:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.9077,
+              "model_prob": 0.1604,
+              "pattern_length_bars": 17,
+              "depth_atr": 4.818,
+              "target_atr": 9.418,
+              "extreme1_time": "2026-08-04 17:30:00+00:00",
+              "net_r": 1.468,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000322",
+              "known_at": "2025-10-10 11:00:00+00:00",
+              "entry_time": "2025-10-10 11:15:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.8304,
+              "model_prob": 0.1751,
+              "pattern_length_bars": 12,
+              "depth_atr": 3.207,
+              "target_atr": 7.836,
+              "extreme1_time": "2025-10-10 07:00:00+00:00",
+              "net_r": 1.461,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000215",
+              "known_at": "2023-12-01 18:00:00+00:00",
+              "entry_time": "2023-12-01 18:15:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.766,
+              "model_prob": 0.0694,
+              "pattern_length_bars": 16,
+              "depth_atr": 5.191,
+              "target_atr": 6.813,
+              "extreme1_time": "2023-12-01 09:45:00+00:00",
+              "net_r": 1.456,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000332",
+              "known_at": "2025-11-12 17:00:00+00:00",
+              "entry_time": "2025-11-12 17:15:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.9456,
+              "model_prob": 0.193,
+              "pattern_length_bars": 11,
+              "depth_atr": 3.096,
+              "target_atr": 6.163,
+              "extreme1_time": "2025-11-11 23:45:00+00:00",
+              "net_r": 1.453,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000234",
+              "known_at": "2024-05-09 15:30:00+00:00",
+              "entry_time": "2024-05-09 15:45:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.8922,
+              "model_prob": 0.0694,
+              "pattern_length_bars": 23,
+              "depth_atr": 4.441,
+              "target_atr": 9.656,
+              "extreme1_time": "2024-05-09 05:00:00+00:00",
+              "net_r": 1.452,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000263",
+              "known_at": "2024-11-18 02:45:00+00:00",
+              "entry_time": "2024-11-18 03:00:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.7711,
+              "model_prob": 0.1604,
+              "pattern_length_bars": 14,
+              "depth_atr": 3.085,
+              "target_atr": 8.719,
+              "extreme1_time": "2024-11-15 15:30:00+00:00",
+              "net_r": 1.44,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000300",
+              "known_at": "2025-06-30 19:45:00+00:00",
+              "entry_time": "2025-06-30 20:00:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.7906,
+              "model_prob": 0.18,
+              "pattern_length_bars": 21,
+              "depth_atr": 4.337,
+              "target_atr": 7.926,
+              "extreme1_time": "2025-06-30 07:15:00+00:00",
+              "net_r": 1.438,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000277",
+              "known_at": "2025-02-11 01:15:00+00:00",
+              "entry_time": "2025-02-11 01:30:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.7976,
+              "model_prob": 0.1614,
+              "pattern_length_bars": 14,
+              "depth_atr": 3.692,
+              "target_atr": 9.161,
+              "extreme1_time": "2025-02-10 16:00:00+00:00",
+              "net_r": 1.429,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000049",
+              "known_at": "2019-08-12 11:45:00+00:00",
+              "entry_time": "2019-08-12 12:00:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.8658,
+              "model_prob": 0.4793,
+              "pattern_length_bars": 15,
+              "depth_atr": 3.776,
+              "target_atr": 4.561,
+              "extreme1_time": "2019-08-12 01:00:00+00:00",
+              "net_r": 1.428,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000026",
+              "known_at": "2019-01-25 15:30:00+00:00",
+              "entry_time": "2019-01-25 15:45:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.8623,
+              "model_prob": 0.3275,
+              "pattern_length_bars": 13,
+              "depth_atr": 3.412,
+              "target_atr": 10.86,
+              "extreme1_time": "2019-01-25 08:15:00+00:00",
+              "net_r": 1.424,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DB-000260",
+              "known_at": "2024-10-29 15:30:00+00:00",
+              "entry_time": "2024-10-29 15:45:00+00:00",
+              "direction": "bullish",
+              "rule_score": 0.9506,
+              "model_prob": 0.18,
+              "pattern_length_bars": 8,
+              "depth_atr": 3.293,
+              "target_atr": 5.921,
+              "extreme1_time": "2024-10-29 10:15:00+00:00",
+              "net_r": 1.423,
+              "reason_dropped_by": "2.1_trend"
+            }
+          ],
+          "n_false_drop_candidates": 66
+        }
+      },
+      "trend_gate_evaluable": true,
+      "shipped_prob_gate": {
+        "status": "measured (live/engine/hard_gate.probability_gate)",
+        "defaults": {
+          "DEFAULT_PROB_GATE_ENABLED": false,
+          "DEFAULT_RULE_SCORE_FLOOR": null
+        },
+        "thresholds": {
+          "min_model_prob_0.3": {
+            "all": {
+              "n_events": 138,
+              "events_per_year": 16.6,
+              "n_trades": 138,
+              "winrate": 0.558,
+              "expectancy_R": 0.1944,
+              "total_R": 26.82,
+              "target_atr_mean": 6.521,
+              "target_atr_median": 6.5355,
+              "target_atr_p90": 9.1898,
+              "risk_atr_median": 4.357,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 58,
+                "stop": 54,
+                "horizon": 26
+              },
+              "model_prob": {
+                "n": 138,
+                "min": 0.3097,
+                "p10": 0.3142,
+                "p25": 0.3588,
+                "median": 0.4596,
+                "p75": 0.6752,
+                "p90": 0.8852,
+                "max": 1.0,
+                "mean": 0.5305
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.6087,
+                "0.45": 0.5072,
+                "0.5": 0.4058,
+                "0.55": 0.3623,
+                "0.6": 0.3261
+              },
+              "kept": 138,
+              "kept_pct_of_subset": 39.0
+            },
+            "in_sample": {
+              "n_events": 92,
+              "events_per_year": 11.1,
+              "n_trades": 92,
+              "winrate": 0.5435,
+              "expectancy_R": 0.2006,
+              "total_R": 18.45,
+              "target_atr_mean": 6.632,
+              "target_atr_median": 6.5806,
+              "target_atr_p90": 9.7042,
+              "risk_atr_median": 4.387,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 41,
+                "stop": 37,
+                "horizon": 14
+              },
+              "model_prob": {
+                "n": 92,
+                "min": 0.3097,
+                "p10": 0.3222,
+                "p25": 0.3705,
+                "median": 0.4836,
+                "p75": 0.8142,
+                "p90": 0.9,
+                "max": 1.0,
+                "mean": 0.5773
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.6522,
+                "0.45": 0.5761,
+                "0.5": 0.4891,
+                "0.55": 0.4674,
+                "0.6": 0.4239
+              },
+              "kept": 92,
+              "kept_pct_of_subset": 45.3
+            },
+            "oos": {
+              "n_events": 46,
+              "events_per_year": 5.5,
+              "n_trades": 46,
+              "winrate": 0.587,
+              "expectancy_R": 0.1819,
+              "total_R": 8.37,
+              "target_atr_mean": 6.299,
+              "target_atr_median": 6.3751,
+              "target_atr_p90": 7.8861,
+              "risk_atr_median": 4.25,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 17,
+                "horizon": 12,
+                "target": 17
+              },
+              "model_prob": {
+                "n": 46,
+                "min": 0.3131,
+                "p10": 0.3137,
+                "p25": 0.3142,
+                "median": 0.4068,
+                "p75": 0.4842,
+                "p90": 0.6449,
+                "max": 0.8333,
+                "mean": 0.4368
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.5217,
+                "0.45": 0.3696,
+                "0.5": 0.2391,
+                "0.55": 0.1522,
+                "0.6": 0.1304
+              },
+              "kept": 46,
+              "kept_pct_of_subset": 30.5
+            }
+          },
+          "min_model_prob_0.4": {
+            "all": {
+              "n_events": 84,
+              "events_per_year": 10.1,
+              "n_trades": 84,
+              "winrate": 0.5952,
+              "expectancy_R": 0.315,
+              "total_R": 26.46,
+              "target_atr_mean": 6.148,
+              "target_atr_median": 6.3619,
+              "target_atr_p90": 8.6298,
+              "risk_atr_median": 4.2412,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 30,
+                "target": 43,
+                "horizon": 11
+              },
+              "model_prob": {
+                "n": 84,
+                "min": 0.4068,
+                "p10": 0.422,
+                "p25": 0.472,
+                "median": 0.6326,
+                "p75": 0.8333,
+                "p90": 0.9,
+                "max": 1.0,
+                "mean": 0.6511
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.8333,
+                "0.5": 0.6667,
+                "0.55": 0.5952,
+                "0.6": 0.5357
+              },
+              "kept": 84,
+              "kept_pct_of_subset": 23.7
+            },
+            "in_sample": {
+              "n_events": 60,
+              "events_per_year": 7.2,
+              "n_trades": 60,
+              "winrate": 0.5833,
+              "expectancy_R": 0.2864,
+              "total_R": 17.19,
+              "target_atr_mean": 6.184,
+              "target_atr_median": 6.264,
+              "target_atr_p90": 8.9508,
+              "risk_atr_median": 4.176,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 22,
+                "target": 31,
+                "horizon": 7
+              },
+              "model_prob": {
+                "n": 60,
+                "min": 0.4068,
+                "p10": 0.4361,
+                "p25": 0.5235,
+                "median": 0.7071,
+                "p75": 0.8788,
+                "p90": 0.9,
+                "max": 1.0,
+                "mean": 0.6986
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.8833,
+                "0.5": 0.75,
+                "0.55": 0.7167,
+                "0.6": 0.65
+              },
+              "kept": 60,
+              "kept_pct_of_subset": 29.6
+            },
+            "oos": {
+              "n_events": 24,
+              "events_per_year": 2.9,
+              "n_trades": 24,
+              "winrate": 0.625,
+              "expectancy_R": 0.3865,
+              "total_R": 9.28,
+              "target_atr_mean": 6.06,
+              "target_atr_median": 6.3637,
+              "target_atr_p90": 7.605,
+              "risk_atr_median": 4.2425,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 8,
+                "horizon": 4,
+                "target": 12
+              },
+              "model_prob": {
+                "n": 24,
+                "min": 0.4068,
+                "p10": 0.4171,
+                "p25": 0.4412,
+                "median": 0.4826,
+                "p75": 0.6,
+                "p90": 0.6751,
+                "max": 0.8333,
+                "mean": 0.5321
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.7083,
+                "0.5": 0.4583,
+                "0.55": 0.2917,
+                "0.6": 0.25
+              },
+              "kept": 24,
+              "kept_pct_of_subset": 15.9
+            }
+          },
+          "min_model_prob_0.5": {
+            "all": {
+              "n_events": 56,
+              "events_per_year": 6.7,
+              "n_trades": 56,
+              "winrate": 0.6429,
+              "expectancy_R": 0.4342,
+              "total_R": 24.31,
+              "target_atr_mean": 5.952,
+              "target_atr_median": 5.8569,
+              "target_atr_p90": 8.6073,
+              "risk_atr_median": 3.9046,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 17,
+                "target": 32,
+                "horizon": 7
+              },
+              "model_prob": {
+                "n": 56,
+                "min": 0.5141,
+                "p10": 0.5522,
+                "p25": 0.6326,
+                "median": 0.7563,
+                "p75": 0.8841,
+                "p90": 0.9,
+                "max": 1.0,
+                "mean": 0.7532
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 0.8929,
+                "0.6": 0.8036
+              },
+              "kept": 56,
+              "kept_pct_of_subset": 15.8
+            },
+            "in_sample": {
+              "n_events": 45,
+              "events_per_year": 5.4,
+              "n_trades": 45,
+              "winrate": 0.6,
+              "expectancy_R": 0.3679,
+              "total_R": 16.56,
+              "target_atr_mean": 5.906,
+              "target_atr_median": 5.6956,
+              "target_atr_p90": 8.6186,
+              "risk_atr_median": 3.7971,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 15,
+                "target": 26,
+                "horizon": 4
+              },
+              "model_prob": {
+                "n": 45,
+                "min": 0.5353,
+                "p10": 0.5774,
+                "p25": 0.6494,
+                "median": 0.8205,
+                "p75": 0.9,
+                "p90": 0.92,
+                "max": 1.0,
+                "mean": 0.7822
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 0.9556,
+                "0.6": 0.8667
+              },
+              "kept": 45,
+              "kept_pct_of_subset": 22.2
+            },
+            "oos": {
+              "n_events": 11,
+              "events_per_year": 1.3,
+              "n_trades": 11,
+              "winrate": 0.8182,
+              "expectancy_R": 0.7051,
+              "total_R": 7.76,
+              "target_atr_mean": 6.143,
+              "target_atr_median": 6.337,
+              "target_atr_p90": 7.6041,
+              "risk_atr_median": 4.2247,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 3,
+                "target": 6,
+                "stop": 2
+              },
+              "model_prob": {
+                "n": 11,
+                "min": 0.5141,
+                "p10": 0.5141,
+                "p25": 0.5309,
+                "median": 0.6305,
+                "p75": 0.6729,
+                "p90": 0.8301,
+                "max": 0.8333,
+                "mean": 0.6345
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 0.6364,
+                "0.6": 0.5455
+              },
+              "kept": 11,
+              "kept_pct_of_subset": 7.3
+            }
+          },
+          "min_model_prob_0.55": {
+            "all": {
+              "n_events": 50,
+              "events_per_year": 6.0,
+              "n_trades": 50,
+              "winrate": 0.64,
+              "expectancy_R": 0.4213,
+              "total_R": 21.06,
+              "target_atr_mean": 5.892,
+              "target_atr_median": 5.8569,
+              "target_atr_p90": 8.5623,
+              "risk_atr_median": 3.9046,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 16,
+                "target": 29,
+                "horizon": 5
+              },
+              "model_prob": {
+                "n": 50,
+                "min": 0.5627,
+                "p10": 0.6265,
+                "p25": 0.6552,
+                "median": 0.8163,
+                "p75": 0.9,
+                "p90": 0.9033,
+                "max": 1.0,
+                "mean": 0.7802
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.9
+              },
+              "kept": 50,
+              "kept_pct_of_subset": 14.1
+            },
+            "in_sample": {
+              "n_events": 43,
+              "events_per_year": 5.2,
+              "n_trades": 43,
+              "winrate": 0.6047,
+              "expectancy_R": 0.3642,
+              "total_R": 15.66,
+              "target_atr_mean": 5.951,
+              "target_atr_median": 5.9853,
+              "target_atr_p90": 8.6411,
+              "risk_atr_median": 3.9902,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 15,
+                "target": 25,
+                "horizon": 3
+              },
+              "model_prob": {
+                "n": 43,
+                "min": 0.5627,
+                "p10": 0.6326,
+                "p25": 0.6658,
+                "median": 0.8333,
+                "p75": 0.9,
+                "p90": 0.9267,
+                "max": 1.0,
+                "mean": 0.7935
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.907
+              },
+              "kept": 43,
+              "kept_pct_of_subset": 21.2
+            },
+            "oos": {
+              "n_events": 7,
+              "events_per_year": 0.8,
+              "n_trades": 7,
+              "winrate": 0.8571,
+              "expectancy_R": 0.7718,
+              "total_R": 5.4,
+              "target_atr_mean": 5.528,
+              "target_atr_median": 5.7285,
+              "target_atr_p90": 7.0316,
+              "risk_atr_median": 3.819,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 2,
+                "target": 4,
+                "stop": 1
+              },
+              "model_prob": {
+                "n": 7,
+                "min": 0.5898,
+                "p10": 0.6143,
+                "p25": 0.6449,
+                "median": 0.6676,
+                "p75": 0.7542,
+                "p90": 0.8314,
+                "max": 0.8333,
+                "mean": 0.6984
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.8571
+              },
+              "kept": 7,
+              "kept_pct_of_subset": 4.6
+            }
+          },
+          "min_model_prob_0.6": {
+            "all": {
+              "n_events": 45,
+              "events_per_year": 5.4,
+              "n_trades": 45,
+              "winrate": 0.6444,
+              "expectancy_R": 0.4289,
+              "total_R": 19.3,
+              "target_atr_mean": 5.765,
+              "target_atr_median": 5.7285,
+              "target_atr_p90": 8.0725,
+              "risk_atr_median": 3.819,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 14,
+                "target": 26,
+                "horizon": 5
+              },
+              "model_prob": {
+                "n": 45,
+                "min": 0.6305,
+                "p10": 0.6326,
+                "p25": 0.6783,
+                "median": 0.8333,
+                "p75": 0.9,
+                "p90": 0.92,
+                "max": 1.0,
+                "mean": 0.8029
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 1.0
+              },
+              "kept": 45,
+              "kept_pct_of_subset": 12.7
+            },
+            "in_sample": {
+              "n_events": 39,
+              "events_per_year": 4.7,
+              "n_trades": 39,
+              "winrate": 0.6154,
+              "expectancy_R": 0.3913,
+              "total_R": 15.26,
+              "target_atr_mean": 5.802,
+              "target_atr_median": 5.6956,
+              "target_atr_p90": 8.4376,
+              "risk_atr_median": 3.7971,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 13,
+                "target": 23,
+                "horizon": 3
+              },
+              "model_prob": {
+                "n": 39,
+                "min": 0.6326,
+                "p10": 0.6326,
+                "p25": 0.7177,
+                "median": 0.8333,
+                "p75": 0.9,
+                "p90": 0.9467,
+                "max": 1.0,
+                "mean": 0.8161
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 1.0
+              },
+              "kept": 39,
+              "kept_pct_of_subset": 19.2
+            },
+            "oos": {
+              "n_events": 6,
+              "events_per_year": 0.7,
+              "n_trades": 6,
+              "winrate": 0.8333,
+              "expectancy_R": 0.6737,
+              "total_R": 4.04,
+              "target_atr_mean": 5.524,
+              "target_atr_median": 6.0328,
+              "target_atr_p90": 7.038,
+              "risk_atr_median": 4.0218,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 2,
+                "target": 3,
+                "stop": 1
+              },
+              "model_prob": {
+                "n": 6,
+                "min": 0.6305,
+                "p10": 0.6449,
+                "p25": 0.6614,
+                "median": 0.6729,
+                "p75": 0.7921,
+                "p90": 0.8317,
+                "max": 0.8333,
+                "mean": 0.7165
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 1.0
+              },
+              "kept": 6,
+              "kept_pct_of_subset": 4.0
+            }
+          },
+          "min_rule_score_0.5": {
+            "all": {
+              "n_events": 354,
+              "events_per_year": 42.5,
+              "n_trades": 354,
+              "winrate": 0.4802,
+              "expectancy_R": -0.0099,
+              "total_R": -3.5,
+              "target_atr_mean": 7.426,
+              "target_atr_median": 6.8393,
+              "target_atr_p90": 11.3183,
+              "risk_atr_median": 4.5596,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 131,
+                "target": 82,
+                "horizon": 141
+              },
+              "model_prob": {
+                "n": 354,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1604,
+                "median": 0.2163,
+                "p75": 0.388,
+                "p90": 0.6651,
+                "max": 1.0,
+                "mean": 0.3049
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2373,
+                "0.45": 0.1977,
+                "0.5": 0.1582,
+                "0.55": 0.1412,
+                "0.6": 0.1271
+              },
+              "kept": 354,
+              "kept_pct_of_subset": 100.0
+            },
+            "in_sample": {
+              "n_events": 203,
+              "events_per_year": 24.4,
+              "n_trades": 203,
+              "winrate": 0.4187,
+              "expectancy_R": -0.1173,
+              "total_R": -23.82,
+              "target_atr_mean": 7.336,
+              "target_atr_median": 6.7864,
+              "target_atr_p90": 11.3748,
+              "risk_atr_median": 4.5243,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 79,
+                "target": 44,
+                "horizon": 80
+              },
+              "model_prob": {
+                "n": 203,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1614,
+                "median": 0.267,
+                "p75": 0.467,
+                "p90": 0.8333,
+                "max": 1.0,
+                "mean": 0.3514
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2956,
+                "0.45": 0.2611,
+                "0.5": 0.2217,
+                "0.55": 0.2118,
+                "0.6": 0.1921
+              },
+              "kept": 203,
+              "kept_pct_of_subset": 100.0
+            },
+            "oos": {
+              "n_events": 151,
+              "events_per_year": 18.1,
+              "n_trades": 151,
+              "winrate": 0.5629,
+              "expectancy_R": 0.1346,
+              "total_R": 20.32,
+              "target_atr_mean": 7.546,
+              "target_atr_median": 7.0059,
+              "target_atr_p90": 11.0145,
+              "risk_atr_median": 4.6706,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 61,
+                "stop": 52,
+                "target": 38
+              },
+              "model_prob": {
+                "n": 151,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1604,
+                "median": 0.193,
+                "p75": 0.3142,
+                "p90": 0.4687,
+                "max": 0.8333,
+                "mean": 0.2424
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1589,
+                "0.45": 0.1126,
+                "0.5": 0.0728,
+                "0.55": 0.0464,
+                "0.6": 0.0397
+              },
+              "kept": 151,
+              "kept_pct_of_subset": 100.0
+            }
+          },
+          "min_rule_score_0.6": {
+            "all": {
+              "n_events": 338,
+              "events_per_year": 40.6,
+              "n_trades": 338,
+              "winrate": 0.4882,
+              "expectancy_R": -0.0045,
+              "total_R": -1.51,
+              "target_atr_mean": 7.39,
+              "target_atr_median": 6.8118,
+              "target_atr_p90": 11.3437,
+              "risk_atr_median": 4.5412,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 125,
+                "target": 80,
+                "horizon": 133
+              },
+              "model_prob": {
+                "n": 338,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1604,
+                "median": 0.2201,
+                "p75": 0.3884,
+                "p90": 0.6706,
+                "max": 1.0,
+                "mean": 0.3069
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2426,
+                "0.45": 0.2012,
+                "0.5": 0.1598,
+                "0.55": 0.145,
+                "0.6": 0.1302
+              },
+              "kept": 338,
+              "kept_pct_of_subset": 95.5
+            },
+            "in_sample": {
+              "n_events": 194,
+              "events_per_year": 23.3,
+              "n_trades": 194,
+              "winrate": 0.433,
+              "expectancy_R": -0.1003,
+              "total_R": -19.46,
+              "target_atr_mean": 7.317,
+              "target_atr_median": 6.7749,
+              "target_atr_p90": 11.4158,
+              "risk_atr_median": 4.5166,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 75,
+                "target": 44,
+                "horizon": 75
+              },
+              "model_prob": {
+                "n": 194,
+                "min": 0.0694,
+                "p10": 0.0753,
+                "p25": 0.1614,
+                "median": 0.2721,
+                "p75": 0.467,
+                "p90": 0.8333,
+                "max": 1.0,
+                "mean": 0.3559
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.3041,
+                "0.45": 0.268,
+                "0.5": 0.2268,
+                "0.55": 0.2165,
+                "0.6": 0.1959
+              },
+              "kept": 194,
+              "kept_pct_of_subset": 95.6
+            },
+            "oos": {
+              "n_events": 144,
+              "events_per_year": 17.3,
+              "n_trades": 144,
+              "winrate": 0.5625,
+              "expectancy_R": 0.1246,
+              "total_R": 17.94,
+              "target_atr_mean": 7.489,
+              "target_atr_median": 6.9243,
+              "target_atr_p90": 10.9374,
+              "risk_atr_median": 4.6162,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 58,
+                "stop": 50,
+                "target": 36
+              },
+              "model_prob": {
+                "n": 144,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1504,
+                "median": 0.1924,
+                "p75": 0.3142,
+                "p90": 0.4682,
+                "max": 0.8333,
+                "mean": 0.2408
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1597,
+                "0.45": 0.1111,
+                "0.5": 0.0694,
+                "0.55": 0.0486,
+                "0.6": 0.0417
+              },
+              "kept": 144,
+              "kept_pct_of_subset": 95.4
+            }
+          },
+          "min_rule_score_0.65": {
+            "all": {
+              "n_events": 313,
+              "events_per_year": 37.6,
+              "n_trades": 313,
+              "winrate": 0.492,
+              "expectancy_R": 0.0037,
+              "total_R": 1.15,
+              "target_atr_mean": 7.234,
+              "target_atr_median": 6.7536,
+              "target_atr_p90": 10.8593,
+              "risk_atr_median": 4.5024,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 116,
+                "target": 76,
+                "horizon": 121
+              },
+              "model_prob": {
+                "n": 313,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1604,
+                "median": 0.2344,
+                "p75": 0.4068,
+                "p90": 0.6757,
+                "max": 1.0,
+                "mean": 0.3133
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2524,
+                "0.45": 0.2109,
+                "0.5": 0.1661,
+                "0.55": 0.1502,
+                "0.6": 0.1342
+              },
+              "kept": 313,
+              "kept_pct_of_subset": 88.4
+            },
+            "in_sample": {
+              "n_events": 180,
+              "events_per_year": 21.6,
+              "n_trades": 180,
+              "winrate": 0.4389,
+              "expectancy_R": -0.0989,
+              "total_R": -17.81,
+              "target_atr_mean": 7.152,
+              "target_atr_median": 6.6592,
+              "target_atr_p90": 10.9065,
+              "risk_atr_median": 4.4395,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 70,
+                "target": 41,
+                "horizon": 69
+              },
+              "model_prob": {
+                "n": 180,
+                "min": 0.0694,
+                "p10": 0.0891,
+                "p25": 0.18,
+                "median": 0.2821,
+                "p75": 0.4705,
+                "p90": 0.8333,
+                "max": 1.0,
+                "mean": 0.3646
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.3111,
+                "0.45": 0.2778,
+                "0.5": 0.2333,
+                "0.55": 0.2222,
+                "0.6": 0.2
+              },
+              "kept": 180,
+              "kept_pct_of_subset": 88.7
+            },
+            "oos": {
+              "n_events": 133,
+              "events_per_year": 16.0,
+              "n_trades": 133,
+              "winrate": 0.5639,
+              "expectancy_R": 0.1426,
+              "total_R": 18.96,
+              "target_atr_mean": 7.345,
+              "target_atr_median": 6.8132,
+              "target_atr_p90": 10.5032,
+              "risk_atr_median": 4.5422,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 52,
+                "stop": 46,
+                "target": 35
+              },
+              "model_prob": {
+                "n": 133,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1604,
+                "median": 0.1919,
+                "p75": 0.3142,
+                "p90": 0.4722,
+                "max": 0.8333,
+                "mean": 0.2437
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1729,
+                "0.45": 0.1203,
+                "0.5": 0.0752,
+                "0.55": 0.0526,
+                "0.6": 0.0451
+              },
+              "kept": 133,
+              "kept_pct_of_subset": 88.1
+            }
+          },
+          "min_rule_score_0.7": {
+            "all": {
+              "n_events": 268,
+              "events_per_year": 32.2,
+              "n_trades": 268,
+              "winrate": 0.4888,
+              "expectancy_R": -0.0078,
+              "total_R": -2.1,
+              "target_atr_mean": 7.187,
+              "target_atr_median": 6.7054,
+              "target_atr_p90": 10.8049,
+              "risk_atr_median": 4.4703,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 105,
+                "target": 65,
+                "horizon": 98
+              },
+              "model_prob": {
+                "n": 268,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1611,
+                "median": 0.2376,
+                "p75": 0.4149,
+                "p90": 0.6779,
+                "max": 1.0,
+                "mean": 0.3174
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2649,
+                "0.45": 0.2164,
+                "0.5": 0.1642,
+                "0.55": 0.1455,
+                "0.6": 0.1306
+              },
+              "kept": 268,
+              "kept_pct_of_subset": 75.7
+            },
+            "in_sample": {
+              "n_events": 153,
+              "events_per_year": 18.4,
+              "n_trades": 153,
+              "winrate": 0.4314,
+              "expectancy_R": -0.1226,
+              "total_R": -18.75,
+              "target_atr_mean": 7.165,
+              "target_atr_median": 6.7103,
+              "target_atr_p90": 10.8593,
+              "risk_atr_median": 4.4735,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 64,
+                "target": 36,
+                "horizon": 53
+              },
+              "model_prob": {
+                "n": 153,
+                "min": 0.0694,
+                "p10": 0.0891,
+                "p25": 0.18,
+                "median": 0.3097,
+                "p75": 0.4759,
+                "p90": 0.8333,
+                "max": 1.0,
+                "mean": 0.3714
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.3268,
+                "0.45": 0.2876,
+                "0.5": 0.2353,
+                "0.55": 0.2222,
+                "0.6": 0.2026
+              },
+              "kept": 153,
+              "kept_pct_of_subset": 75.4
+            },
+            "oos": {
+              "n_events": 115,
+              "events_per_year": 13.8,
+              "n_trades": 115,
+              "winrate": 0.5652,
+              "expectancy_R": 0.1448,
+              "total_R": 16.65,
+              "target_atr_mean": 7.215,
+              "target_atr_median": 6.6279,
+              "target_atr_p90": 9.8283,
+              "risk_atr_median": 4.4186,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 41,
+                "horizon": 45,
+                "target": 29
+              },
+              "model_prob": {
+                "n": 115,
+                "min": 0.0694,
+                "p10": 0.0694,
+                "p25": 0.1604,
+                "median": 0.193,
+                "p75": 0.3142,
+                "p90": 0.4713,
+                "max": 0.8333,
+                "mean": 0.2455
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1826,
+                "0.45": 0.1217,
+                "0.5": 0.0696,
+                "0.55": 0.0435,
+                "0.6": 0.0348
+              },
+              "kept": 115,
+              "kept_pct_of_subset": 76.2
+            }
+          },
+          "AND_prob0.4_rule0.6": {
+            "all": {
+              "n_events": 82,
+              "events_per_year": 9.9,
+              "n_trades": 82,
+              "winrate": 0.5976,
+              "expectancy_R": 0.3198,
+              "total_R": 26.23,
+              "target_atr_mean": 6.071,
+              "target_atr_median": 6.2714,
+              "target_atr_p90": 8.3628,
+              "risk_atr_median": 4.1809,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 29,
+                "target": 42,
+                "horizon": 11
+              },
+              "model_prob": {
+                "n": 82,
+                "min": 0.4068,
+                "p10": 0.4217,
+                "p25": 0.4698,
+                "median": 0.6326,
+                "p75": 0.8333,
+                "p90": 0.9,
+                "max": 1.0,
+                "mean": 0.652
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.8293,
+                "0.5": 0.6585,
+                "0.55": 0.5976,
+                "0.6": 0.5366
+              },
+              "kept": 82,
+              "kept_pct_of_subset": 23.2
+            },
+            "in_sample": {
+              "n_events": 59,
+              "events_per_year": 7.1,
+              "n_trades": 59,
+              "winrate": 0.5932,
+              "expectancy_R": 0.3109,
+              "total_R": 18.34,
+              "target_atr_mean": 6.133,
+              "target_atr_median": 6.1413,
+              "target_atr_p90": 8.7159,
+              "risk_atr_median": 4.0942,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 21,
+                "target": 31,
+                "horizon": 7
+              },
+              "model_prob": {
+                "n": 59,
+                "min": 0.4068,
+                "p10": 0.4357,
+                "p25": 0.5116,
+                "median": 0.7148,
+                "p75": 0.8788,
+                "p90": 0.9,
+                "max": 1.0,
+                "mean": 0.6986
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.8814,
+                "0.5": 0.7458,
+                "0.55": 0.7119,
+                "0.6": 0.6441
+              },
+              "kept": 59,
+              "kept_pct_of_subset": 29.1
+            },
+            "oos": {
+              "n_events": 23,
+              "events_per_year": 2.8,
+              "n_trades": 23,
+              "winrate": 0.6087,
+              "expectancy_R": 0.3427,
+              "total_R": 7.88,
+              "target_atr_mean": 5.913,
+              "target_atr_median": 6.337,
+              "target_atr_p90": 7.542,
+              "risk_atr_median": 4.2247,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 8,
+                "horizon": 4,
+                "target": 11
+              },
+              "model_prob": {
+                "n": 23,
+                "min": 0.4068,
+                "p10": 0.4165,
+                "p25": 0.4357,
+                "median": 0.4793,
+                "p75": 0.6102,
+                "p90": 0.6762,
+                "max": 0.8333,
+                "mean": 0.5325
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.6957,
+                "0.5": 0.4348,
+                "0.55": 0.3043,
+                "0.6": 0.2609
+              },
+              "kept": 23,
+              "kept_pct_of_subset": 15.2
+            }
+          },
+          "PROPOSED_B1_0.55": {
+            "all": {
+              "n_events": 50,
+              "events_per_year": 6.0,
+              "n_trades": 50,
+              "winrate": 0.64,
+              "expectancy_R": 0.4213,
+              "total_R": 21.06,
+              "target_atr_mean": 5.892,
+              "target_atr_median": 5.8569,
+              "target_atr_p90": 8.5623,
+              "risk_atr_median": 3.9046,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 16,
+                "target": 29,
+                "horizon": 5
+              },
+              "model_prob": {
+                "n": 50,
+                "min": 0.5627,
+                "p10": 0.6265,
+                "p25": 0.6552,
+                "median": 0.8163,
+                "p75": 0.9,
+                "p90": 0.9033,
+                "max": 1.0,
+                "mean": 0.7802
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.9
+              },
+              "kept": 50,
+              "kept_pct_of_subset": 14.1
+            },
+            "in_sample": {
+              "n_events": 43,
+              "events_per_year": 5.2,
+              "n_trades": 43,
+              "winrate": 0.6047,
+              "expectancy_R": 0.3642,
+              "total_R": 15.66,
+              "target_atr_mean": 5.951,
+              "target_atr_median": 5.9853,
+              "target_atr_p90": 8.6411,
+              "risk_atr_median": 3.9902,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 15,
+                "target": 25,
+                "horizon": 3
+              },
+              "model_prob": {
+                "n": 43,
+                "min": 0.5627,
+                "p10": 0.6326,
+                "p25": 0.6658,
+                "median": 0.8333,
+                "p75": 0.9,
+                "p90": 0.9267,
+                "max": 1.0,
+                "mean": 0.7935
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.907
+              },
+              "kept": 43,
+              "kept_pct_of_subset": 21.2
+            },
+            "oos": {
+              "n_events": 7,
+              "events_per_year": 0.8,
+              "n_trades": 7,
+              "winrate": 0.8571,
+              "expectancy_R": 0.7718,
+              "total_R": 5.4,
+              "target_atr_mean": 5.528,
+              "target_atr_median": 5.7285,
+              "target_atr_p90": 7.0316,
+              "risk_atr_median": 3.819,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 2,
+                "target": 4,
+                "stop": 1
+              },
+              "model_prob": {
+                "n": 7,
+                "min": 0.5898,
+                "p10": 0.6143,
+                "p25": 0.6449,
+                "median": 0.6676,
+                "p75": 0.7542,
+                "p90": 0.8314,
+                "max": 0.8333,
+                "mean": 0.6984
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.8571
+              },
+              "kept": 7,
+              "kept_pct_of_subset": 4.6
+            }
+          }
+        },
+        "oos_split": "2023-10-12",
+        "n_in_sample": 203,
+        "n_oos": 151
+      }
+    },
+    "double_top": {
+      "n_pool": 310,
+      "model_prob_status": "ok; 25/25 schema features used",
+      "model_prob_available": true,
+      "pool": {
+        "n_events": 310,
+        "events_per_year": 37.3,
+        "n_trades": 310,
+        "winrate": 0.4065,
+        "expectancy_R": -0.1662,
+        "total_R": -51.53,
+        "target_atr_mean": 7.116,
+        "target_atr_median": 6.6723,
+        "target_atr_p90": 10.0219,
+        "risk_atr_median": 4.4482,
+        "rr_median": 1.5,
+        "exit_reasons": {
+          "stop": 146,
+          "horizon": 89,
+          "target": 75
+        },
+        "model_prob": {
+          "n": 310,
+          "min": 0.0333,
+          "p10": 0.1091,
+          "p25": 0.1667,
+          "median": 0.2565,
+          "p75": 0.3976,
+          "p90": 0.5661,
+          "max": 0.8519,
+          "mean": 0.2999
+        },
+        "model_prob_keep_rate": {
+          "0.4": 0.2484,
+          "0.45": 0.1968,
+          "0.5": 0.1548,
+          "0.55": 0.1258,
+          "0.6": 0.0903
+        }
+      },
+      "distributions": {
+        "rule_score": {
+          "n": 310,
+          "min": 0.5078,
+          "p05": 0.6161,
+          "p10": 0.6484,
+          "p25": 0.7012,
+          "median": 0.7746,
+          "p75": 0.8485,
+          "p90": 0.8906,
+          "max": 0.9857,
+          "mean": 0.7717
+        },
+        "pattern_length_bars": {
+          "n": 310,
+          "min": 8.0,
+          "p05": 9.0,
+          "p10": 10.0,
+          "p25": 12.0,
+          "median": 14.0,
+          "p75": 16.0,
+          "p90": 19.0,
+          "max": 26.0,
+          "mean": 14.129
+        },
+        "model_prob": {
+          "n": 310,
+          "min": 0.0333,
+          "p05": 0.0333,
+          "p10": 0.1091,
+          "p25": 0.1667,
+          "median": 0.2565,
+          "p75": 0.3976,
+          "p90": 0.5661,
+          "max": 0.8519,
+          "mean": 0.2999
+        },
+        "model_prob_vs_outcome": {
+          "n_scored": 310,
+          "bottom_half": {
+            "n": 155,
+            "mean_prob": 0.1509,
+            "winrate": 0.3806,
+            "expectancy_R": -0.3134
+          },
+          "top_half": {
+            "n": 155,
+            "mean_prob": 0.4488,
+            "winrate": 0.4323,
+            "expectancy_R": -0.019
+          }
+        }
+      },
+      "arms": {
+        "baseline": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_26": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_27": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_28": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_29": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_30": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_40": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_50": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.2_max_len_60": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.3_rule_floor_0.5": {
+          "n_events": 310,
+          "events_per_year": 37.3,
+          "n_trades": 310,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1662,
+          "total_R": -51.53,
+          "target_atr_mean": 7.116,
+          "target_atr_median": 6.6723,
+          "target_atr_p90": 10.0219,
+          "risk_atr_median": 4.4482,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 89,
+            "target": 75
+          },
+          "model_prob": {
+            "n": 310,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2565,
+            "p75": 0.3976,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2999
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2484,
+            "0.45": 0.1968,
+            "0.5": 0.1548,
+            "0.55": 0.1258,
+            "0.6": 0.0903
+          },
+          "kept_pct": 100.0
+        },
+        "2.3_rule_floor_0.55": {
+          "n_events": 307,
+          "events_per_year": 36.9,
+          "n_trades": 307,
+          "winrate": 0.4072,
+          "expectancy_R": -0.1687,
+          "total_R": -51.78,
+          "target_atr_mean": 7.033,
+          "target_atr_median": 6.6644,
+          "target_atr_p90": 9.9762,
+          "risk_atr_median": 4.443,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 146,
+            "horizon": 87,
+            "target": 74
+          },
+          "model_prob": {
+            "n": 307,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1667,
+            "median": 0.2613,
+            "p75": 0.3971,
+            "p90": 0.5651,
+            "max": 0.8519,
+            "mean": 0.2994
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2476,
+            "0.45": 0.1954,
+            "0.5": 0.1531,
+            "0.55": 0.1238,
+            "0.6": 0.0879
+          },
+          "kept_pct": 99.0
+        },
+        "2.3_rule_floor_0.6": {
+          "n_events": 300,
+          "events_per_year": 36.1,
+          "n_trades": 300,
+          "winrate": 0.41,
+          "expectancy_R": -0.164,
+          "total_R": -49.21,
+          "target_atr_mean": 7.029,
+          "target_atr_median": 6.577,
+          "target_atr_p90": 10.004,
+          "risk_atr_median": 4.3847,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 142,
+            "horizon": 85,
+            "target": 73
+          },
+          "model_prob": {
+            "n": 300,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1629,
+            "median": 0.2518,
+            "p75": 0.4051,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2997
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2533,
+            "0.45": 0.2,
+            "0.5": 0.1567,
+            "0.55": 0.1267,
+            "0.6": 0.09
+          },
+          "kept_pct": 96.8
+        },
+        "2.3_rule_floor_0.65": {
+          "n_events": 278,
+          "events_per_year": 33.4,
+          "n_trades": 278,
+          "winrate": 0.4065,
+          "expectancy_R": -0.1631,
+          "total_R": -45.34,
+          "target_atr_mean": 6.983,
+          "target_atr_median": 6.5343,
+          "target_atr_p90": 9.9511,
+          "risk_atr_median": 4.3562,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 131,
+            "horizon": 79,
+            "target": 68
+          },
+          "model_prob": {
+            "n": 278,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.176,
+            "median": 0.2518,
+            "p75": 0.4082,
+            "p90": 0.5754,
+            "max": 0.8519,
+            "mean": 0.3022
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2554,
+            "0.45": 0.2014,
+            "0.5": 0.1583,
+            "0.55": 0.1295,
+            "0.6": 0.0935
+          },
+          "kept_pct": 89.7
+        },
+        "2.3_rule_floor_0.7": {
+          "n_events": 234,
+          "events_per_year": 28.1,
+          "n_trades": 234,
+          "winrate": 0.4316,
+          "expectancy_R": -0.099,
+          "total_R": -23.17,
+          "target_atr_mean": 6.811,
+          "target_atr_median": 6.4959,
+          "target_atr_p90": 9.6896,
+          "risk_atr_median": 4.3306,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "horizon": 66,
+            "target": 64,
+            "stop": 104
+          },
+          "model_prob": {
+            "n": 234,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1896,
+            "median": 0.271,
+            "p75": 0.4155,
+            "p90": 0.5977,
+            "max": 0.8519,
+            "mean": 0.3129
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.265,
+            "0.45": 0.2222,
+            "0.5": 0.1752,
+            "0.55": 0.1453,
+            "0.6": 0.1026
+          },
+          "kept_pct": 75.5
+        },
+        "2.1_trend_lb20_r20.2": {
+          "n_events": 113,
+          "events_per_year": 13.6,
+          "n_trades": 113,
+          "winrate": 0.3628,
+          "expectancy_R": -0.2412,
+          "total_R": -27.25,
+          "target_atr_mean": 7.233,
+          "target_atr_median": 6.7859,
+          "target_atr_p90": 10.3321,
+          "risk_atr_median": 4.5239,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "horizon": 33,
+            "stop": 56,
+            "target": 24
+          },
+          "model_prob": {
+            "n": 113,
+            "min": 0.0333,
+            "p10": 0.1184,
+            "p25": 0.1881,
+            "median": 0.2845,
+            "p75": 0.398,
+            "p90": 0.5597,
+            "max": 0.8519,
+            "mean": 0.3088
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2478,
+            "0.45": 0.1947,
+            "0.5": 0.1504,
+            "0.55": 0.1062,
+            "0.6": 0.0708
+          },
+          "kept_pct": 36.5
+        },
+        "2.1_trend_lb20_r20.3": {
+          "n_events": 101,
+          "events_per_year": 12.1,
+          "n_trades": 101,
+          "winrate": 0.3861,
+          "expectancy_R": -0.1861,
+          "total_R": -18.8,
+          "target_atr_mean": 7.115,
+          "target_atr_median": 6.7859,
+          "target_atr_p90": 10.3524,
+          "risk_atr_median": 4.5239,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "horizon": 31,
+            "stop": 47,
+            "target": 23
+          },
+          "model_prob": {
+            "n": 101,
+            "min": 0.0333,
+            "p10": 0.1184,
+            "p25": 0.1942,
+            "median": 0.2915,
+            "p75": 0.4226,
+            "p90": 0.5651,
+            "max": 0.8519,
+            "mean": 0.3257
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2772,
+            "0.45": 0.2178,
+            "0.5": 0.1683,
+            "0.55": 0.1188,
+            "0.6": 0.0792
+          },
+          "kept_pct": 32.6
+        },
+        "2.1_trend_lb30_r20.3": {
+          "n_events": 105,
+          "events_per_year": 12.6,
+          "n_trades": 105,
+          "winrate": 0.4095,
+          "expectancy_R": -0.1599,
+          "total_R": -16.79,
+          "target_atr_mean": 7.355,
+          "target_atr_median": 6.7859,
+          "target_atr_p90": 10.5617,
+          "risk_atr_median": 4.5239,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 45,
+            "horizon": 37,
+            "target": 23
+          },
+          "model_prob": {
+            "n": 105,
+            "min": 0.0333,
+            "p10": 0.1012,
+            "p25": 0.1286,
+            "median": 0.2756,
+            "p75": 0.3946,
+            "p90": 0.5355,
+            "max": 0.8519,
+            "mean": 0.2944
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2095,
+            "0.45": 0.1714,
+            "0.5": 0.1238,
+            "0.55": 0.0952,
+            "0.6": 0.0667
+          },
+          "kept_pct": 33.9
+        },
+        "2.1_trend_lb30_r20.5": {
+          "n_events": 74,
+          "events_per_year": 8.9,
+          "n_trades": 74,
+          "winrate": 0.3784,
+          "expectancy_R": -0.1821,
+          "total_R": -13.47,
+          "target_atr_mean": 7.063,
+          "target_atr_median": 6.8108,
+          "target_atr_p90": 9.9436,
+          "risk_atr_median": 4.5406,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "horizon": 25,
+            "target": 17,
+            "stop": 32
+          },
+          "model_prob": {
+            "n": 74,
+            "min": 0.0333,
+            "p10": 0.1184,
+            "p25": 0.1896,
+            "median": 0.3187,
+            "p75": 0.3951,
+            "p90": 0.4947,
+            "max": 0.8519,
+            "mean": 0.3055
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2162,
+            "0.45": 0.1622,
+            "0.5": 0.1081,
+            "0.55": 0.0676,
+            "0.6": 0.0541
+          },
+          "kept_pct": 23.9
+        },
+        "2.1_trend_lb40_r20.3": {
+          "n_events": 96,
+          "events_per_year": 11.5,
+          "n_trades": 96,
+          "winrate": 0.3958,
+          "expectancy_R": -0.1967,
+          "total_R": -18.89,
+          "target_atr_mean": 7.125,
+          "target_atr_median": 6.5254,
+          "target_atr_p90": 9.953,
+          "risk_atr_median": 4.3503,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "horizon": 33,
+            "stop": 43,
+            "target": 20
+          },
+          "model_prob": {
+            "n": 96,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1444,
+            "median": 0.28,
+            "p75": 0.3967,
+            "p90": 0.5492,
+            "max": 0.8519,
+            "mean": 0.3001
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2396,
+            "0.45": 0.1875,
+            "0.5": 0.125,
+            "0.55": 0.1042,
+            "0.6": 0.0729
+          },
+          "kept_pct": 31.0
+        },
+        "2.1_trend_lb60_r20.3": {
+          "n_events": 88,
+          "events_per_year": 10.6,
+          "n_trades": 88,
+          "winrate": 0.4545,
+          "expectancy_R": -0.0492,
+          "total_R": -4.33,
+          "target_atr_mean": 6.573,
+          "target_atr_median": 6.1871,
+          "target_atr_p90": 9.1101,
+          "risk_atr_median": 4.1247,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "horizon": 30,
+            "stop": 35,
+            "target": 23
+          },
+          "model_prob": {
+            "n": 88,
+            "min": 0.0333,
+            "p10": 0.1184,
+            "p25": 0.1851,
+            "median": 0.2738,
+            "p75": 0.4651,
+            "p90": 0.6073,
+            "max": 0.8519,
+            "mean": 0.3275
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.3409,
+            "0.45": 0.2614,
+            "0.5": 0.1932,
+            "0.55": 0.1477,
+            "0.6": 0.1136
+          },
+          "kept_pct": 28.4
+        },
+        "cum_2.2+2.3": {
+          "n_events": 300,
+          "events_per_year": 36.1,
+          "n_trades": 300,
+          "winrate": 0.41,
+          "expectancy_R": -0.164,
+          "total_R": -49.21,
+          "target_atr_mean": 7.029,
+          "target_atr_median": 6.577,
+          "target_atr_p90": 10.004,
+          "risk_atr_median": 4.3847,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 142,
+            "horizon": 85,
+            "target": 73
+          },
+          "model_prob": {
+            "n": 300,
+            "min": 0.0333,
+            "p10": 0.1091,
+            "p25": 0.1629,
+            "median": 0.2518,
+            "p75": 0.4051,
+            "p90": 0.5661,
+            "max": 0.8519,
+            "mean": 0.2997
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2533,
+            "0.45": 0.2,
+            "0.5": 0.1567,
+            "0.55": 0.1267,
+            "0.6": 0.09
+          },
+          "kept_pct": 96.8
+        },
+        "cum_2.1+2.2": {
+          "n_events": 105,
+          "events_per_year": 12.6,
+          "n_trades": 105,
+          "winrate": 0.4095,
+          "expectancy_R": -0.1599,
+          "total_R": -16.79,
+          "target_atr_mean": 7.355,
+          "target_atr_median": 6.7859,
+          "target_atr_p90": 10.5617,
+          "risk_atr_median": 4.5239,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 45,
+            "horizon": 37,
+            "target": 23
+          },
+          "model_prob": {
+            "n": 105,
+            "min": 0.0333,
+            "p10": 0.1012,
+            "p25": 0.1286,
+            "median": 0.2756,
+            "p75": 0.3946,
+            "p90": 0.5355,
+            "max": 0.8519,
+            "mean": 0.2944
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2095,
+            "0.45": 0.1714,
+            "0.5": 0.1238,
+            "0.55": 0.0952,
+            "0.6": 0.0667
+          },
+          "kept_pct": 33.9
+        },
+        "cum_all_2.1+2.2+2.3": {
+          "n_events": 102,
+          "events_per_year": 12.3,
+          "n_trades": 102,
+          "winrate": 0.402,
+          "expectancy_R": -0.1798,
+          "total_R": -18.34,
+          "target_atr_mean": 7.294,
+          "target_atr_median": 6.6064,
+          "target_atr_p90": 10.4847,
+          "risk_atr_median": 4.4043,
+          "rr_median": 1.5,
+          "exit_reasons": {
+            "stop": 45,
+            "horizon": 35,
+            "target": 22
+          },
+          "model_prob": {
+            "n": 102,
+            "min": 0.0333,
+            "p10": 0.0973,
+            "p25": 0.1325,
+            "median": 0.274,
+            "p75": 0.3939,
+            "p90": 0.5366,
+            "max": 0.8519,
+            "mean": 0.2947
+          },
+          "model_prob_keep_rate": {
+            "0.4": 0.2157,
+            "0.45": 0.1765,
+            "0.5": 0.1275,
+            "0.55": 0.098,
+            "0.6": 0.0686
+          },
+          "kept_pct": 32.9
+        }
+      },
+      "oos": {
+        "baseline": {
+          "n_total": 310,
+          "fixed_split_start": "2023-10-12",
+          "fixed_split_n": 98,
+          "fixed_split_pass": false,
+          "train_split_frac": 0.4,
+          "train_split_boundary": "2023-04-14 15:30:00+00:00",
+          "train_split_n": 124,
+          "train_split_pass": true
+        },
+        "cum_2.1+2.2": {
+          "n_total": 105,
+          "fixed_split_start": "2023-10-12",
+          "fixed_split_n": 38,
+          "fixed_split_pass": false,
+          "train_split_frac": 0.4,
+          "train_split_boundary": "2023-06-27 13:00:00+00:00",
+          "train_split_n": 42,
+          "train_split_pass": false
+        },
+        "cum_all_2.1+2.2+2.3": {
+          "n_total": 102,
+          "fixed_split_start": "2023-10-12",
+          "fixed_split_n": 37,
+          "fixed_split_pass": false,
+          "train_split_frac": 0.4,
+          "train_split_boundary": "2023-06-27 13:00:00+00:00",
+          "train_split_n": 41,
+          "train_split_pass": false
+        }
+      },
+      "premise": {
+        "cited_events": {
+          "double_top_prob_0.033": {
+            "window": [
+              "2023-10-12",
+              "2026-09-03"
+            ],
+            "cited_prob": 0.033,
+            "matches": [
+              {
+                "event_id": "XAUUSD-DT-000234",
+                "known_at": "2024-03-21 15:45:00+00:00",
+                "entry_time": "2024-03-21 16:00:00+00:00",
+                "direction": "bearish",
+                "rule_score": 0.8293,
+                "model_prob": 0.0333,
+                "pattern_length_bars": 11,
+                "depth_atr": 4.085,
+                "target_atr": 8.035,
+                "extreme1_time": "2024-03-21 09:30:00+00:00",
+                "gate_2.2_max_len_40_pass": true,
+                "gate_2.1_trend_pass": false,
+                "gate_2.3_rule_floor_0.6_pass": true,
+                "gate_2.3_prob_0.55_pass": false,
+                "caught_by_at_least_one": true
+              },
+              {
+                "event_id": "XAUUSD-DT-000271",
+                "known_at": "2025-03-26 15:45:00+00:00",
+                "entry_time": "2025-03-26 16:00:00+00:00",
+                "direction": "bearish",
+                "rule_score": 0.7266,
+                "model_prob": 0.0333,
+                "pattern_length_bars": 14,
+                "depth_atr": 4.413,
+                "target_atr": 6.685,
+                "extreme1_time": "2025-03-26 10:00:00+00:00"
+              },
+              {
+                "event_id": "XAUUSD-DT-000278",
+                "known_at": "2025-06-20 06:00:00+00:00",
+                "entry_time": "2025-06-20 06:15:00+00:00",
+                "direction": "bearish",
+                "rule_score": 0.6105,
+                "model_prob": 0.0333,
+                "pattern_length_bars": 22,
+                "depth_atr": 6.451,
+                "target_atr": 10.005,
+                "extreme1_time": "2025-06-19 08:00:00+00:00"
+              },
+              {
+                "event_id": "XAUUSD-DT-000320",
+                "known_at": "2026-07-16 10:00:00+00:00",
+                "entry_time": "2026-07-16 10:15:00+00:00",
+                "direction": "bearish",
+                "rule_score": 0.6509,
+                "model_prob": 0.0333,
+                "pattern_length_bars": 22,
+                "depth_atr": 4.772,
+                "target_atr": 15.863,
+                "extreme1_time": "2026-07-15 16:00:00+00:00"
+              },
+              {
+                "event_id": "XAUUSD-DT-000324",
+                "known_at": "2026-09-02 02:45:00+00:00",
+                "entry_time": "2026-09-02 03:00:00+00:00",
+                "direction": "bearish",
+                "rule_score": 0.762,
+                "model_prob": 0.0333,
+                "pattern_length_bars": 10,
+                "depth_atr": 3.367,
+                "target_atr": 12.251,
+                "extreme1_time": "2026-09-01 14:45:00+00:00"
+              }
+            ]
+          }
+        },
+        "shared_swing_2026_07_06": [
+          {
+            "event_id": "XAUUSD-DT-000317",
+            "known_at": "2026-07-06 15:30:00+00:00",
+            "entry_time": "2026-07-06 15:45:00+00:00",
+            "direction": "bearish",
+            "rule_score": 0.7619,
+            "model_prob": 0.1942,
+            "pattern_length_bars": 14,
+            "depth_atr": 4.244,
+            "target_atr": 7.768,
+            "extreme1_time": "2026-07-06 10:45:00+00:00"
+          },
+          {
+            "event_id": "XAUUSD-DT-000318",
+            "known_at": "2026-07-08 11:15:00+00:00",
+            "entry_time": "2026-07-08 11:30:00+00:00",
+            "direction": "bearish",
+            "rule_score": 0.788,
+            "model_prob": 0.2267,
+            "pattern_length_bars": 12,
+            "depth_atr": 3.175,
+            "target_atr": 6.426,
+            "extreme1_time": "2026-07-08 03:30:00+00:00"
+          }
+        ]
+      },
+      "false_drops": {
+        "cum_all": {
+          "n_kept": 102,
+          "n_dropped": 208,
+          "dropped_outcomes": {
+            "n": 208,
+            "winrate": 0.4087,
+            "expectancy_R": -0.1596,
+            "total_R": -33.19
+          },
+          "kept_outcomes": {
+            "n": 102,
+            "winrate": 0.402,
+            "expectancy_R": -0.1798,
+            "total_R": -18.34
+          },
+          "false_drops_by_gate": {
+            "2.1_trend": 52
+          },
+          "false_drops_total_R": 52.42,
+          "false_drops_mean_R": 1.008,
+          "false_drop_rate_of_dropped": 0.25,
+          "false_drop_candidates": [
+            {
+              "event_id": "XAUUSD-DT-000304",
+              "known_at": "2026-01-29 17:00:00+00:00",
+              "entry_time": "2026-01-29 17:15:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8639,
+              "model_prob": 0.1942,
+              "pattern_length_bars": 11,
+              "depth_atr": 3.122,
+              "target_atr": 4.911,
+              "extreme1_time": "2026-01-29 11:30:00+00:00",
+              "net_r": 1.486,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000078",
+              "known_at": "2020-02-28 07:45:00+00:00",
+              "entry_time": "2020-02-28 08:00:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8008,
+              "model_prob": 0.272,
+              "pattern_length_bars": 15,
+              "depth_atr": 3.279,
+              "target_atr": 8.199,
+              "extreme1_time": "2020-02-27 20:30:00+00:00",
+              "net_r": 1.465,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000314",
+              "known_at": "2026-06-29 12:45:00+00:00",
+              "entry_time": "2026-06-29 13:00:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8794,
+              "model_prob": 0.3391,
+              "pattern_length_bars": 18,
+              "depth_atr": 3.657,
+              "target_atr": 7.833,
+              "extreme1_time": "2026-06-29 06:15:00+00:00",
+              "net_r": 1.463,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000094",
+              "known_at": "2020-10-06 18:45:00+00:00",
+              "entry_time": "2020-10-06 19:00:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8489,
+              "model_prob": 0.3275,
+              "pattern_length_bars": 11,
+              "depth_atr": 3.483,
+              "target_atr": 4.576,
+              "extreme1_time": "2020-10-06 10:00:00+00:00",
+              "net_r": 1.438,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000083",
+              "known_at": "2020-04-27 09:30:00+00:00",
+              "entry_time": "2020-04-27 09:45:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.7547,
+              "model_prob": 0.7855,
+              "pattern_length_bars": 12,
+              "depth_atr": 3.277,
+              "target_atr": 7.606,
+              "extreme1_time": "2020-04-24 23:00:00+00:00",
+              "net_r": 1.437,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000104",
+              "known_at": "2021-03-08 08:45:00+00:00",
+              "entry_time": "2021-03-08 09:00:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8207,
+              "model_prob": 0.6356,
+              "pattern_length_bars": 11,
+              "depth_atr": 3.114,
+              "target_atr": 8.238,
+              "extreme1_time": "2021-03-08 01:15:00+00:00",
+              "net_r": 1.433,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000150",
+              "known_at": "2022-05-10 17:30:00+00:00",
+              "entry_time": "2022-05-10 17:45:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.883,
+              "model_prob": 0.473,
+              "pattern_length_bars": 11,
+              "depth_atr": 3.207,
+              "target_atr": 4.568,
+              "extreme1_time": "2022-05-10 11:45:00+00:00",
+              "net_r": 1.431,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000100",
+              "known_at": "2021-02-02 06:30:00+00:00",
+              "entry_time": "2021-02-02 06:45:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.7524,
+              "model_prob": 0.7852,
+              "pattern_length_bars": 13,
+              "depth_atr": 3.471,
+              "target_atr": 7.661,
+              "extreme1_time": "2021-02-01 23:30:00+00:00",
+              "net_r": 1.43,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000139",
+              "known_at": "2022-01-27 13:30:00+00:00",
+              "entry_time": "2022-01-27 13:45:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8134,
+              "model_prob": 0.4519,
+              "pattern_length_bars": 12,
+              "depth_atr": 3.05,
+              "target_atr": 6.87,
+              "extreme1_time": "2022-01-27 09:00:00+00:00",
+              "net_r": 1.418,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000303",
+              "known_at": "2026-01-16 02:45:00+00:00",
+              "entry_time": "2026-01-16 03:00:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.7849,
+              "model_prob": 0.8176,
+              "pattern_length_bars": 12,
+              "depth_atr": 3.585,
+              "target_atr": 6.441,
+              "extreme1_time": "2026-01-15 21:00:00+00:00",
+              "net_r": 1.417,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000107",
+              "known_at": "2021-03-29 09:45:00+00:00",
+              "entry_time": "2021-03-29 10:00:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8693,
+              "model_prob": 0.5285,
+              "pattern_length_bars": 9,
+              "depth_atr": 3.464,
+              "target_atr": 7.196,
+              "extreme1_time": "2021-03-29 03:15:00+00:00",
+              "net_r": 1.41,
+              "reason_dropped_by": "2.1_trend"
+            },
+            {
+              "event_id": "XAUUSD-DT-000254",
+              "known_at": "2024-08-22 14:45:00+00:00",
+              "entry_time": "2024-08-22 15:00:00+00:00",
+              "direction": "bearish",
+              "rule_score": 0.8709,
+              "model_prob": 0.5651,
+              "pattern_length_bars": 11,
+              "depth_atr": 3.053,
+              "target_atr": 5.662,
+              "extreme1_time": "2024-08-22 10:45:00+00:00",
+              "net_r": 1.405,
+              "reason_dropped_by": "2.1_trend"
+            }
+          ],
+          "n_false_drop_candidates": 52
+        }
+      },
+      "trend_gate_evaluable": true,
+      "shipped_prob_gate": {
+        "status": "measured (live/engine/hard_gate.probability_gate)",
+        "defaults": {
+          "DEFAULT_PROB_GATE_ENABLED": false,
+          "DEFAULT_RULE_SCORE_FLOOR": null
+        },
+        "thresholds": {
+          "min_model_prob_0.3": {
+            "all": {
+              "n_events": 124,
+              "events_per_year": 14.9,
+              "n_trades": 124,
+              "winrate": 0.4516,
+              "expectancy_R": 0.0358,
+              "total_R": 4.44,
+              "target_atr_mean": 6.052,
+              "target_atr_median": 5.9862,
+              "target_atr_p90": 7.8784,
+              "risk_atr_median": 3.9908,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 15,
+                "target": 51,
+                "stop": 58
+              },
+              "model_prob": {
+                "n": 124,
+                "min": 0.3036,
+                "p10": 0.3391,
+                "p25": 0.3754,
+                "median": 0.4396,
+                "p75": 0.5677,
+                "p90": 0.7782,
+                "max": 0.8519,
+                "mean": 0.4914
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.621,
+                "0.45": 0.4919,
+                "0.5": 0.3871,
+                "0.55": 0.3145,
+                "0.6": 0.2258
+              },
+              "kept": 124,
+              "kept_pct_of_subset": 40.0
+            },
+            "in_sample": {
+              "n_events": 91,
+              "events_per_year": 10.9,
+              "n_trades": 91,
+              "winrate": 0.4725,
+              "expectancy_R": 0.0764,
+              "total_R": 6.95,
+              "target_atr_mean": 6.064,
+              "target_atr_median": 5.9736,
+              "target_atr_p90": 8.2029,
+              "risk_atr_median": 3.9824,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 9,
+                "target": 40,
+                "stop": 42
+              },
+              "model_prob": {
+                "n": 91,
+                "min": 0.3036,
+                "p10": 0.3391,
+                "p25": 0.3893,
+                "median": 0.4651,
+                "p75": 0.6036,
+                "p90": 0.7852,
+                "max": 0.8519,
+                "mean": 0.5036
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.6703,
+                "0.45": 0.5385,
+                "0.5": 0.4286,
+                "0.55": 0.3297,
+                "0.6": 0.2637
+              },
+              "kept": 91,
+              "kept_pct_of_subset": 42.9
+            },
+            "oos": {
+              "n_events": 33,
+              "events_per_year": 4.0,
+              "n_trades": 33,
+              "winrate": 0.3939,
+              "expectancy_R": -0.0762,
+              "total_R": -2.51,
+              "target_atr_mean": 6.021,
+              "target_atr_median": 6.1454,
+              "target_atr_p90": 7.2891,
+              "risk_atr_median": 4.0969,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 11,
+                "horizon": 6,
+                "stop": 16
+              },
+              "model_prob": {
+                "n": 33,
+                "min": 0.3112,
+                "p10": 0.3391,
+                "p25": 0.3424,
+                "median": 0.3943,
+                "p75": 0.5651,
+                "p90": 0.6316,
+                "max": 0.8519,
+                "mean": 0.4578
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.4848,
+                "0.45": 0.3636,
+                "0.5": 0.2727,
+                "0.55": 0.2727,
+                "0.6": 0.1212
+              },
+              "kept": 33,
+              "kept_pct_of_subset": 33.7
+            }
+          },
+          "min_model_prob_0.4": {
+            "all": {
+              "n_events": 77,
+              "events_per_year": 9.3,
+              "n_trades": 77,
+              "winrate": 0.5325,
+              "expectancy_R": 0.2472,
+              "total_R": 19.04,
+              "target_atr_mean": 6.146,
+              "target_atr_median": 6.1715,
+              "target_atr_p90": 8.2171,
+              "risk_atr_median": 4.1143,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 32,
+                "target": 40,
+                "horizon": 5
+              },
+              "model_prob": {
+                "n": 77,
+                "min": 0.4043,
+                "p10": 0.4231,
+                "p25": 0.4651,
+                "median": 0.5629,
+                "p75": 0.6688,
+                "p90": 0.7853,
+                "max": 0.8519,
+                "mean": 0.5742
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.7922,
+                "0.5": 0.6234,
+                "0.55": 0.5065,
+                "0.6": 0.3636
+              },
+              "kept": 77,
+              "kept_pct_of_subset": 24.8
+            },
+            "in_sample": {
+              "n_events": 61,
+              "events_per_year": 7.3,
+              "n_trades": 61,
+              "winrate": 0.5738,
+              "expectancy_R": 0.3198,
+              "total_R": 19.51,
+              "target_atr_mean": 6.252,
+              "target_atr_median": 6.2984,
+              "target_atr_p90": 8.3153,
+              "risk_atr_median": 4.199,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 24,
+                "target": 34,
+                "horizon": 3
+              },
+              "model_prob": {
+                "n": 61,
+                "min": 0.4074,
+                "p10": 0.4226,
+                "p25": 0.4651,
+                "median": 0.538,
+                "p75": 0.6706,
+                "p90": 0.7852,
+                "max": 0.8519,
+                "mean": 0.5769
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.8033,
+                "0.5": 0.6393,
+                "0.55": 0.4918,
+                "0.6": 0.3934
+              },
+              "kept": 61,
+              "kept_pct_of_subset": 28.8
+            },
+            "oos": {
+              "n_events": 16,
+              "events_per_year": 1.9,
+              "n_trades": 16,
+              "winrate": 0.375,
+              "expectancy_R": -0.0296,
+              "total_R": -0.47,
+              "target_atr_mean": 5.742,
+              "target_atr_median": 6.0519,
+              "target_atr_p90": 6.8581,
+              "risk_atr_median": 4.0346,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 6,
+                "horizon": 2,
+                "stop": 8
+              },
+              "model_prob": {
+                "n": 16,
+                "min": 0.4043,
+                "p10": 0.4234,
+                "p25": 0.4567,
+                "median": 0.5651,
+                "p75": 0.5987,
+                "p90": 0.8014,
+                "max": 0.8519,
+                "mean": 0.5638
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.75,
+                "0.5": 0.5625,
+                "0.55": 0.5625,
+                "0.6": 0.25
+              },
+              "kept": 16,
+              "kept_pct_of_subset": 16.3
+            }
+          },
+          "min_model_prob_0.5": {
+            "all": {
+              "n_events": 48,
+              "events_per_year": 5.8,
+              "n_trades": 48,
+              "winrate": 0.5833,
+              "expectancy_R": 0.3716,
+              "total_R": 17.84,
+              "target_atr_mean": 6.14,
+              "target_atr_median": 6.0519,
+              "target_atr_p90": 8.0877,
+              "risk_atr_median": 4.0346,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 18,
+                "target": 28,
+                "horizon": 2
+              },
+              "model_prob": {
+                "n": 48,
+                "min": 0.5074,
+                "p10": 0.5333,
+                "p25": 0.5651,
+                "median": 0.6116,
+                "p75": 0.7852,
+                "p90": 0.812,
+                "max": 0.8519,
+                "mean": 0.6541
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 0.8125,
+                "0.6": 0.5833
+              },
+              "kept": 48,
+              "kept_pct_of_subset": 15.5
+            },
+            "in_sample": {
+              "n_events": 39,
+              "events_per_year": 4.7,
+              "n_trades": 39,
+              "winrate": 0.641,
+              "expectancy_R": 0.4881,
+              "total_R": 19.04,
+              "target_atr_mean": 6.135,
+              "target_atr_median": 5.8299,
+              "target_atr_p90": 8.2578,
+              "risk_atr_median": 3.8866,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 13,
+                "target": 25,
+                "horizon": 1
+              },
+              "model_prob": {
+                "n": 39,
+                "min": 0.5074,
+                "p10": 0.5324,
+                "p25": 0.564,
+                "median": 0.6158,
+                "p75": 0.7735,
+                "p90": 0.8095,
+                "max": 0.8519,
+                "mean": 0.6527
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 0.7692,
+                "0.6": 0.6154
+              },
+              "kept": 39,
+              "kept_pct_of_subset": 18.4
+            },
+            "oos": {
+              "n_events": 9,
+              "events_per_year": 1.1,
+              "n_trades": 9,
+              "winrate": 0.3333,
+              "expectancy_R": -0.1329,
+              "total_R": -1.2,
+              "target_atr_mean": 6.16,
+              "target_atr_median": 6.1454,
+              "target_atr_p90": 6.6076,
+              "risk_atr_median": 4.0969,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 3,
+                "horizon": 1,
+                "stop": 5
+              },
+              "model_prob": {
+                "n": 9,
+                "min": 0.5651,
+                "p10": 0.5651,
+                "p25": 0.5651,
+                "median": 0.5838,
+                "p75": 0.7852,
+                "p90": 0.8245,
+                "max": 0.8519,
+                "mean": 0.6603
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.4444
+              },
+              "kept": 9,
+              "kept_pct_of_subset": 9.2
+            }
+          },
+          "min_model_prob_0.55": {
+            "all": {
+              "n_events": 39,
+              "events_per_year": 4.7,
+              "n_trades": 39,
+              "winrate": 0.5641,
+              "expectancy_R": 0.3309,
+              "total_R": 12.91,
+              "target_atr_mean": 6.001,
+              "target_atr_median": 5.8299,
+              "target_atr_p90": 7.691,
+              "risk_atr_median": 3.8866,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 15,
+                "target": 22,
+                "horizon": 2
+              },
+              "model_prob": {
+                "n": 39,
+                "min": 0.5629,
+                "p10": 0.5651,
+                "p25": 0.5796,
+                "median": 0.6688,
+                "p75": 0.7852,
+                "p90": 0.8213,
+                "max": 0.8519,
+                "mean": 0.6834
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.7179
+              },
+              "kept": 39,
+              "kept_pct_of_subset": 12.6
+            },
+            "in_sample": {
+              "n_events": 30,
+              "events_per_year": 3.6,
+              "n_trades": 30,
+              "winrate": 0.6333,
+              "expectancy_R": 0.4701,
+              "total_R": 14.1,
+              "target_atr_mean": 5.953,
+              "target_atr_median": 5.7317,
+              "target_atr_p90": 7.8333,
+              "risk_atr_median": 3.8211,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 10,
+                "target": 19,
+                "horizon": 1
+              },
+              "model_prob": {
+                "n": 30,
+                "min": 0.5629,
+                "p10": 0.5651,
+                "p25": 0.6036,
+                "median": 0.6723,
+                "p75": 0.7852,
+                "p90": 0.8122,
+                "max": 0.8519,
+                "mean": 0.6903
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.8
+              },
+              "kept": 30,
+              "kept_pct_of_subset": 14.2
+            },
+            "oos": {
+              "n_events": 9,
+              "events_per_year": 1.1,
+              "n_trades": 9,
+              "winrate": 0.3333,
+              "expectancy_R": -0.1329,
+              "total_R": -1.2,
+              "target_atr_mean": 6.16,
+              "target_atr_median": 6.1454,
+              "target_atr_p90": 6.6076,
+              "risk_atr_median": 4.0969,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 3,
+                "horizon": 1,
+                "stop": 5
+              },
+              "model_prob": {
+                "n": 9,
+                "min": 0.5651,
+                "p10": 0.5651,
+                "p25": 0.5651,
+                "median": 0.5838,
+                "p75": 0.7852,
+                "p90": 0.8245,
+                "max": 0.8519,
+                "mean": 0.6603
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.4444
+              },
+              "kept": 9,
+              "kept_pct_of_subset": 9.2
+            }
+          },
+          "min_model_prob_0.6": {
+            "all": {
+              "n_events": 28,
+              "events_per_year": 3.4,
+              "n_trades": 28,
+              "winrate": 0.6429,
+              "expectancy_R": 0.5451,
+              "total_R": 15.26,
+              "target_atr_mean": 6.037,
+              "target_atr_median": 5.9798,
+              "target_atr_p90": 7.7061,
+              "risk_atr_median": 3.9865,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 8,
+                "target": 18,
+                "horizon": 2
+              },
+              "model_prob": {
+                "n": 28,
+                "min": 0.6036,
+                "p10": 0.6063,
+                "p25": 0.6415,
+                "median": 0.7566,
+                "p75": 0.7915,
+                "p90": 0.8408,
+                "max": 0.8519,
+                "mean": 0.7286
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 1.0
+              },
+              "kept": 28,
+              "kept_pct_of_subset": 9.0
+            },
+            "in_sample": {
+              "n_events": 24,
+              "events_per_year": 2.9,
+              "n_trades": 24,
+              "winrate": 0.7083,
+              "expectancy_R": 0.6684,
+              "total_R": 16.04,
+              "target_atr_mean": 6.016,
+              "target_atr_median": 5.7317,
+              "target_atr_p90": 7.7668,
+              "risk_atr_median": 3.8211,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 6,
+                "target": 17,
+                "horizon": 1
+              },
+              "model_prob": {
+                "n": 24,
+                "min": 0.6036,
+                "p10": 0.6048,
+                "p25": 0.6352,
+                "median": 0.7315,
+                "p75": 0.7853,
+                "p90": 0.8281,
+                "max": 0.8519,
+                "mean": 0.7209
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 1.0
+              },
+              "kept": 24,
+              "kept_pct_of_subset": 11.3
+            },
+            "oos": {
+              "n_events": 4,
+              "events_per_year": 0.5,
+              "n_trades": 4,
+              "winrate": 0.25,
+              "expectancy_R": -0.1947,
+              "total_R": -0.78,
+              "target_atr_mean": 6.161,
+              "target_atr_median": 6.194,
+              "target_atr_p90": 6.3812,
+              "risk_atr_median": 4.1294,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 1,
+                "stop": 2,
+                "target": 1
+              },
+              "model_prob": {
+                "n": 4,
+                "min": 0.6435,
+                "p10": 0.686,
+                "p25": 0.7498,
+                "median": 0.8014,
+                "p75": 0.8262,
+                "p90": 0.8416,
+                "max": 0.8519,
+                "mean": 0.7746
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 1.0
+              },
+              "kept": 4,
+              "kept_pct_of_subset": 4.1
+            }
+          },
+          "min_rule_score_0.5": {
+            "all": {
+              "n_events": 310,
+              "events_per_year": 37.3,
+              "n_trades": 310,
+              "winrate": 0.4065,
+              "expectancy_R": -0.1662,
+              "total_R": -51.53,
+              "target_atr_mean": 7.116,
+              "target_atr_median": 6.6723,
+              "target_atr_p90": 10.0219,
+              "risk_atr_median": 4.4482,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 146,
+                "horizon": 89,
+                "target": 75
+              },
+              "model_prob": {
+                "n": 310,
+                "min": 0.0333,
+                "p10": 0.1091,
+                "p25": 0.1667,
+                "median": 0.2565,
+                "p75": 0.3976,
+                "p90": 0.5661,
+                "max": 0.8519,
+                "mean": 0.2999
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2484,
+                "0.45": 0.1968,
+                "0.5": 0.1548,
+                "0.55": 0.1258,
+                "0.6": 0.0903
+              },
+              "kept": 310,
+              "kept_pct_of_subset": 100.0
+            },
+            "in_sample": {
+              "n_events": 212,
+              "events_per_year": 25.5,
+              "n_trades": 212,
+              "winrate": 0.4104,
+              "expectancy_R": -0.1675,
+              "total_R": -35.5,
+              "target_atr_mean": 7.193,
+              "target_atr_median": 6.6723,
+              "target_atr_p90": 10.2445,
+              "risk_atr_median": 4.4482,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 101,
+                "horizon": 59,
+                "target": 52
+              },
+              "model_prob": {
+                "n": 212,
+                "min": 0.0333,
+                "p10": 0.0709,
+                "p25": 0.1499,
+                "median": 0.266,
+                "p75": 0.4239,
+                "p90": 0.6036,
+                "max": 0.8519,
+                "mean": 0.3102
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2877,
+                "0.45": 0.2311,
+                "0.5": 0.184,
+                "0.55": 0.1415,
+                "0.6": 0.1132
+              },
+              "kept": 212,
+              "kept_pct_of_subset": 100.0
+            },
+            "oos": {
+              "n_events": 98,
+              "events_per_year": 11.8,
+              "n_trades": 98,
+              "winrate": 0.398,
+              "expectancy_R": -0.1636,
+              "total_R": -16.03,
+              "target_atr_mean": 6.95,
+              "target_atr_median": 6.6749,
+              "target_atr_p90": 9.8686,
+              "risk_atr_median": 4.45,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 23,
+                "stop": 45,
+                "horizon": 30
+              },
+              "model_prob": {
+                "n": 98,
+                "min": 0.0333,
+                "p10": 0.1156,
+                "p25": 0.1942,
+                "median": 0.2479,
+                "p75": 0.3422,
+                "p90": 0.4651,
+                "max": 0.8519,
+                "mean": 0.2775
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1633,
+                "0.45": 0.1224,
+                "0.5": 0.0918,
+                "0.55": 0.0918,
+                "0.6": 0.0408
+              },
+              "kept": 98,
+              "kept_pct_of_subset": 100.0
+            }
+          },
+          "min_rule_score_0.6": {
+            "all": {
+              "n_events": 300,
+              "events_per_year": 36.1,
+              "n_trades": 300,
+              "winrate": 0.41,
+              "expectancy_R": -0.164,
+              "total_R": -49.21,
+              "target_atr_mean": 7.029,
+              "target_atr_median": 6.577,
+              "target_atr_p90": 10.004,
+              "risk_atr_median": 4.3847,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 142,
+                "horizon": 85,
+                "target": 73
+              },
+              "model_prob": {
+                "n": 300,
+                "min": 0.0333,
+                "p10": 0.1091,
+                "p25": 0.1629,
+                "median": 0.2518,
+                "p75": 0.4051,
+                "p90": 0.5661,
+                "max": 0.8519,
+                "mean": 0.2997
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2533,
+                "0.45": 0.2,
+                "0.5": 0.1567,
+                "0.55": 0.1267,
+                "0.6": 0.09
+              },
+              "kept": 300,
+              "kept_pct_of_subset": 96.8
+            },
+            "in_sample": {
+              "n_events": 206,
+              "events_per_year": 24.8,
+              "n_trades": 206,
+              "winrate": 0.4126,
+              "expectancy_R": -0.167,
+              "total_R": -34.41,
+              "target_atr_mean": 7.07,
+              "target_atr_median": 6.577,
+              "target_atr_p90": 10.1789,
+              "risk_atr_median": 4.3847,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 99,
+                "horizon": 56,
+                "target": 51
+              },
+              "model_prob": {
+                "n": 206,
+                "min": 0.0333,
+                "p10": 0.0879,
+                "p25": 0.1555,
+                "median": 0.266,
+                "p75": 0.4249,
+                "p90": 0.6036,
+                "max": 0.8519,
+                "mean": 0.3106
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2913,
+                "0.45": 0.233,
+                "0.5": 0.1845,
+                "0.55": 0.1408,
+                "0.6": 0.1117
+              },
+              "kept": 206,
+              "kept_pct_of_subset": 97.2
+            },
+            "oos": {
+              "n_events": 94,
+              "events_per_year": 11.3,
+              "n_trades": 94,
+              "winrate": 0.4043,
+              "expectancy_R": -0.1575,
+              "total_R": -14.8,
+              "target_atr_mean": 6.937,
+              "target_atr_median": 6.5724,
+              "target_atr_p90": 9.8357,
+              "risk_atr_median": 4.3816,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 22,
+                "stop": 43,
+                "horizon": 29
+              },
+              "model_prob": {
+                "n": 94,
+                "min": 0.0333,
+                "p10": 0.1119,
+                "p25": 0.1896,
+                "median": 0.232,
+                "p75": 0.3422,
+                "p90": 0.4651,
+                "max": 0.8519,
+                "mean": 0.2759
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1702,
+                "0.45": 0.1277,
+                "0.5": 0.0957,
+                "0.55": 0.0957,
+                "0.6": 0.0426
+              },
+              "kept": 94,
+              "kept_pct_of_subset": 95.9
+            }
+          },
+          "min_rule_score_0.65": {
+            "all": {
+              "n_events": 278,
+              "events_per_year": 33.4,
+              "n_trades": 278,
+              "winrate": 0.4065,
+              "expectancy_R": -0.1631,
+              "total_R": -45.34,
+              "target_atr_mean": 6.983,
+              "target_atr_median": 6.5343,
+              "target_atr_p90": 9.9511,
+              "risk_atr_median": 4.3562,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 131,
+                "horizon": 79,
+                "target": 68
+              },
+              "model_prob": {
+                "n": 278,
+                "min": 0.0333,
+                "p10": 0.1091,
+                "p25": 0.176,
+                "median": 0.2518,
+                "p75": 0.4082,
+                "p90": 0.5754,
+                "max": 0.8519,
+                "mean": 0.3022
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2554,
+                "0.45": 0.2014,
+                "0.5": 0.1583,
+                "0.55": 0.1295,
+                "0.6": 0.0935
+              },
+              "kept": 278,
+              "kept_pct_of_subset": 89.7
+            },
+            "in_sample": {
+              "n_events": 191,
+              "events_per_year": 23.0,
+              "n_trades": 191,
+              "winrate": 0.4031,
+              "expectancy_R": -0.1808,
+              "total_R": -34.53,
+              "target_atr_mean": 7.02,
+              "target_atr_median": 6.5475,
+              "target_atr_p90": 9.9577,
+              "risk_atr_median": 4.365,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 93,
+                "horizon": 51,
+                "target": 47
+              },
+              "model_prob": {
+                "n": 191,
+                "min": 0.0333,
+                "p10": 0.1091,
+                "p25": 0.1667,
+                "median": 0.2613,
+                "p75": 0.4244,
+                "p90": 0.6036,
+                "max": 0.8519,
+                "mean": 0.3112
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.288,
+                "0.45": 0.2304,
+                "0.5": 0.1832,
+                "0.55": 0.1414,
+                "0.6": 0.1152
+              },
+              "kept": 191,
+              "kept_pct_of_subset": 90.1
+            },
+            "oos": {
+              "n_events": 87,
+              "events_per_year": 10.5,
+              "n_trades": 87,
+              "winrate": 0.4138,
+              "expectancy_R": -0.1243,
+              "total_R": -10.82,
+              "target_atr_mean": 6.901,
+              "target_atr_median": 6.4681,
+              "target_atr_p90": 9.8217,
+              "risk_atr_median": 4.312,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 21,
+                "stop": 38,
+                "horizon": 28
+              },
+              "model_prob": {
+                "n": 87,
+                "min": 0.0333,
+                "p10": 0.1147,
+                "p25": 0.1942,
+                "median": 0.244,
+                "p75": 0.3714,
+                "p90": 0.5051,
+                "max": 0.8519,
+                "mean": 0.2826
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1839,
+                "0.45": 0.1379,
+                "0.5": 0.1034,
+                "0.55": 0.1034,
+                "0.6": 0.046
+              },
+              "kept": 87,
+              "kept_pct_of_subset": 88.8
+            }
+          },
+          "min_rule_score_0.7": {
+            "all": {
+              "n_events": 234,
+              "events_per_year": 28.1,
+              "n_trades": 234,
+              "winrate": 0.4316,
+              "expectancy_R": -0.099,
+              "total_R": -23.17,
+              "target_atr_mean": 6.811,
+              "target_atr_median": 6.4959,
+              "target_atr_p90": 9.6896,
+              "risk_atr_median": 4.3306,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 66,
+                "target": 64,
+                "stop": 104
+              },
+              "model_prob": {
+                "n": 234,
+                "min": 0.0333,
+                "p10": 0.1091,
+                "p25": 0.1896,
+                "median": 0.271,
+                "p75": 0.4155,
+                "p90": 0.5977,
+                "max": 0.8519,
+                "mean": 0.3129
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.265,
+                "0.45": 0.2222,
+                "0.5": 0.1752,
+                "0.55": 0.1453,
+                "0.6": 0.1026
+              },
+              "kept": 234,
+              "kept_pct_of_subset": 75.5
+            },
+            "in_sample": {
+              "n_events": 161,
+              "events_per_year": 19.4,
+              "n_trades": 161,
+              "winrate": 0.4286,
+              "expectancy_R": -0.1117,
+              "total_R": -17.98,
+              "target_atr_mean": 6.842,
+              "target_atr_median": 6.5394,
+              "target_atr_p90": 9.6988,
+              "risk_atr_median": 4.3596,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "horizon": 42,
+                "target": 45,
+                "stop": 74
+              },
+              "model_prob": {
+                "n": 161,
+                "min": 0.0333,
+                "p10": 0.1091,
+                "p25": 0.176,
+                "median": 0.272,
+                "p75": 0.4454,
+                "p90": 0.6158,
+                "max": 0.8519,
+                "mean": 0.3217
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.2981,
+                "0.45": 0.2484,
+                "0.5": 0.1988,
+                "0.55": 0.1553,
+                "0.6": 0.1242
+              },
+              "kept": 161,
+              "kept_pct_of_subset": 75.9
+            },
+            "oos": {
+              "n_events": 73,
+              "events_per_year": 8.8,
+              "n_trades": 73,
+              "winrate": 0.4384,
+              "expectancy_R": -0.071,
+              "total_R": -5.19,
+              "target_atr_mean": 6.742,
+              "target_atr_median": 6.4406,
+              "target_atr_p90": 9.5331,
+              "risk_atr_median": 4.2937,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 19,
+                "horizon": 24,
+                "stop": 30
+              },
+              "model_prob": {
+                "n": 73,
+                "min": 0.0333,
+                "p10": 0.1184,
+                "p25": 0.1942,
+                "median": 0.2518,
+                "p75": 0.3893,
+                "p90": 0.5651,
+                "max": 0.8519,
+                "mean": 0.2935
+              },
+              "model_prob_keep_rate": {
+                "0.4": 0.1918,
+                "0.45": 0.1644,
+                "0.5": 0.1233,
+                "0.55": 0.1233,
+                "0.6": 0.0548
+              },
+              "kept": 73,
+              "kept_pct_of_subset": 74.5
+            }
+          },
+          "AND_prob0.4_rule0.6": {
+            "all": {
+              "n_events": 76,
+              "events_per_year": 9.1,
+              "n_trades": 76,
+              "winrate": 0.5263,
+              "expectancy_R": 0.2322,
+              "total_R": 17.65,
+              "target_atr_mean": 6.129,
+              "target_atr_median": 6.1584,
+              "target_atr_p90": 8.2207,
+              "risk_atr_median": 4.1056,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 32,
+                "target": 39,
+                "horizon": 5
+              },
+              "model_prob": {
+                "n": 76,
+                "min": 0.4043,
+                "p10": 0.423,
+                "p25": 0.4618,
+                "median": 0.5504,
+                "p75": 0.6503,
+                "p90": 0.7853,
+                "max": 0.8519,
+                "mean": 0.5729
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.7895,
+                "0.5": 0.6184,
+                "0.55": 0.5,
+                "0.6": 0.3553
+              },
+              "kept": 76,
+              "kept_pct_of_subset": 24.5
+            },
+            "in_sample": {
+              "n_events": 60,
+              "events_per_year": 7.2,
+              "n_trades": 60,
+              "winrate": 0.5667,
+              "expectancy_R": 0.302,
+              "total_R": 18.12,
+              "target_atr_mean": 6.232,
+              "target_atr_median": 6.2776,
+              "target_atr_p90": 8.3173,
+              "risk_atr_median": 4.1851,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 24,
+                "target": 33,
+                "horizon": 3
+              },
+              "model_prob": {
+                "n": 60,
+                "min": 0.4074,
+                "p10": 0.4225,
+                "p25": 0.4618,
+                "median": 0.5375,
+                "p75": 0.6714,
+                "p90": 0.7852,
+                "max": 0.8519,
+                "mean": 0.5753
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.8,
+                "0.5": 0.6333,
+                "0.55": 0.4833,
+                "0.6": 0.3833
+              },
+              "kept": 60,
+              "kept_pct_of_subset": 28.3
+            },
+            "oos": {
+              "n_events": 16,
+              "events_per_year": 1.9,
+              "n_trades": 16,
+              "winrate": 0.375,
+              "expectancy_R": -0.0296,
+              "total_R": -0.47,
+              "target_atr_mean": 5.742,
+              "target_atr_median": 6.0519,
+              "target_atr_p90": 6.8581,
+              "risk_atr_median": 4.0346,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 6,
+                "horizon": 2,
+                "stop": 8
+              },
+              "model_prob": {
+                "n": 16,
+                "min": 0.4043,
+                "p10": 0.4234,
+                "p25": 0.4567,
+                "median": 0.5651,
+                "p75": 0.5987,
+                "p90": 0.8014,
+                "max": 0.8519,
+                "mean": 0.5638
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 0.75,
+                "0.5": 0.5625,
+                "0.55": 0.5625,
+                "0.6": 0.25
+              },
+              "kept": 16,
+              "kept_pct_of_subset": 16.3
+            }
+          },
+          "PROPOSED_B1_0.55": {
+            "all": {
+              "n_events": 39,
+              "events_per_year": 4.7,
+              "n_trades": 39,
+              "winrate": 0.5641,
+              "expectancy_R": 0.3309,
+              "total_R": 12.91,
+              "target_atr_mean": 6.001,
+              "target_atr_median": 5.8299,
+              "target_atr_p90": 7.691,
+              "risk_atr_median": 3.8866,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 15,
+                "target": 22,
+                "horizon": 2
+              },
+              "model_prob": {
+                "n": 39,
+                "min": 0.5629,
+                "p10": 0.5651,
+                "p25": 0.5796,
+                "median": 0.6688,
+                "p75": 0.7852,
+                "p90": 0.8213,
+                "max": 0.8519,
+                "mean": 0.6834
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.7179
+              },
+              "kept": 39,
+              "kept_pct_of_subset": 12.6
+            },
+            "in_sample": {
+              "n_events": 30,
+              "events_per_year": 3.6,
+              "n_trades": 30,
+              "winrate": 0.6333,
+              "expectancy_R": 0.4701,
+              "total_R": 14.1,
+              "target_atr_mean": 5.953,
+              "target_atr_median": 5.7317,
+              "target_atr_p90": 7.8333,
+              "risk_atr_median": 3.8211,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "stop": 10,
+                "target": 19,
+                "horizon": 1
+              },
+              "model_prob": {
+                "n": 30,
+                "min": 0.5629,
+                "p10": 0.5651,
+                "p25": 0.6036,
+                "median": 0.6723,
+                "p75": 0.7852,
+                "p90": 0.8122,
+                "max": 0.8519,
+                "mean": 0.6903
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.8
+              },
+              "kept": 30,
+              "kept_pct_of_subset": 14.2
+            },
+            "oos": {
+              "n_events": 9,
+              "events_per_year": 1.1,
+              "n_trades": 9,
+              "winrate": 0.3333,
+              "expectancy_R": -0.1329,
+              "total_R": -1.2,
+              "target_atr_mean": 6.16,
+              "target_atr_median": 6.1454,
+              "target_atr_p90": 6.6076,
+              "risk_atr_median": 4.0969,
+              "rr_median": 1.5,
+              "exit_reasons": {
+                "target": 3,
+                "horizon": 1,
+                "stop": 5
+              },
+              "model_prob": {
+                "n": 9,
+                "min": 0.5651,
+                "p10": 0.5651,
+                "p25": 0.5651,
+                "median": 0.5838,
+                "p75": 0.7852,
+                "p90": 0.8245,
+                "max": 0.8519,
+                "mean": 0.6603
+              },
+              "model_prob_keep_rate": {
+                "0.4": 1.0,
+                "0.45": 1.0,
+                "0.5": 1.0,
+                "0.55": 1.0,
+                "0.6": 0.4444
+              },
+              "kept": 9,
+              "kept_pct_of_subset": 9.2
+            }
+          }
+        },
+        "oos_split": "2023-10-12",
+        "n_in_sample": 212,
+        "n_oos": 98
+      }
+    }
+  },
+  "gate_method": "Detect ONCE with every new gate disabled, then apply each gate post-hoc to the identical candidate pool: all arms differ only in the gate decision, never in the pool.  2.1 uses the shipped research/core/trend_context.has_trend_context; model_prob uses the live inference contract (build_feature_frame + per-pattern calibrator).",
+  "env": {
+    "python": "/private/tmp/ptv2_venv/bin/python",
+    "command": "PYTHONPATH=/tmp/pytest_fix:/tmp/ptv2_venv/lib/python3.9/site-packages /tmp/ptv2_venv/bin/python docs/rework_trend_hmm_measure.py"
+  },
+  "trend_options": {
+    "phuong_an_B_slope": {
+      "status": "measured",
+      "module": "research/core/trend_context.py",
+      "note": "regression slope + R^2 gate; see the 2.1_* arms above."
+    },
+    "phuong_an_C_hmm_trend": {
+      "symbol": "XAUUSD",
+      "n_bars": 195893,
+      "fit_split": [
+        "2018-01-02",
+        "2023-09-30"
+      ],
+      "patterns": {
+        "double_bottom": {
+          "wanted_state": "downtrend",
+          "n_pool": 354,
+          "state_at_extreme1_histogram": {
+            "downtrend": 150,
+            "uptrend": 75,
+            "range": 129
+          },
+          "kept": 150,
+          "kept_pct": 42.4,
+          "kept_outcomes": {
+            "n": 150,
+            "winrate": 0.5,
+            "expectancy_R": 0.0124,
+            "total_R": 1.86
+          },
+          "dropped_outcomes": {
+            "n": 204,
+            "winrate": 0.4657,
+            "expectancy_R": -0.0262,
+            "total_R": -5.35
+          },
+          "oos_fixed_split_n": 50,
+          "oos_fixed_split_pass": false,
+          "oos_last40_n": 60,
+          "oos_last40_pass": false
+        },
+        "double_top": {
+          "wanted_state": "uptrend",
+          "n_pool": 310,
+          "state_at_extreme1_histogram": {
+            "downtrend": 80,
+            "range": 101,
+            "uptrend": 129
+          },
+          "kept": 129,
+          "kept_pct": 41.6,
+          "kept_outcomes": {
+            "n": 129,
+            "winrate": 0.3721,
+            "expectancy_R": -0.2199,
+            "total_R": -28.37
+          },
+          "dropped_outcomes": {
+            "n": 181,
+            "winrate": 0.4309,
+            "expectancy_R": -0.128,
+            "total_R": -23.17
+          },
+          "oos_fixed_split_n": 41,
+          "oos_fixed_split_pass": false,
+          "oos_last40_n": 52,
+          "oos_last40_pass": false
+        }
+      },
+      "status": "measured",
+      "note": "fit on 127279 bars 2018-01-02..2023-09-30; forward-filtered (no lookahead) over 195893 bars; config_hash=b02d0a251477; state_names=['downtrend', 'range', 'uptrend']",
+      "state_bar_counts": {
+        "downtrend": 64483,
+        "range": 66361,
+        "uptrend": 65049
+      },
+      "state_bar_share": {
+        "downtrend": 0.3292,
+        "range": 0.3388,
+        "uptrend": 0.3321
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "symbol": "XAUUSD",
+  "n_bars": 195893,
+  "fit_split": [
+    "2018-01-02",
+    "2023-09-30"
+  ],
+  "patterns": {
+    "double_bottom": {
+      "wanted_state": "downtrend",
+      "n_pool": 354,
+      "state_at_extreme1_histogram": {
+        "downtrend": 150,
+        "uptrend": 75,
+        "range": 129
+      },
+      "kept": 150,
+      "kept_pct": 42.4,
+      "kept_outcomes": {
+        "n": 150,
+        "winrate": 0.5,
+        "expectancy_R": 0.0124,
+        "total_R": 1.86
+      },
+      "dropped_outcomes": {
+        "n": 204,
+        "winrate": 0.4657,
+        "expectancy_R": -0.0262,
+        "total_R": -5.35
+      },
+      "oos_fixed_split_n": 50,
+      "oos_fixed_split_pass": false,
+      "oos_last40_n": 60,
+      "oos_last40_pass": false
+    },
+    "double_top": {
+      "wanted_state": "uptrend",
+      "n_pool": 310,
+      "state_at_extreme1_histogram": {
+        "downtrend": 80,
+        "range": 101,
+        "uptrend": 129
+      },
+      "kept": 129,
+      "kept_pct": 41.6,
+      "kept_outcomes": {
+        "n": 129,
+        "winrate": 0.3721,
+        "expectancy_R": -0.2199,
+        "total_R": -28.37
+      },
+      "dropped_outcomes": {
+        "n": 181,
+        "winrate": 0.4309,
+        "expectancy_R": -0.128,
+        "total_R": -23.17
+      },
+      "oos_fixed_split_n": 41,
+      "oos_fixed_split_pass": false,
+      "oos_last40_n": 52,
+      "oos_last40_pass": false
+    }
+  },
+  "status": "measured",
+  "note": "fit on 127279 bars 2018-01-02..2023-09-30; forward-filtered (no lookahead) over 195893 bars; config_hash=b02d0a251477; state_names=['downtrend', 'range', 'uptrend']",
+  "state_bar_counts": {
+    "downtrend": 64483,
+    "range": 66361,
+    "uptrend": 65049
+  },
+  "state_bar_share": {
+    "downtrend": 0.3292,
+    "range": 0.3388,
+    "uptrend": 0.3321
+  }
+}

@@ -17,6 +17,7 @@ from __future__ import annotations
 import json
 import logging
 import sys
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -811,6 +812,13 @@ class MultiPatternEngine:
         # same switch (`run_symbol_backtest(opposite_overlap_guard=...)`) so
         # live and backtest stay identical (§12 parity).
         opposite_overlap_guard: bool = False,
+        # --- rework §2.3: independent AND-gate on model_prob / rule_score ----
+        # ``{"enabled": bool, "min_model_prob": float, "min_rule_score": float,
+        #   "per_pattern": {...}}``.  DEFAULT None = gate OFF, so the shipped
+        # behaviour is unchanged until the §4 204k-bar measurement justifies
+        # turning it on.  The backtest runner exposes the identical mapping
+        # (`run_symbol_backtest(prob_gate=...)`) so live ≡ backtest (§12).
+        prob_gate: Mapping[str, Any] | None = None,
     ) -> None:
         if not assignments:
             raise ValueError("MultiPatternEngine requires >= 1 assignment")
@@ -822,6 +830,7 @@ class MultiPatternEngine:
         self.keep_last_events = keep_last_events
         self.regime_plugin = regime_plugin
         self.opposite_overlap_guard = bool(opposite_overlap_guard)
+        self.prob_gate: dict[str, Any] = dict(prob_gate or {})
         # introspection metadata (mirrors the single-pattern engine closure)
         self.config: dict[str, Any] = {"assignments": [a.assignment_id for a in assignments]}
         self._last_events: list[PatternEvent] = []
@@ -1042,6 +1051,16 @@ class MultiPatternEngine:
                     rep.attributes["discard_reason"] = "regime_blocked"  # §7.1
                     continue
 
+            # 5b. Rework §2.3 — independent AND-gate on model_prob /
+            #     rule_score, applied BEFORE a PendingSignal is built.  Each
+            #     axis is tested on its own; combined_score is never the
+            #     deciding value (§1.3: the average hides a weak axis).
+            #     Default OFF (self.prob_gate empty) → no behaviour change.
+            #     Blocked events keep discard_reason "low_probability" /
+            #     "low_rule_score" (Event Lake §7.1).
+            if self.prob_gate and not _prob_gate_allowed(rep, self.prob_gate):
+                continue
+
             cand = self._group_to_candidate(g, aid, per_df.get(aid.assignment_id))
             if cand is not None:
                 candidates.append(cand)
@@ -1252,6 +1271,23 @@ def _gate_allowed(rep: PatternEvent, slot: Any, df: pd.DataFrame | None) -> tupl
     states = slot.states() if slot is not None else None
     regime = state_at_confirm_bar(states, df, rep) if states and df is not None else None
     return is_allowed(rep, regime, slot.gate_rules() if slot is not None else None)
+
+
+def _prob_gate_allowed(rep: PatternEvent, prob_gate: Mapping[str, Any]) -> bool:
+    """Rework §2.3 independent AND-gate on ``model_prob`` / ``rule_score``.
+
+    Delegates to :func:`live.engine.hard_gate.apply_probability_gate` — the
+    SAME function the multi-backtest runner calls, which is what keeps the §12
+    live ≡ backtest contract intact.  A blocked event is stamped
+    ``discard_reason`` = ``"low_probability"`` / ``"low_rule_score"``.
+
+    Unlike the regime gate this does NOT depend on the regime slot: the switch
+    is engine-level configuration, so the gate still applies when no HMM plugin
+    is wired.
+    """
+    from live.engine.hard_gate import apply_probability_gate
+
+    return apply_probability_gate(rep, prob_gate)
 
 
 def _entry_drift_ok(
